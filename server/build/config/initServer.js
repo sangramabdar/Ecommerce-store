@@ -18,7 +18,7 @@ async function initServer() {
         type: ["json"],
     }));
     app.use(logger_1.requestLogger);
-    await mongoose_1.default.connect(process.env.DB_URL).catch();
+    await mongoose_1.default.connect(process.env.DB_URL);
     await (0, initRoutes_1.default)();
     app.listen(PORT, () => {
         console.log("server is started");
