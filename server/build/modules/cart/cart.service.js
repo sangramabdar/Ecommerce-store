@@ -7,7 +7,6 @@ exports.getCartItemsService = exports.calculateTotalPrice = exports.addCartItems
 const User_1 = __importDefault(require("../../models/User"));
 const cart_repository_1 = require("./cart.repository");
 const Cart_1 = __importDefault(require("../../models/Cart"));
-const exceptions_1 = require("../../utils/exceptions");
 function calculateTotalPrice(cartItems) {
     let totalPrice = 0;
     for (let item of cartItems) {
@@ -48,7 +47,7 @@ async function getCartItemsService(req) {
         const user = await User_1.default.findById(_id);
         const cartId = user.cartId;
         if (!cartId)
-            return [null, new exceptions_1.NotFound("cart")];
+            return [[], null];
         const cartItems = await (0, cart_repository_1.getCartItemsCartById)(cartId);
         return [cartItems, null];
     }

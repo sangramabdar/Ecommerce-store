@@ -78,8 +78,6 @@ function removeItemFromCartService(product: any) {
         Authorization: "Bearer " + getState().auth.user.accessToken,
       }
     );
-
-    console.log(result);
   };
 }
 
@@ -112,8 +110,6 @@ function addItemToCartService(product: any) {
         Authorization: "Bearer " + getState().auth.user.accessToken,
       }
     );
-
-    console.log(result);
   };
 }
 
