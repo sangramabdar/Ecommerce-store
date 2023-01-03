@@ -6,10 +6,12 @@ const initialCart: {
   cartItems: any[];
   totalPrice: number;
   cartId: any;
+  changed: boolean;
 } = {
   cartItems: [],
   totalPrice: 0,
   cartId: null,
+  changed: false,
 };
 
 function calculateTotalPrice(cartItems: any[]): number {
@@ -42,6 +44,7 @@ const cartSlice = createSlice({
 
       // state.cartItems = action.payload;
       state.totalPrice = calculateTotalPrice(state.cartItems);
+      state.changed = true;
     },
 
     loadInitialCartItems(state, action) {
@@ -56,6 +59,7 @@ const cartSlice = createSlice({
 
       state.cartItems = newCartItems;
       state.totalPrice = calculateTotalPrice(state.cartItems);
+      state.changed = true;
     },
 
     emptyCart(state, action) {
@@ -97,9 +101,6 @@ function getCartItemsService() {
 function addItemToCartService(product: any) {
   return async function (dispatch: any, getState: any) {
     dispatch(addToCart(product));
-    const finalProduct = getState().cart.cartItems.filter((item: any) => {
-      return product.id === item.id;
-    })[0];
 
     const cartItems = getState().cart.cartItems;
     const CART_URL = BASE_URL + "/carts";

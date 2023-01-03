@@ -1,4 +1,4 @@
-import { Provider } from "react-redux";
+import { Provider, useDispatch, useSelector } from "react-redux";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import CartPage from "./pages/CartPage";
@@ -9,10 +9,31 @@ import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import Profile from "./components/Profile";
 import Order from "./components/Order";
+import { useEffect } from "react";
+import { loadInitialThings } from "./store/authUser";
+import { useMounAndUnMount } from "./utils/hooks";
 
 function App() {
   return (
     <Provider store={store}>
+      <MainApplication />
+    </Provider>
+  );
+}
+
+function MainApplication() {
+  useMounAndUnMount("main application");
+  const dispatch = useDispatch();
+  const { user } = useSelector<any, any>(state => state.auth);
+
+  useEffect(() => {
+    if (!user) return;
+
+    dispatch<any>(loadInitialThings());
+  }, [user]);
+
+  return (
+    <>
       <div className="App bg-slate-100 px-4 pb-4 h-fit">
         <BrowserRouter>
           <Routes>
@@ -34,7 +55,7 @@ function App() {
         </BrowserRouter>
       </div>
       <ToastContainer />
-    </Provider>
+    </>
   );
 }
 

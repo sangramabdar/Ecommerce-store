@@ -11,10 +11,9 @@ async function addCartItemsToCartById(cardId, cartItems) {
   await cartDoc.save();
 }
 
-async function getCartItemsCartById(cardId) {
+async function getCartItemsByCartId(cardId) {
   const cartDoc = await Cart.findById(cardId);
-
   return cartDoc.cartItems;
 }
 
-export { addCartItemsToCartById, getCartItemsCartById };
+export { addCartItemsToCartById, getCartItemsByCartId };

@@ -1,9 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../config/firebase";
 import { useDispatch, useSelector } from "react-redux";
-import { addUser } from "../store/signedInUser";
+import { addUser } from "../store/authUser";
 
 function useAuthentication() {
   const navigate = useNavigate();
@@ -21,6 +19,17 @@ function useAuthentication() {
     const authUser = JSON.parse(localStorage.getItem("user")!!);
     dispatch(addUser(authUser));
   }, []);
+
+  return user;
 }
 
-export { useAuthentication };
+function useMounAndUnMount(name: string) {
+  useEffect(() => {
+    console.log(name + " mounted");
+    return () => {
+      console.log(name + " unmounted");
+    };
+  }, []);
+}
+
+export { useAuthentication, useMounAndUnMount };

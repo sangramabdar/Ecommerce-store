@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { getCartItemsService, removeItemFromCartService } from "../store/cart";
 import { ProductType } from "../store/product";
-import { useAuthentication } from "../utils/hooks";
+import { useAuthentication, useMounAndUnMount } from "../utils/hooks";
 import { useEffect, useState } from "react";
 import { placeOrderService } from "../store/order";
 import { showLoadingToast, showSuccessToast } from "../utils/toast";
@@ -47,19 +47,11 @@ function CartProduct(product: CartProductPropsType) {
 }
 
 function Cart() {
-  useAuthentication();
-
+  const user = useAuthentication();
+  useMounAndUnMount("cart");
   const { cartItems, totalPrice } = useSelector<any, any>(state => state.cart);
 
-  const { user } = useSelector<any, any>(state => state.auth);
-
   const dispatch = useDispatch<any>();
-
-  useEffect(() => {
-    if (!user) return;
-
-    dispatch(getCartItemsService());
-  }, []);
 
   const handlePlaceOrder = () => {
     showLoadingToast("Processing");

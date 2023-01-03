@@ -48,7 +48,7 @@ async function getCartItemsService(req) {
         const cartId = user.cartId;
         if (!cartId)
             return [[], null];
-        const cartItems = await (0, cart_repository_1.getCartItemsCartById)(cartId);
+        const cartItems = await (0, cart_repository_1.getCartItemsByCartId)(cartId);
         return [cartItems, null];
     }
     catch (error) {

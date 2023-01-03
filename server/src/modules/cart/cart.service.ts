@@ -1,7 +1,7 @@
 import User from "../../models/User";
 import {
   addCartItemsToCartById,
-  getCartItemsCartById,
+  getCartItemsByCartId,
 } from "./cart.repository";
 import Cart from "../../models/Cart";
 
@@ -32,11 +32,8 @@ async function addCartItemsToCartService(req: any) {
       });
 
       await cart.save();
-
       user.cartId = cart._id;
-
       await user.save();
-
       return ["success", null];
     }
 
@@ -57,7 +54,7 @@ async function getCartItemsService(req: any) {
 
     if (!cartId) return [[], null];
 
-    const cartItems = await getCartItemsCartById(cartId);
+    const cartItems = await getCartItemsByCartId(cartId);
 
     return [cartItems, null];
   } catch (error) {

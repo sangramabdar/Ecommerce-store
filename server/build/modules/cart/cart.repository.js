@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCartItemsCartById = exports.addCartItemsToCartById = void 0;
+exports.getCartItemsByCartId = exports.addCartItemsToCartById = void 0;
 const Cart_1 = __importDefault(require("../../models/Cart"));
 const cart_service_1 = require("./cart.service");
 async function addCartItemsToCartById(cardId, cartItems) {
@@ -14,8 +14,8 @@ async function addCartItemsToCartById(cardId, cartItems) {
     await cartDoc.save();
 }
 exports.addCartItemsToCartById = addCartItemsToCartById;
-async function getCartItemsCartById(cardId) {
+async function getCartItemsByCartId(cardId) {
     const cartDoc = await Cart_1.default.findById(cardId);
     return cartDoc.cartItems;
 }
-exports.getCartItemsCartById = getCartItemsCartById;
+exports.getCartItemsByCartId = getCartItemsByCartId;

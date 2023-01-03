@@ -1,28 +1,18 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useMemo } from "react";
-import { addUser, removeUser } from "../store/signedInUser";
+import { addUser, removeUser } from "../store/authUser";
 import { getCartItemsService } from "../store/cart";
 
 function NavBar({ children }: any) {
   const { user } = useSelector<any, any>(state => state.auth);
-
   const { cartItems } = useSelector<any, any>(state => state.cart);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user) return;
-
-    if (cartItems.length > 0) return;
-
-    dispatch<any>(getCartItemsService());
-  }, [user]);
-
-  useEffect(() => {
     if (!localStorage.getItem("user")) return;
-
     if (user) return;
 
     const authUser = JSON.parse(localStorage.getItem("user")!!);

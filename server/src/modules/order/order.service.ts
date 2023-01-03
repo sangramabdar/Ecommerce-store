@@ -1,6 +1,6 @@
 import User from "../../models/User";
 import { NotFound } from "../../utils/exceptions";
-import { placeOrderForSpecifitUserById } from "./order.repository";
+import { placeOrderForSpecifitUser } from "./order.repository";
 import Cart from "../../models/Cart";
 import Order from "../../models/Order";
 
@@ -16,9 +16,7 @@ async function placeOrderService(req: any) {
 
     if (cart.cartItems.length === 0) return [null, new NotFound("cart")];
 
-    const orderId = await placeOrderForSpecifitUserById(user, cart);
-
-    console.log(orderId);
+    const orderId = await placeOrderForSpecifitUser(user, cart);
 
     return [{ orderId }, null];
   } catch (error) {

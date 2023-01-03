@@ -18,8 +18,7 @@ async function placeOrderService(req) {
         const cart = await Cart_1.default.findById(user.cartId);
         if (cart.cartItems.length === 0)
             return [null, new exceptions_1.NotFound("cart")];
-        const orderId = await (0, order_repository_1.placeOrderForSpecifitUserById)(user, cart);
-        console.log(orderId);
+        const orderId = await (0, order_repository_1.placeOrderForSpecifitUser)(user, cart);
         return [{ orderId }, null];
     }
     catch (error) {

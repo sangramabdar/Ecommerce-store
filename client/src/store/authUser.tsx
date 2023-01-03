@@ -1,4 +1,7 @@
+import { async } from "@firebase/util";
 import { createSlice } from "@reduxjs/toolkit";
+import { getCartItemsService } from "./cart";
+import { getOrdersService } from "./order";
 
 const initailSignedInUser: {
   user: any;
@@ -19,6 +22,13 @@ const signedInUserSlice = createSlice({
     },
   },
 });
+
+export function loadInitialThings() {
+  return async function (dispatch: any, getState: any) {
+    dispatch(getCartItemsService());
+    dispatch(getOrdersService());
+  };
+}
 
 export const { addUser, removeUser } = signedInUserSlice.actions;
 

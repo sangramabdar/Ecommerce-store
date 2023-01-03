@@ -40,16 +40,23 @@ async function signUpUserService(user: any) {
 }
 
 function SignUp() {
-  const { user } = useSelector<any, any>(state => state.auth);
-
   const [isDisabled, setIsDisabled] = useState(false);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!error) return;
+    navigate("/ecommerce-cart-deploy/login");
+  }, [error]);
 
   const signUpUser = async (user: any) => {
     const result = await signUpUserService(user);
     toast.dismiss();
 
     if (result.status === Status.ERROR) {
-      showErrorToast("already");
+      showErrorToast("Registered already");
+      setError("error");
+      return;
     }
 
     showSuccessToast("Registered");

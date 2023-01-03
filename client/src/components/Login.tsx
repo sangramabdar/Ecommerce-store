@@ -4,7 +4,7 @@ import { useFormik } from "formik";
 import InputField from "./InputField";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { addUser } from "../store/signedInUser";
+import { addUser } from "../store/authUser";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { showErrorToast, showLoadingToast } from "../utils/toast";
@@ -31,15 +31,8 @@ async function loginUserService(user: any) {
 }
 
 function Login() {
-  const { user } = useSelector<any, any>(state => state.auth);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [isDisabled, setIsDisabled] = useState(false);
-
-  // useEffect(() => {
-  //   if (!user) return;
-  //   navigate("/ecommerce-cart-deploy");
-  // }, [user]);
 
   const loginUser = async (user: any) => {
     const result = await loginUserService(user);
@@ -58,7 +51,6 @@ function Login() {
   const handleOnSubmit = (values: any) => {
     setIsDisabled(true);
     showLoadingToast("Processing");
-
     loginUser(values);
   };
 
@@ -85,6 +77,7 @@ function Login() {
           onChange={handleChange}
           onBlur={handleBlur}
           label="Email"
+          type="email"
         />
         <InputField
           name="password"
@@ -94,6 +87,7 @@ function Login() {
           onChange={handleChange}
           onBlur={handleBlur}
           label="Password"
+          type="password"
         />
         <button
           className="w-20 h-10 bg-violet-600 text-white rounded-md"

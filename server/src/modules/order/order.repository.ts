@@ -1,8 +1,6 @@
-import User from "../../models/User";
 import Order from "../../models/Order";
-import Cart from "../../models/Cart";
 
-async function placeOrderForSpecifitUserById(user, cart) {
+async function placeOrderForSpecifitUser(user, cart) {
   const orderItems = cart.cartItems;
 
   const order = new Order({
@@ -10,8 +8,8 @@ async function placeOrderForSpecifitUserById(user, cart) {
     orderItems,
     totalPrice: cart.totalPrice,
   });
-  await order.save();
 
+  await order.save();
   user.orders.push(order._id);
   await user.save();
 
@@ -21,4 +19,4 @@ async function placeOrderForSpecifitUserById(user, cart) {
   return order._id;
 }
 
-export { placeOrderForSpecifitUserById };
+export { placeOrderForSpecifitUser };
