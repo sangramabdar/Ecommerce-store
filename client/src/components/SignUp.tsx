@@ -15,7 +15,7 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { postRequest } from "../api/requests";
 import { useSelector } from "react-redux";
-import { DEFAULT_HEADERS, Status } from "../api/constants";
+import { BASE_URL, DEFAULT_HEADERS, Status } from "../api/constants";
 
 const userSchema = yup.object().shape({
   email: yup
@@ -34,7 +34,7 @@ const initialUserInfo = {
 };
 
 async function signUpUserService(user: any) {
-  const SIGNUP_URL = "http://localhost:8080/api/auth/signup";
+  const SIGNUP_URL = BASE_URL + "/auth/signup";
   const result = await postRequest(SIGNUP_URL, user, DEFAULT_HEADERS);
   return result;
 }

@@ -31,13 +31,10 @@ async function getOrdersService(req: any) {
     const userId = req.user._id;
     const user = await User.findById(userId);
 
-    console.log(user.orders);
-
     const orders = await Order.find({
       _id: { $in: user.orders },
     });
 
-    console.log(orders);
     return [{ orders }, null];
   } catch (error) {
     return [null, error];

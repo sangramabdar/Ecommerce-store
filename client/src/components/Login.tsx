@@ -15,7 +15,7 @@ import {
   showSuccessToast,
 } from "../utils/toast";
 import { postRequest } from "../api/requests";
-import { DEFAULT_HEADERS, Status } from "../api/constants";
+import { BASE_URL, DEFAULT_HEADERS, Status } from "../api/constants";
 import { STATUS } from "../store/product";
 
 const loginSchema = yup.object().shape({
@@ -32,7 +32,7 @@ const initialLoginInfo = {
 };
 
 async function loginUserService(user: any) {
-  const SIGNUP_URL = "http://localhost:8080/api/auth/login";
+  const SIGNUP_URL = BASE_URL + "/auth/login";
   const result = await postRequest(SIGNUP_URL, user, DEFAULT_HEADERS);
   return result;
 }

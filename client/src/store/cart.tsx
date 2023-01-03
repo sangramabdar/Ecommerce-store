@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getRequest, postRequest, putRequest } from "../api/requests";
-import { DEFAULT_HEADERS } from "../api/constants";
+import { BASE_URL, DEFAULT_HEADERS } from "../api/constants";
 
 const initialCart: {
   cartItems: any[];
@@ -69,7 +69,7 @@ function removeItemFromCartService(product: any) {
 
     const cartItems = getState().cart.cartItems;
 
-    const CART_URL = "http://localhost:8080/api/carts";
+    const CART_URL = BASE_URL + "/carts";
     const result = await putRequest(
       CART_URL,
       { cartItems },
@@ -85,7 +85,7 @@ function removeItemFromCartService(product: any) {
 
 function getCartItemsService() {
   return async function (dispatch: any, getState: any) {
-    const CART_URL = "http://localhost:8080/api/carts";
+    const CART_URL = BASE_URL + "/carts";
     const result = await getRequest(CART_URL, {
       ...DEFAULT_HEADERS,
       Authorization: "Bearer " + getState().auth.user.accessToken,
@@ -103,7 +103,7 @@ function addItemToCartService(product: any) {
     })[0];
 
     const cartItems = getState().cart.cartItems;
-    const CART_URL = "http://localhost:8080/api/carts";
+    const CART_URL = BASE_URL + "/carts";
     const result = await putRequest(
       CART_URL,
       { cartItems },
