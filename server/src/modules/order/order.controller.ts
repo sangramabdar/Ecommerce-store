@@ -20,10 +20,10 @@ async function getOrdersController(req: Request, res: Response, next) {
   if (error) return next(error);
 
   const responseBody = new ResponseBodyBuilder()
-    .setStatusCode(201)
+    .setStatusCode(200)
     .setData(data);
 
-  res.status(201).json(responseBody);
+  res.status(200).json(responseBody);
 }
 
 export { placeOrderController, getOrdersController };

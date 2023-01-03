@@ -15,10 +15,7 @@ function NavBar({ children }: any) {
   useEffect(() => {
     if (!user) return;
 
-    console.log(cartItems);
     if (cartItems.length > 0) return;
-
-    console.log("make request");
 
     dispatch<any>(getCartItemsService());
   }, [user]);
@@ -34,7 +31,6 @@ function NavBar({ children }: any) {
 
   const handleLogOut = () => {
     localStorage.removeItem("user");
-    console.log(localStorage.getItem("user"));
     dispatch(removeUser(""));
     navigate("/");
   };
@@ -42,8 +38,8 @@ function NavBar({ children }: any) {
   if (!user) {
     return (
       <>
-        <nav className="flex bg-slate-200 top-0 left-0 right-0 fixed justify-between h-10 items-center p-2">
-          <div>REDUX STORE</div>
+        <nav className="flex bg-slate-200 top-0 left-0 right-0 fixed justify-between h-10 items-center p-3">
+          <div className="md:ml-5">E-COMMERCE STORE</div>
           <div className="flex justify-evenly w-[300px]">
             <Link to="/ecommerce-cart-deploy/login">Login</Link>
             <Link to="/ecommerce-cart-deploy/signup">Signup</Link>
@@ -58,7 +54,7 @@ function NavBar({ children }: any) {
   return (
     <>
       <nav className="flex bg-slate-200 top-0 left-0 right-0 fixed justify-between h-10 items-center p-2">
-        <div>REDUX STORE</div>
+        <div className="md:ml-5">E-COMMERCE STORE</div>
         <div className="flex justify-evenly gap-3">
           <button onClick={handleLogOut}>Log out</button>
           <Link to="/ecommerce-cart-deploy">Home</Link>

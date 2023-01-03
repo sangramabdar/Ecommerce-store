@@ -73,11 +73,11 @@ function SignUp() {
   return (
     <NavBar>
       <form
-        className="flex flex-col justify-center items-center mt-[100px] 
+        className="flex flex-col justify-center items-center mt-[100px] bg-white m-auto w-[300px] rounded-lg
       "
         onSubmit={handleSubmit}
       >
-        <h1 className="font-bold mb-5">Sign up</h1>
+        <h1 className="font-bold m-5">Sign up</h1>
         <InputField
           name="email"
           error={errors.email}
@@ -98,10 +98,16 @@ function SignUp() {
           label="Password"
           type="password"
         />
-        <button disabled={isDisabled} className="w-20 h-10" type="submit">
+        <button
+          disabled={isDisabled}
+          className="w-20 h-10 bg-violet-600 text-white rounded-md"
+          type="submit"
+        >
           Submit
         </button>
-        <Link to="/ecommerce-cart-deploy/login">have already an account ?</Link>
+        <Link to="/ecommerce-cart-deploy/login" className="m-5">
+          have already an account ?
+        </Link>
       </form>
     </NavBar>
   );

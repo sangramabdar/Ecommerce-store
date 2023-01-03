@@ -13,6 +13,7 @@ const initialCart: {
 };
 
 function calculateTotalPrice(cartItems: any[]): number {
+  if (!cartItems) return 0;
   return cartItems.reduce((sum, element) => sum + element.price, 0);
 }
 

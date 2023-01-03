@@ -14,18 +14,16 @@ function Order() {
   useEffect(() => {
     if (!user) return;
 
-    if (orders) return;
-
     dispatch<any>(getOrdersService());
   }, [user]);
 
   return (
     <NavBar>
+      <h1 className="font-bold md:ml-3">Orders</h1>
       {!orders ? (
         <Loading />
       ) : (
         orders.map((order: any) => {
-          console.log(order);
           return <div key={order._id}>{order._id}</div>;
         })
       )}

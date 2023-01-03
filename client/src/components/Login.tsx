@@ -2,21 +2,14 @@ import NavBar from "./NavBar";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import InputField from "./InputField";
-import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../config/firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { addUser } from "../store/signedInUser";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
-import {
-  showErrorToast,
-  showLoadingToast,
-  showSuccessToast,
-} from "../utils/toast";
+import { showErrorToast, showLoadingToast } from "../utils/toast";
 import { postRequest } from "../api/requests";
 import { BASE_URL, DEFAULT_HEADERS, Status } from "../api/constants";
-import { STATUS } from "../store/product";
 
 const loginSchema = yup.object().shape({
   email: yup
@@ -79,7 +72,7 @@ function Login() {
   return (
     <NavBar>
       <form
-        className="flex flex-col justify-center items-center mt-[100px] bg-red-400
+        className="flex flex-col justify-center items-center mt-[100px] bg-white m-auto w-[300px] rounded-lg
       "
         onSubmit={handleSubmit}
       >
@@ -102,10 +95,16 @@ function Login() {
           onBlur={handleBlur}
           label="Password"
         />
-        <button className="w-20 h-10" type="submit" disabled={isDisabled}>
+        <button
+          className="w-20 h-10 bg-violet-600 text-white rounded-md"
+          type="submit"
+          disabled={isDisabled}
+        >
           Submit
         </button>
-        <Link to="/ecommerce-cart-deploy/signup">Don't have an account ?</Link>
+        <Link to="/ecommerce-cart-deploy/signup" className="m-5">
+          Don't have an account ?
+        </Link>
       </form>
     </NavBar>
   );

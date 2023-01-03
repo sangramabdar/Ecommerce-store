@@ -21,8 +21,8 @@ async function getOrdersController(req, res, next) {
     if (error)
         return next(error);
     const responseBody = new responseBodyBuilder_1.default()
-        .setStatusCode(201)
+        .setStatusCode(200)
         .setData(data);
-    res.status(201).json(responseBody);
+    res.status(200).json(responseBody);
 }
 exports.getOrdersController = getOrdersController;

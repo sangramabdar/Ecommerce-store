@@ -2,11 +2,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCartItemsService, removeItemFromCartService } from "../store/cart";
 import { ProductType } from "../store/product";
 import { useAuthentication } from "../utils/hooks";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { placeOrderService } from "../store/order";
 import { showLoadingToast, showSuccessToast } from "../utils/toast";
-import { Result } from "../api/constants";
-import { toast } from "react-toastify";
+import Loading from "./Loading";
 
 interface CartProductPropsType extends ProductType {
   quantity: number;
@@ -28,15 +27,15 @@ function CartProduct(product: CartProductPropsType) {
      p-2 items-center rounded-md h-fit
       "
     >
-      {/* <div className="w-10">
+      <div className="w-10">
         <img className="h-fit w-12 object-cover" src={image} alt="" />
-      </div> */}
+      </div>
 
       <p className="text-center ">{quantity}</p>
       <p className="text-center w-44">{title}</p>
       <p className="text-center">{price}</p>
       <button
-        className="text-center p-1 rounded bg-violet-600 text-white "
+        className="text-center p-1 rounded bg-violet-600 text-white"
         onClick={() => {
           handleRemoveProduct(id);
         }}
@@ -59,10 +58,6 @@ function Cart() {
   useEffect(() => {
     if (!user) return;
 
-    if (cartItems.length == 0) return;
-
-    console.log("dispatch");
-
     dispatch(getCartItemsService());
   }, []);
 
@@ -72,7 +67,7 @@ function Cart() {
   };
 
   if (!user) {
-    return <div>loading...</div>;
+    return <Loading />;
   }
 
   return (
@@ -85,9 +80,14 @@ function Cart() {
         <div className="flex justify-end">Total Price : {totalPrice}</div>
       ) : null}
       {cartItems.length ? (
-        <button className="bg-red-300" onClick={handlePlaceOrder}>
-          place order
-        </button>
+        <div className="flex justify-end">
+          <button
+            className="bg-violet-600 text-white rounded-md w-24 p-1"
+            onClick={handlePlaceOrder}
+          >
+            Place order
+          </button>
+        </div>
       ) : null}
     </div>
   );
