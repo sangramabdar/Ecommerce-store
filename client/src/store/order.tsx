@@ -40,7 +40,7 @@ function placeOrderService() {
 
     toast.dismiss();
     showSuccessToast("order placed");
-    dispatch(addOrder({ id: result.data.orderId }));
+    dispatch(getOrdersService());
     dispatch(emptyCart(""));
   };
 }
