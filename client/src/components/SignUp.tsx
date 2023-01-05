@@ -3,7 +3,6 @@ import * as yup from "yup";
 import { useFormik } from "formik";
 import InputField from "./InputField";
 import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
-import { auth, db } from "../config/firebase";
 import { Link, useNavigate } from "react-router-dom";
 import { collection, addDoc } from "firebase/firestore";
 import {
@@ -13,7 +12,6 @@ import {
 } from "../utils/toast";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { postRequest } from "../api/requests";
 import { useSelector } from "react-redux";
 import { BASE_URL, DEFAULT_HEADERS, Status } from "../api/constants";
 import { signUpUserService } from "../api/auth";
