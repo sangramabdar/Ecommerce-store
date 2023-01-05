@@ -10,7 +10,7 @@ import SignUp from "./components/SignUp";
 import Profile from "./components/Profile";
 import Order from "./components/Order";
 import { useEffect } from "react";
-import { loadInitialThings } from "./store/authUser";
+import { loadInitialThings } from "./store/auth";
 import { useMounAndUnMount } from "./utils/hooks";
 
 function App() {
@@ -37,20 +37,13 @@ function MainApplication() {
       <div className="App bg-slate-100 px-4 pb-4 h-fit">
         <BrowserRouter>
           <Routes>
-            <Route path="/ecommerce-cart-deploy" element={<HomePage />} />
-            <Route path="/ecommerce-cart-deploy/login" element={<Login />} />
-            <Route path="/ecommerce-cart-deploy/signup" element={<SignUp />} />
-
-            <Route path="/ecommerce-cart-deploy/cart" element={<CartPage />} />
-            <Route
-              path="/ecommerce-cart-deploy/profile"
-              element={<Profile />}
-            />
-            <Route path="/ecommerce-cart-deploy/orders" element={<Order />} />
-            <Route
-              path="*"
-              element={<Navigate replace to="/ecommerce-cart-deploy" />}
-            />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/cart" element={<CartPage />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/orders" element={<Order />} />
+            <Route path="*" element={<Navigate replace to="" />} />
           </Routes>
         </BrowserRouter>
       </div>

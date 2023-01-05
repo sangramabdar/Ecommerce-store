@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 import { postRequest } from "../api/requests";
 import { useSelector } from "react-redux";
 import { BASE_URL, DEFAULT_HEADERS, Status } from "../api/constants";
+import { signUpUserService } from "../api/auth";
 
 const userSchema = yup.object().shape({
   email: yup
@@ -33,20 +34,20 @@ const initialUserInfo = {
   password: "",
 };
 
-async function signUpUserService(user: any) {
-  const SIGNUP_URL = BASE_URL + "/auth/signup";
-  const result = await postRequest(SIGNUP_URL, user, DEFAULT_HEADERS);
-  return result;
-}
-
 function SignUp() {
   const [isDisabled, setIsDisabled] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { user } = useSelector<any, any>(state => state.auth);
+
+  useEffect(() => {
+    if (!user) return;
+    navigate("/");
+  }, [user]);
 
   useEffect(() => {
     if (!error) return;
-    navigate("/ecommerce-cart-deploy/login");
+    navigate("/login");
   }, [error]);
 
   const signUpUser = async (user: any) => {
@@ -112,7 +113,7 @@ function SignUp() {
         >
           Submit
         </button>
-        <Link to="/ecommerce-cart-deploy/login" className="m-5">
+        <Link to="/login" className="m-5">
           have already an account ?
         </Link>
       </form>

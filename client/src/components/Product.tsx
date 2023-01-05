@@ -19,7 +19,7 @@ function Product(product: ProductPropstype) {
     if (!user) {
       showErrorToast("Plz login first");
       setTimeout(() => {
-        navigate("/ecommerce-cart-deploy/login");
+        navigate("/login");
       }, 500);
       return;
     }
