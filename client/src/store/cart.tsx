@@ -20,15 +20,15 @@ const cartSlice = createSlice({
   initialState: initialCart,
   reducers: {
     addToCart(state, action) {
-      //for same product
       let filteredProduct = state.cartItems.filter(
         product => product.id === action.payload.product.id
       );
 
       if (filteredProduct.length > 0) {
+        //for same product
         for (let product of state.cartItems) {
           if (product.id === action.payload.product.id) {
-            if (action.payload.action === "increment") {
+            if (action.payload.actionType === "increment") {
               product.quantity++;
             } else {
               product.quantity--;
@@ -44,6 +44,7 @@ const cartSlice = createSlice({
           ...action.payload.product,
           originalPrice: action.payload.product.price,
         };
+
         newProduct.quantity = 1;
         state.cartItems.push(newProduct);
       }
@@ -103,12 +104,12 @@ function getCartItemsService() {
   };
 }
 
-function addItemToCartService(product: any, action: string) {
+function addItemToCartService(product: any, actionType: string) {
   return async function (dispatch: any, getState: any) {
     dispatch(
       addToCart({
         product,
-        action,
+        actionType,
       })
     );
 

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { PRODUCT_BASE_URL } from "../config/constants";
+import { PRODUCT_BASE_URL } from "../api/constants";
 
 interface ProductType {
   id: number;
@@ -15,7 +15,7 @@ interface ProductType {
 }
 
 enum STATUS {
-  LOADING = "laoding",
+  LOADING = "loading",
   ERROR = "error",
   SUCCESS = "Success",
 }

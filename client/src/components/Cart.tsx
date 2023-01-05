@@ -1,14 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addItemToCartService,
-  getCartItemsService,
-  removeItemFromCartService,
-} from "../store/cart";
+import { addItemToCartService, removeItemFromCartService } from "../store/cart";
 import { ProductType } from "../store/product";
 import { useAuthentication, useMounAndUnMount } from "../utils/hooks";
-import { useEffect, useState } from "react";
-import { placeOrderService } from "../store/order";
-import { showLoadingToast, showSuccessToast } from "../utils/toast";
+import { useEffect } from "react";
+import { showSuccessToast } from "../utils/toast";
 import Loading from "./Loading";
 import { useNavigate } from "react-router-dom";
 

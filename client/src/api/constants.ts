@@ -19,5 +19,7 @@ const DEFAULT_HEADERS = {
 
 const BASE_URL = "http://localhost:8080/api";
 
-export { Status, BASE_URL, DEFAULT_HEADERS };
+const PRODUCT_BASE_URL = "https://fakestoreapi.com";
+
+export { Status, BASE_URL, DEFAULT_HEADERS, PRODUCT_BASE_URL };
 export type { Result };

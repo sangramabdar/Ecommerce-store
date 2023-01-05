@@ -13,6 +13,7 @@ import { useEffect } from "react";
 import { loadInitialThings } from "./store/auth";
 import { useMounAndUnMount } from "./utils/hooks";
 import CheckoutPage from "./pages/CheckoutPage";
+import ProductPage from "./pages/ProductPage";
 
 function App() {
   return (
@@ -23,9 +24,8 @@ function App() {
 }
 
 function MainApplication() {
-  useMounAndUnMount("main application");
   const dispatch = useDispatch();
-  const { user } = useSelector<any, any>(state => state.auth);
+  const user = useSelector<any, any>(state => state.auth.user);
 
   useEffect(() => {
     if (!user) return;
@@ -39,6 +39,7 @@ function MainApplication() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/products/:id" element={<ProductPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/cart" element={<CartPage />} />
