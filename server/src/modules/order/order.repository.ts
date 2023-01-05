@@ -1,12 +1,13 @@
 import Order from "../../models/Order";
 
-async function placeOrderForSpecifitUser(user, cart) {
+async function placeOrderForSpecificUser(user, cart, orderAddress: any) {
   const orderItems = cart.cartItems;
 
   const order = new Order({
     userId: user._id,
     orderItems,
     totalPrice: cart.totalPrice,
+    orderAddress,
   });
 
   await order.save();
@@ -19,4 +20,4 @@ async function placeOrderForSpecifitUser(user, cart) {
   return order._id;
 }
 
-export { placeOrderForSpecifitUser };
+export { placeOrderForSpecificUser };

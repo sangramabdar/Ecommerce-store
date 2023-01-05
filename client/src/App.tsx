@@ -12,6 +12,7 @@ import Order from "./components/Order";
 import { useEffect } from "react";
 import { loadInitialThings } from "./store/auth";
 import { useMounAndUnMount } from "./utils/hooks";
+import CheckoutPage from "./pages/CheckoutPage";
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function MainApplication() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/cart" element={<CartPage />} />
+            <Route path="/checkout" element={<CheckoutPage />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/orders" element={<Order />} />
             <Route path="*" element={<Navigate replace to="" />} />

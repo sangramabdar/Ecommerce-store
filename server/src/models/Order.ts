@@ -1,5 +1,26 @@
 import mongoose from "mongoose";
 
+const orderAddressSchema = new mongoose.Schema(
+  {
+    address: {
+      type: String,
+      required: true,
+    },
+    city: {
+      type: String,
+      required: true,
+    },
+    pincode: {
+      type: Number,
+      required: true,
+    },
+  },
+  {
+    timestamps: false,
+    _id: false,
+  }
+);
+
 const orderSchema = new mongoose.Schema(
   {
     userId: {
@@ -12,6 +33,10 @@ const orderSchema = new mongoose.Schema(
     },
     totalPrice: {
       type: Number,
+    },
+    orderAddress: {
+      type: orderAddressSchema,
+      required: true,
     },
   },
   { timestamps: true }

@@ -12,13 +12,14 @@ const Order_1 = __importDefault(require("../../models/Order"));
 async function placeOrderService(req) {
     try {
         const userId = req.user._id;
+        const orderAddress = req.body.orderAddress;
         const user = await User_1.default.findById(userId);
         if (!user.cartId)
             return [null, new exceptions_1.NotFound("cart")];
         const cart = await Cart_1.default.findById(user.cartId);
         if (cart.cartItems.length === 0)
             return [null, new exceptions_1.NotFound("cart")];
-        const orderId = await (0, order_repository_1.placeOrderForSpecifitUser)(user, cart);
+        const orderId = await (0, order_repository_1.placeOrderForSpecificUser)(user, cart, orderAddress);
         return [{ orderId }, null];
     }
     catch (error) {

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { placeOrderService } from "../store/order";
 import { showLoadingToast, showSuccessToast } from "../utils/toast";
 import Loading from "./Loading";
+import { useNavigate } from "react-router-dom";
 
 interface CartProductPropsType extends ProductType {
   quantity: number;
@@ -52,10 +53,10 @@ function Cart() {
   const { cartItems, totalPrice } = useSelector<any, any>(state => state.cart);
 
   const dispatch = useDispatch<any>();
+  const navigate = useNavigate();
 
-  const handlePlaceOrder = () => {
-    showLoadingToast("Processing");
-    dispatch(placeOrderService());
+  const handleCheckout = () => {
+    navigate("/checkout");
   };
 
   if (!user) {
@@ -74,10 +75,10 @@ function Cart() {
       {cartItems.length ? (
         <div className="flex justify-end">
           <button
-            className="bg-violet-600 text-white rounded-md w-24 p-1"
-            onClick={handlePlaceOrder}
+            className="bg-violet-600 text-white rounded-md p-2"
+            onClick={handleCheckout}
           >
-            Place order
+            Proceed to checkout
           </button>
         </div>
       ) : null}

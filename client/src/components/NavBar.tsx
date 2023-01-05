@@ -1,8 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { addUser, removeUser } from "../store/auth";
-import { getCartItemsService } from "../store/cart";
 
 function NavBar({ children }: any) {
   const { user } = useSelector<any, any>(state => state.auth);
@@ -47,7 +46,7 @@ function NavBar({ children }: any) {
         <div className="md:ml-5">E-COMMERCE STORE</div>
         <div className="flex justify-evenly gap-3">
           <button onClick={handleLogOut}>Log out</button>
-          <Link to="">Home</Link>
+          <Link to="/">Home</Link>
           <Link to="/cart">Cart</Link>
           {cartItems.length > 0 && (
             <p className="font-bold">: {cartItems.length}</p>

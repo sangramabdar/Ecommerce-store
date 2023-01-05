@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { emptyCart } from "./cart";
 import { getRequest, postRequest } from "../api/requests";
-import { BASE_URL, DEFAULT_HEADERS } from "../api/constants";
+import { BASE_URL, DEFAULT_HEADERS, Status } from "../api/constants";
 import { showSuccessToast } from "../utils/toast";
 import { toast } from "react-toastify";
 
@@ -26,12 +26,12 @@ const orderSlice = createSlice({
   },
 });
 
-function placeOrderService() {
+function placeOrderService(orderAddress: any) {
   return async function (dispatch: any, getState: any) {
     const ORDER_URL = BASE_URL + "/orders";
     const result = await postRequest(
       ORDER_URL,
-      {},
+      { orderAddress },
       {
         ...DEFAULT_HEADERS,
         Authorization: "Bearer " + getState().auth.user.accessToken,
@@ -40,6 +40,7 @@ function placeOrderService() {
 
     toast.dismiss();
     showSuccessToast("order placed");
+
     dispatch(getOrdersService());
     dispatch(emptyCart(""));
   };
