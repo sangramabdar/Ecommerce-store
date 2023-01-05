@@ -1,5 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-import { getCartItemsService, removeItemFromCartService } from "../store/cart";
+import {
+  addItemToCartService,
+  getCartItemsService,
+  removeItemFromCartService,
+} from "../store/cart";
 import { ProductType } from "../store/product";
 import { useAuthentication, useMounAndUnMount } from "../utils/hooks";
 import { useEffect, useState } from "react";
@@ -15,11 +19,24 @@ interface CartProductPropsType extends ProductType {
 function CartProduct(product: CartProductPropsType) {
   const { id, image, title, price, quantity } = product;
 
+  useEffect(() => {
+    if (quantity > 0) return;
+    dispatch<any>(removeItemFromCartService(product));
+  }, [quantity]);
+
   const dispatch = useDispatch();
 
-  const handleRemoveProduct = (id: number) => {
+  const handleRemoveProduct = () => {
     showSuccessToast("Removed");
     dispatch<any>(removeItemFromCartService(product));
+  };
+
+  const handleIncrement = () => {
+    dispatch<any>(addItemToCartService(product, "increment"));
+  };
+
+  const handleDecrement = () => {
+    dispatch<any>(addItemToCartService(product, "decrement"));
   };
 
   return (
@@ -31,14 +48,23 @@ function CartProduct(product: CartProductPropsType) {
       <div className="w-10">
         <img className="h-fit w-12 object-cover" src={image} alt="" />
       </div>
-
+      <button className="bg-red-100 p-2" onClick={handleIncrement}>
+        +
+      </button>
       <p className="text-center ">{quantity}</p>
+      <button
+        className="bg-red-100 p-2"
+        disabled={quantity === 0 ? true : false}
+        onClick={handleDecrement}
+      >
+        -
+      </button>
       <p className="text-center w-44">{title}</p>
       <p className="text-center">{price}</p>
       <button
         className="text-center p-1 rounded bg-violet-600 text-white"
         onClick={() => {
-          handleRemoveProduct(id);
+          handleRemoveProduct();
         }}
       >
         remove
@@ -52,7 +78,6 @@ function Cart() {
   useMounAndUnMount("cart");
   const { cartItems, totalPrice } = useSelector<any, any>(state => state.cart);
 
-  const dispatch = useDispatch<any>();
   const navigate = useNavigate();
 
   const handleCheckout = () => {

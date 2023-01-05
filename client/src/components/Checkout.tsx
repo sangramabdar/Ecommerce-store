@@ -4,6 +4,7 @@ import { placeOrderService } from "../store/order";
 import { showLoadingToast, showSuccessToast } from "../utils/toast";
 import { useNavigate } from "react-router-dom";
 import { removeItemFromCartService } from "../store/cart";
+import { useAuthentication } from "../utils/hooks";
 
 function OrderProduct(product: any) {
   const { id, image, title, price, quantity } = product;
@@ -39,7 +40,9 @@ function OrderProduct(product: any) {
     </div>
   );
 }
+
 function Checkout() {
+  useAuthentication();
   const totalPrice = useSelector<any, any>(state => state.cart.totalPrice);
   const cartItems = useSelector<any, any>(state => state.cart.cartItems);
 
@@ -50,6 +53,7 @@ function Checkout() {
     if (totalPrice > 0) return;
     navigate("/");
   }, [totalPrice]);
+
   const [orderAddress, setOrderAddress] = useState({
     address: "",
     pincode: "",

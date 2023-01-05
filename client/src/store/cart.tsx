@@ -22,18 +22,28 @@ const cartSlice = createSlice({
     addToCart(state, action) {
       //for same product
       let filteredProduct = state.cartItems.filter(
-        product => product.id === action.payload.id
+        product => product.id === action.payload.product.id
       );
+
       if (filteredProduct.length > 0) {
         for (let product of state.cartItems) {
-          if (product.id === action.payload.id) {
-            product.quantity++;
-            product.price *= product.quantity;
+          if (product.id === action.payload.product.id) {
+            if (action.payload.action === "increment") {
+              product.quantity++;
+            } else {
+              product.quantity--;
+            }
+
+            product.price = product.originalPrice * product.quantity;
           }
         }
       } else {
         //for new product
-        let newProduct = { ...action.payload };
+
+        let newProduct = {
+          ...action.payload.product,
+          originalPrice: action.payload.product.price,
+        };
         newProduct.quantity = 1;
         state.cartItems.push(newProduct);
       }
@@ -93,11 +103,22 @@ function getCartItemsService() {
   };
 }
 
-function addItemToCartService(product: any) {
+function addItemToCartService(product: any, action: string) {
   return async function (dispatch: any, getState: any) {
-    dispatch(addToCart(product));
+    dispatch(
+      addToCart({
+        product,
+        action,
+      })
+    );
 
-    const cartItems = getState().cart.cartItems;
+    const cartItems = [...getState().cart.cartItems];
+
+    for (let i = 0; i < cartItems.length; i++) {
+      let { originalPrice, ...newItem } = cartItems[i];
+      cartItems[i] = newItem;
+    }
+
     const CART_URL = BASE_URL + "/carts";
     const result = await putRequest(
       CART_URL,
