@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { emptyCart } from "./cart";
 import { getRequest, postRequest } from "../api/requests";
 import { BASE_URL, DEFAULT_HEADERS, Status } from "../api/constants";
-import { showSuccessToast } from "../utils/toast";
+import { showErrorToast, showSuccessToast } from "../utils/toast";
 import { toast } from "react-toastify";
 
 const initialOrders: {
@@ -39,6 +39,12 @@ function placeOrderService(orderAddress: any) {
     );
 
     toast.dismiss();
+
+    if (result.status === Status.ERROR) {
+      showErrorToast("Something went wrong");
+      return;
+    }
+
     showSuccessToast("order placed");
 
     dispatch(getOrdersService());

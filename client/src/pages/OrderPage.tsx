@@ -5,10 +5,8 @@ import NavBar from "../components/NavBar";
 function OrderPage() {
   return (
     <NavBar>
-      <div>
-        <h1 className="font-bold mb-5">Cart</h1>
-        <Order />
-      </div>
+      <h1 className="font-bold md:ml-3">Orders</h1>
+      <Order />
     </NavBar>
   );
 }

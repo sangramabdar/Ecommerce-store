@@ -3,20 +3,31 @@ import { addItemToCartService, removeItemFromCartService } from "../store/cart";
 import { ProductType } from "../store/product";
 import { useAuthentication, useMounAndUnMount } from "../utils/hooks";
 import { useEffect } from "react";
-import { showSuccessToast } from "../utils/toast";
+import { showErrorToast, showSuccessToast } from "../utils/toast";
 import Loading from "./Loading";
 import { useNavigate } from "react-router-dom";
 
-interface CartProductPropsType extends ProductType {
+interface CartProductPropsType {
   quantity: number;
+  id: number;
+  title: string;
+  price: number;
+  description: string;
+  category: string;
+  image: string;
+  rating: {
+    rate: number;
+    count: number;
+  };
 }
 
 function CartProduct(product: CartProductPropsType) {
-  const { id, image, title, price, quantity } = product;
+  const { image, title, price, quantity } = product;
 
   useEffect(() => {
     if (quantity > 0) return;
     dispatch<any>(removeItemFromCartService(product));
+    showSuccessToast("Removed");
   }, [quantity]);
 
   const dispatch = useDispatch();
@@ -37,25 +48,28 @@ function CartProduct(product: CartProductPropsType) {
   return (
     <div
       className="bg-white flex justify-between
-     p-2 items-center rounded-md h-fit
+     p-2 items-center rounded-md h-fit lg:w-[70%] lg:mx-auto
       "
     >
       <div className="w-10">
         <img className="h-fit w-12 object-cover" src={image} alt="" />
       </div>
-      <button className="bg-red-100 p-2" onClick={handleIncrement}>
+      <button
+        className="bg-violet-600 rounded-md w-7"
+        onClick={handleIncrement}
+      >
         +
       </button>
       <p className="text-center ">{quantity}</p>
       <button
-        className="bg-red-100 p-2"
+        className="bg-violet-600 rounded-md w-7"
         disabled={quantity === 0 ? true : false}
         onClick={handleDecrement}
       >
         -
       </button>
       <p className="text-center w-44">{title}</p>
-      <p className="text-center">{price}</p>
+      <p className="text-center">$ {price}</p>
       <button
         className="text-center p-1 rounded bg-violet-600 text-white"
         onClick={() => {
@@ -90,7 +104,7 @@ function Cart() {
       })}
 
       {cartItems.length ? (
-        <div className="flex justify-end">Total Price : {totalPrice}</div>
+        <div className="flex justify-end">Total Price : $ {totalPrice}</div>
       ) : null}
       {cartItems.length ? (
         <div className="flex justify-end">

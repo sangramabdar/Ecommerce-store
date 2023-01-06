@@ -28,7 +28,7 @@ function OrderProduct(product: any) {
 
       <p className="text-center ">{quantity}</p>
       <p className="text-center w-44">{title}</p>
-      <p className="text-center">{price}</p>
+      <p className="text-center w-10">$ {price}</p>
       <button
         className="text-center p-1 rounded bg-violet-600 text-white"
         onClick={() => {
@@ -93,12 +93,13 @@ function Checkout() {
   };
 
   return (
-    <>
+    <div className="bg-white rounded-md shadow-md p-5 w-[80%] mx-auto flex flex-col justify-center items-center max-w-[500px]">
       <div
-        className="bg-white rounded-md shadow-md p-5 flex flex-col items-start
-       space-y-4"
+        className="flex flex-col items-center
+       space-y-6"
       >
         <section>
+          <h1 className="font-bold text-lg">Address Info</h1>
           <div
             className="flex flex-col items-start space-y-3
     "
@@ -133,20 +134,20 @@ function Checkout() {
           </div>
         </section>
         <section>
-          <span>Order Summary</span>
+          <h1 className="font-bold text-lg">Order Summary</h1>
           {cartItems.map((item: any) => {
             return <OrderProduct key={item.id} {...item} />;
           })}
-          <span className="mt-2">Total Price : {totalPrice}</span>
+          <span className="mt-2">Total Price : $ {totalPrice}</span>
         </section>
-        <button
-          onClick={handlePlaceOrder}
-          className=" bg-violet-600 p-1 text-white rounded-md"
-        >
-          Place Order
-        </button>
       </div>
-    </>
+      <button
+        onClick={handlePlaceOrder}
+        className=" bg-violet-600 p-1 text-white rounded-md mt-4"
+      >
+        Place Order
+      </button>
+    </div>
   );
 }
 

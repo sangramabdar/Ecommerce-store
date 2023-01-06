@@ -35,7 +35,7 @@ function NavBar({ children }: any) {
             <Link to="">Home</Link>
           </div>
         </nav>
-        <main className="mt-12">{children}</main>
+        <main className="mt-12 ml-4">{children}</main>
       </>
     );
   }
@@ -54,7 +54,7 @@ function NavBar({ children }: any) {
           <Link to="/orders">Orders</Link>
         </div>
       </nav>
-      <main className="mt-12">{children}</main>
+      <main className="mt-12 ml-4">{children}</main>
     </>
   );
 }

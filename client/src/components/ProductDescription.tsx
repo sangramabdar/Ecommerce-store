@@ -1,10 +1,77 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { STATUS, getProducts } from "../store/product";
-import Product from "./Product";
 import Loading from "./Loading";
+import { addItemToCartService, removeItemFromCartService } from "../store/cart";
+import { showErrorToast, showSuccessToast } from "../utils/toast";
+
+function Product(product: any) {
+  const { category, description, id, price, rating, title, image } = product;
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { user } = useSelector<any, any>(state => state.auth);
+
+  const cartItem = useSelector<any, any>(state =>
+    state.cart.cartItems.find((product: any) => product.id == id)
+  );
+
+  const action = useMemo(() => (cartItem ? "remove" : "add"), [cartItem]);
+
+  const handleAddToCartOrRemoveFromCart = (product: any) => {
+    if (!user) {
+      showErrorToast("Plz login first");
+      setTimeout(() => {
+        navigate("/login");
+      }, 500);
+      return;
+    }
+
+    if (action === "add") {
+      showSuccessToast("Added");
+      dispatch<any>(addItemToCartService(product, ""));
+    } else {
+      showSuccessToast("Removed");
+      dispatch<any>(removeItemFromCartService(product));
+    }
+  };
+
+  const handleProductPageNavigation = () => {
+    navigate(`/products/${id}`);
+  };
+
+  return (
+    <div className="bg-white rounded-mg shadow-md mx-auto w-[70%] max-w-[500px]">
+      <div
+        className="flex justify-evenly p-3 space-y-2"
+        key={id}
+        onClick={handleProductPageNavigation}
+      >
+        <img className="w-40" src={image} />
+
+        <section className="flex flex-col justify-evenly items-center space-y-5">
+          <p className="text-center font-bold w-[200px]">{title}</p>
+          <p className="text-center font-bold">Price : ${price}</p>
+          <button
+            className="bg-violet-600 font-bold text-white rounded p-1"
+            onClick={e => {
+              e.stopPropagation();
+              handleAddToCartOrRemoveFromCart(product);
+            }}
+          >
+            {action === "add" ? "Add to cart" : "Remove from cart"}
+          </button>
+        </section>
+      </div>
+      <div className="p-5">
+        <span className="font-bold text-xl">Description :</span>
+        <section className="p-1">{description}</section>
+      </div>
+    </div>
+  );
+}
 
 function ProductDescription() {
   const { id } = useParams();
