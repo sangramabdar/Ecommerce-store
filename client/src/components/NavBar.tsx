@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { addUser, removeUser } from "../store/auth";
+import { addUser, removeUser, loadInitialThings } from "../store/auth";
 
 function NavBar({ children }: any) {
   const { user } = useSelector<any, any>(state => state.auth);
@@ -22,6 +22,7 @@ function NavBar({ children }: any) {
     localStorage.removeItem("user");
     dispatch(removeUser(""));
     navigate("/");
+    location.reload();
   };
 
   if (!user) {
@@ -30,6 +31,7 @@ function NavBar({ children }: any) {
         <nav className="flex bg-slate-200 top-0 left-0 right-0 fixed justify-between h-10 items-center p-3">
           <div className="md:ml-5">E-COMMERCE STORE</div>
           <div className="flex justify-evenly w-[300px]">
+            <Link to="/products">Products</Link>
             <Link to="/login">Login</Link>
             <Link to="/signup">Signup</Link>
             <Link to="">Home</Link>
@@ -46,6 +48,7 @@ function NavBar({ children }: any) {
         <div className="md:ml-5">E-COMMERCE STORE</div>
         <div className="flex justify-evenly gap-3">
           <button onClick={handleLogOut}>Log out</button>
+          <Link to="/products">Products</Link>
           <Link to="/">Home</Link>
           <Link to="/cart">Cart</Link>
           {cartItems.length > 0 && (

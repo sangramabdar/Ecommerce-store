@@ -4,6 +4,7 @@ import { getRequest, postRequest } from "../api/requests";
 import { BASE_URL, DEFAULT_HEADERS, Status } from "../api/constants";
 import { showErrorToast, showSuccessToast } from "../utils/toast";
 import { toast } from "react-toastify";
+import { handleTokenError } from "../utils/tokenError";
 
 const initialOrders: {
   orders: any;
@@ -41,12 +42,12 @@ function placeOrderService(orderAddress: any) {
     toast.dismiss();
 
     if (result.status === Status.ERROR) {
+      handleTokenError(result.statusCode!!);
       showErrorToast("Something went wrong");
       return;
     }
 
     showSuccessToast("order placed");
-
     dispatch(getOrdersService());
     dispatch(emptyCart(""));
   };

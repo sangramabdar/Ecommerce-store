@@ -16,11 +16,8 @@ import { Status } from "../api/constants";
 import { loginUserService } from "../api/auth";
 
 const loginSchema = yup.object().shape({
-  email: yup
-    .string()
-    .required("email is required")
-    .email("email must be valid"),
-  password: yup.string().required("password is required"),
+  email: yup.string().required("Required").email("email must be valid"),
+  password: yup.string().required("Required"),
 });
 
 const initialLoginInfo = {
@@ -34,6 +31,7 @@ function Login() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
   const { user } = useSelector<any, any>(state => state.auth);
+  const [loginInfo, setLoginInfo] = useState(null);
 
   useEffect(() => {
     if (!user) return;
@@ -44,6 +42,12 @@ function Login() {
     if (!loggedIn) return;
     navigate("/");
   }, [loggedIn]);
+
+  useEffect(() => {
+    if (!loginInfo) return;
+
+    loginUser(loginInfo);
+  }, [loginInfo]);
 
   const loginUser = async (user: any) => {
     const result = await loginUserService(user);
@@ -60,12 +64,10 @@ function Login() {
     setIsDisabled(false);
   };
 
-  const handleOnSubmit = (values: any) => {
+  const handleOnSubmit = (loginInfo: any) => {
     setIsDisabled(true);
     showLoadingToast("Processing");
-    setTimeout(() => {
-      loginUser(values);
-    }, 2);
+    setLoginInfo(loginInfo);
   };
 
   const { errors, touched, values, handleChange, handleBlur, handleSubmit } =

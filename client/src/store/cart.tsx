@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getRequest, postRequest, putRequest } from "../api/requests";
-import { BASE_URL, DEFAULT_HEADERS } from "../api/constants";
+import { BASE_URL, DEFAULT_HEADERS, Result, Status } from "../api/constants";
+import { handleTokenError } from "../utils/tokenError";
 
 const initialCart: {
   cartItems: any[];
@@ -99,6 +100,11 @@ function getCartItemsService() {
       ...DEFAULT_HEADERS,
       Authorization: "Bearer " + getState().auth.user.accessToken,
     });
+
+    if (result.status === Status.ERROR) {
+      handleTokenError(result.statusCode!!);
+      return;
+    }
 
     dispatch(loadInitialCartItems(result.data));
   };

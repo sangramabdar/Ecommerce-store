@@ -15,6 +15,7 @@ import { useMounAndUnMount } from "./utils/hooks";
 import CheckoutPage from "./pages/CheckoutPage";
 import ProductPage from "./pages/ProductPage";
 import OrderPage from "./pages/OrderPage";
+import ProductsPage from "./pages/ProductsPage";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function MainApplication() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/products" element={<ProductsPage />} />
             <Route path="/products/:id" element={<ProductPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />

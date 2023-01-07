@@ -2,9 +2,7 @@ import NavBar from "./NavBar";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import InputField from "./InputField";
-import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
-import { collection, addDoc } from "firebase/firestore";
 import {
   showErrorToast,
   showLoadingToast,
@@ -13,18 +11,15 @@ import {
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
-import { BASE_URL, DEFAULT_HEADERS, Status } from "../api/constants";
+import { Status } from "../api/constants";
 import { signUpUserService } from "../api/auth";
 
 const userSchema = yup.object().shape({
-  email: yup
-    .string()
-    .required("email is required")
-    .email("email must be valid"),
+  email: yup.string().required("Required").email("email must be valid"),
   password: yup
     .string()
-    .required("password is required")
-    .min(6, "password should be 6 characters"),
+    .required("Required")
+    .min(6, "password must be 8 and 20 characters"),
 });
 
 const initialUserInfo = {
@@ -37,6 +32,12 @@ function SignUp() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const { user } = useSelector<any, any>(state => state.auth);
+  const [signUpInfo, setSignUpinfo] = useState(null);
+
+  useEffect(() => {
+    if (!signUpInfo) return;
+    signUpUser(signUpInfo);
+  }, [signUpInfo]);
 
   useEffect(() => {
     if (!user) return;
@@ -62,10 +63,10 @@ function SignUp() {
     setIsDisabled(false);
   };
 
-  const handleOnSubmit = (values: any) => {
+  const handleOnSubmit = (signUpInfo: any) => {
     showLoadingToast("Processing");
     setIsDisabled(true);
-    signUpUser(values);
+    setSignUpinfo(signUpInfo);
   };
 
   const { errors, touched, values, handleChange, handleBlur, handleSubmit } =

@@ -5,6 +5,11 @@ import { showLoadingToast, showSuccessToast } from "../utils/toast";
 import { useNavigate } from "react-router-dom";
 import { removeItemFromCartService } from "../store/cart";
 import { useAuthentication } from "../utils/hooks";
+import {
+  validateAddress,
+  validateCity,
+  validatePincode,
+} from "../utils/validation";
 
 function OrderProduct(product: any) {
   const { id, image, title, price, quantity } = product;
@@ -67,6 +72,20 @@ function Checkout() {
   });
 
   const handlePlaceOrder = () => {
+    const address = validateAddress(orderAddress.address);
+    const city = validateCity(orderAddress.city);
+    const pincode = validatePincode(orderAddress.pincode);
+
+    if (address || city || pincode) {
+      setErrors(previous => ({
+        ...previous,
+        address,
+        city,
+        pincode,
+      }));
+      return;
+    }
+
     showLoadingToast("Processing");
     dispatch<any>(placeOrderService(orderAddress));
   };
@@ -79,15 +98,6 @@ function Checkout() {
       return {
         ...previous,
         [name]: value,
-      };
-    });
-
-    setErrors(previous => {
-      return {
-        ...previous,
-        address: "",
-        city: "",
-        pincode: "",
       };
     });
   };
@@ -112,6 +122,7 @@ function Checkout() {
                 name="address"
                 onChange={handleChange}
               />
+              <span className="text-red-600">{errors.address}</span>
             </div>
             <div className="flex flex-col">
               <span className="mb-1">City</span>
@@ -121,6 +132,7 @@ function Checkout() {
                 name="city"
                 onChange={handleChange}
               />
+              <span className="text-red-600">{errors.city}</span>
             </div>
             <div className="flex flex-col">
               <span className="mb-1">Pincode</span>
@@ -130,6 +142,7 @@ function Checkout() {
                 name="pincode"
                 onChange={handleChange}
               />
+              <span className="text-red-600">{errors.pincode}</span>
             </div>
           </div>
         </section>

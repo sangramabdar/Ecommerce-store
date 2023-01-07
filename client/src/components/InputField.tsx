@@ -32,7 +32,7 @@ function InputField({
         onBlur={onBlur}
         type={type}
       />
-      {isInvalid ? <span className="text-red-400">{error}</span> : null}
+      {isInvalid ? <span className="text-red-600">{error}</span> : null}
     </div>
   );
 }
