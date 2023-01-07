@@ -26,11 +26,13 @@ function OrderTable({ orders }: any) {
   return (
     <table className="border-black border-2 mx-auto my-3 bg-white rounded-md shadow-lg ">
       <thead>
-        <th className="border-black border-2 p-2">Id</th>
-        <th className="border-black border-2 p-2">TotalPrice</th>
-        <th className="border-black border-2 p-2">Address</th>
-        <th className="border-black border-2 p-2">City</th>
-        <th className="border-black border-2 p-2">Pincode</th>
+        <tr>
+          <th className="border-black border-2 p-2">Id</th>
+          <th className="border-black border-2 p-2">TotalPrice</th>
+          <th className="border-black border-2 p-2">Address</th>
+          <th className="border-black border-2 p-2">City</th>
+          <th className="border-black border-2 p-2">Pincode</th>
+        </tr>
       </thead>
       <tbody>
         {orders.map((order: any) => {

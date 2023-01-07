@@ -35,7 +35,7 @@ const cartSlice = createSlice({
               product.quantity--;
             }
 
-            product.price = product.originalPrice * product.quantity;
+            product.totalPrice = product.price * product.quantity;
           }
         }
       } else {
@@ -43,7 +43,7 @@ const cartSlice = createSlice({
 
         let newProduct = {
           ...action.payload.product,
-          originalPrice: action.payload.product.price,
+          totalPrice: action.payload.product.price,
         };
 
         newProduct.quantity = 1;
@@ -101,6 +101,8 @@ function getCartItemsService() {
       Authorization: "Bearer " + getState().auth.user.accessToken,
     });
 
+    console.log(result.data);
+
     if (result.status === Status.ERROR) {
       handleTokenError(result.statusCode!!);
       return;
@@ -119,12 +121,7 @@ function addItemToCartService(product: any, actionType: string) {
       })
     );
 
-    const cartItems = [...getState().cart.cartItems];
-
-    for (let i = 0; i < cartItems.length; i++) {
-      let { originalPrice, ...newItem } = cartItems[i];
-      cartItems[i] = newItem;
-    }
+    const cartItems = getState().cart.cartItems;
 
     const CART_URL = BASE_URL + "/carts";
     const result = await putRequest(

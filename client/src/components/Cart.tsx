@@ -14,6 +14,7 @@ interface CartProductPropsType {
   description: string;
   category: string;
   image: string;
+  totalPrice: number;
   rating: {
     rate: number;
     count: number;
@@ -21,7 +22,7 @@ interface CartProductPropsType {
 }
 
 function CartProduct(product: CartProductPropsType) {
-  const { image, title, price, quantity } = product;
+  const { image, title, price, quantity, totalPrice } = product;
 
   useEffect(() => {
     if (quantity > 0) return;
@@ -68,7 +69,7 @@ function CartProduct(product: CartProductPropsType) {
         -
       </button>
       <p className="text-center w-44">{title}</p>
-      <p className="text-center">$ {price}</p>
+      <p className="text-center">$ {totalPrice}</p>
       <button
         className="text-center p-1 rounded bg-violet-600 text-white"
         onClick={() => {
