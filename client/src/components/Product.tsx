@@ -1,4 +1,3 @@
-import { ProductType } from "../store/product";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { showErrorToast, showSuccessToast } from "../utils/toast";

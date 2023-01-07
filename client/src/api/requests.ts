@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { Result, Status } from "./constants";
 
 async function postRequest(
@@ -12,10 +12,7 @@ async function postRequest(
     const response = await axios.post(url, data, {
       headers,
     });
-
-    const responseBody = response.data;
-
-    return handleSuccess(result, responseBody);
+    return handleSuccess(result, response);
   } catch (error: any) {
     return handleError(result, error);
   }
@@ -28,10 +25,7 @@ async function getRequest(url: string, headers: {} = {}): Promise<Result> {
     const response = await axios.get(url, {
       headers,
     });
-
-    const responseBody = response.data;
-
-    return handleSuccess(result, responseBody);
+    return handleSuccess(result, response);
   } catch (error: any) {
     return handleError(result, error);
   }
@@ -48,10 +42,7 @@ async function putRequest(
     const response = await axios.put(url, data, {
       headers,
     });
-
-    const responseBody = response.data;
-
-    return handleSuccess(result, responseBody);
+    return handleSuccess(result, response);
   } catch (error: any) {
     return handleError(result, error);
   }
@@ -64,18 +55,16 @@ async function deleteRequest(url: string, headers: {} = {}): Promise<Result> {
     const response = await axios.delete(url, {
       headers,
     });
-    const responseBody = response.data;
-
-    return handleSuccess(result, responseBody);
+    return handleSuccess(result, response);
   } catch (error: any) {
     return handleError(result, error);
   }
 }
 
-function handleSuccess(result: Result, responseBody: any) {
-  result.statusCode = responseBody.statusCode;
+function handleSuccess(result: Result, response: AxiosResponse) {
+  result.statusCode = response.status;
   result.status = Status.SUCCESS;
-  result.data = responseBody.data;
+  result.data = response.data.data;
   return result;
 }
 
@@ -84,8 +73,10 @@ function handleError(result: Result, error: any) {
 
   if (!error.response) {
     result.error = "Network Error";
+    result.statusCode = 500;
     return result;
   }
+
   result.statusCode = error.response.status;
   result.error = error.response.data.error;
   return result;

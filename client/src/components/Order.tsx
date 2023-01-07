@@ -1,5 +1,4 @@
 import { useAuthentication, useMounAndUnMount } from "../utils/hooks";
-import NavBar from "./NavBar";
 import { useSelector } from "react-redux";
 import Loading from "./Loading";
 
