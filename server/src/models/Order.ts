@@ -38,6 +38,11 @@ const orderSchema = new mongoose.Schema(
       type: orderAddressSchema,
       required: true,
     },
+    orderStatus: {
+      type: String,
+      enum: ["DELIVERED", "PENDING"],
+      default: "PENDING",
+    },
   },
   { timestamps: true }
 );

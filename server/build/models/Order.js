@@ -37,6 +37,11 @@ const orderSchema = new mongoose_1.default.Schema({
         type: orderAddressSchema,
         required: true,
     },
+    orderStatus: {
+        type: String,
+        enum: ["DELIVERED", "PENDING"],
+        default: "PENDING",
+    },
 }, { timestamps: true });
 const Order = mongoose_1.default.model("orders", orderSchema);
 exports.default = Order;

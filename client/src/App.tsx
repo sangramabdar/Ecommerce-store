@@ -11,7 +11,7 @@ import Profile from "./components/Profile";
 import Order from "./components/Order";
 import { useEffect } from "react";
 import { loadInitialThings } from "./store/auth";
-import { useMounAndUnMount } from "./utils/hooks";
+
 import CheckoutPage from "./pages/CheckoutPage";
 import ProductPage from "./pages/ProductPage";
 import OrderPage from "./pages/OrderPage";

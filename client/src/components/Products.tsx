@@ -17,9 +17,7 @@ function Products() {
   useEffect(() => {
     if (products.length > 0) return;
 
-    setTimeout(() => {
-      dispatch<any>(getProducts());
-    }, 1000);
+    dispatch<any>(getProducts());
   }, []);
 
   if (status === STATUS.LOADING) {

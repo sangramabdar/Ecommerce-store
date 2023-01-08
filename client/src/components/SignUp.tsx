@@ -11,7 +11,7 @@ import {
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
-import { Status } from "../api/constants";
+import { RequestStatus } from "../api/constants";
 import { signUpUserService } from "../api/auth";
 
 const userSchema = yup.object().shape({
@@ -29,9 +29,8 @@ const initialUserInfo = {
 
 function SignUp() {
   const [isDisabled, setIsDisabled] = useState(false);
-  const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { user } = useSelector<any, any>(state => state.auth);
+  const user = useSelector<any, any>(state => state.auth.user);
   const [signUpInfo, setSignUpinfo] = useState(null);
 
   useEffect(() => {
@@ -44,18 +43,13 @@ function SignUp() {
     navigate("/");
   }, [user]);
 
-  useEffect(() => {
-    if (!error) return;
-    navigate("/login");
-  }, [error]);
-
   const signUpUser = async (user: any) => {
     const result = await signUpUserService(user);
     toast.dismiss();
 
-    if (result.status === Status.ERROR) {
+    if (result.status === RequestStatus.ERROR) {
       showErrorToast("Registered already");
-      setError("error");
+      navigate("/login");
       return;
     }
 
@@ -84,7 +78,7 @@ function SignUp() {
       "
         onSubmit={handleSubmit}
       >
-        <h1 className="font-bold m-5">Sign up</h1>
+        <h1 className="font-bold m-5">Sign Up</h1>
         <InputField
           name="email"
           error={errors.email}

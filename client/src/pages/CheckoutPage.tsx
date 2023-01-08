@@ -5,7 +5,7 @@ import Checkout from "../components/Checkout";
 function CheckoutPage() {
   return (
     <NavBar>
-      <h1 className="font-bold mb-5">Checkout Page</h1>
+      <h1 className="font-bold mb-5">Checkout</h1>
       <Checkout />
     </NavBar>
   );

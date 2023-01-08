@@ -108,8 +108,8 @@ function Checkout() {
         className="flex flex-col items-center
        space-y-6"
       >
-        <section>
-          <h1 className="font-bold text-lg">Address Info</h1>
+        <section className="flex flex-col w-full h-full">
+          <h1 className="font-bold text-lg flex">Delivery Address</h1>
           <div
             className="flex flex-col items-start space-y-3
     "

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getRequest, postRequest, putRequest } from "../api/requests";
-import { BASE_URL, DEFAULT_HEADERS, Result, Status } from "../api/constants";
+import { BASE_URL, DEFAULT_HEADERS, RequestStatus } from "../api/constants";
 import { handleTokenError } from "../utils/tokenError";
 
 const initialCart: {
@@ -13,7 +13,7 @@ const initialCart: {
 
 function calculateTotalPrice(cartItems: any[]): number {
   if (!cartItems) return 0;
-  return cartItems.reduce((sum, element) => sum + element.price, 0);
+  return cartItems.reduce((sum, element) => sum + element.totalPrice, 0);
 }
 
 const cartSlice = createSlice({
@@ -103,7 +103,7 @@ function getCartItemsService() {
 
     console.log(result.data);
 
-    if (result.status === Status.ERROR) {
+    if (result.status === RequestStatus.ERROR) {
       handleTokenError(result.statusCode!!);
       return;
     }

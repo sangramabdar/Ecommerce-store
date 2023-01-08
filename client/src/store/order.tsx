@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { emptyCart } from "./cart";
 import { getRequest, postRequest } from "../api/requests";
-import { BASE_URL, DEFAULT_HEADERS, Status } from "../api/constants";
+import { BASE_URL, DEFAULT_HEADERS, RequestStatus } from "../api/constants";
 import { showErrorToast, showSuccessToast } from "../utils/toast";
 import { toast } from "react-toastify";
 import { handleTokenError } from "../utils/tokenError";
@@ -41,7 +41,7 @@ function placeOrderService(orderAddress: any) {
 
     toast.dismiss();
 
-    if (result.status === Status.ERROR) {
+    if (result.status === RequestStatus.ERROR) {
       handleTokenError(result.statusCode!!);
       showErrorToast("Something went wrong");
       return;

@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { addItemToCartService, removeItemFromCartService } from "../store/cart";
-import { useAuthentication, useMounAndUnMount } from "../utils/hooks";
+import { useAuthentication } from "../utils/hooks";
 import { useEffect } from "react";
 import { showSuccessToast } from "../utils/toast";
 import Loading from "./Loading";
@@ -84,7 +84,6 @@ function CartProduct(product: CartProductPropsType) {
 
 function Cart() {
   const user = useAuthentication();
-  useMounAndUnMount("cart");
   const { cartItems, totalPrice } = useSelector<any, any>(state => state.cart);
 
   const navigate = useNavigate();

@@ -12,7 +12,7 @@ import {
   showLoadingToast,
   showSuccessToast,
 } from "../utils/toast";
-import { Status } from "../api/constants";
+import { RequestStatus } from "../api/constants";
 import { loginUserService } from "../api/auth";
 
 const loginSchema = yup.object().shape({
@@ -53,7 +53,7 @@ function Login() {
     const result = await loginUserService(user);
     toast.dismiss();
 
-    if (result.status === Status.ERROR) {
+    if (result.status === RequestStatus.ERROR) {
       showErrorToast("Invalid email or password");
     } else {
       localStorage.setItem("user", JSON.stringify(result.data));

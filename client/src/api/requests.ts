@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { Result, Status } from "./constants";
+import { Result, RequestStatus } from "./constants";
 
 async function postRequest(
   url: string,
@@ -63,13 +63,13 @@ async function deleteRequest(url: string, headers: {} = {}): Promise<Result> {
 
 function handleSuccess(result: Result, response: AxiosResponse) {
   result.statusCode = response.status;
-  result.status = Status.SUCCESS;
+  result.status = RequestStatus.SUCCESS;
   result.data = response.data.data;
   return result;
 }
 
 function handleError(result: Result, error: any) {
-  result.status = Status.ERROR;
+  result.status = RequestStatus.ERROR;
 
   if (!error.response) {
     result.error = "Network Error";

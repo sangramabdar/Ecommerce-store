@@ -31,10 +31,10 @@ function NavBar({ children }: any) {
         <nav className="flex bg-slate-200 top-0 left-0 right-0 fixed justify-between h-10 items-center p-3">
           <div className="md:ml-5">E-COMMERCE STORE</div>
           <div className="flex justify-evenly w-[300px]">
+            <Link to="">Home</Link>
             <Link to="/products">Products</Link>
             <Link to="/login">Login</Link>
-            <Link to="/signup">Signup</Link>
-            <Link to="">Home</Link>
+            <Link to="/signup">Sign Up</Link>
           </div>
         </nav>
         <main className="mt-12 ml-4">{children}</main>
@@ -48,8 +48,8 @@ function NavBar({ children }: any) {
         <div className="md:ml-5">E-COMMERCE STORE</div>
         <div className="flex justify-evenly gap-3">
           <button onClick={handleLogOut}>Log out</button>
-          <Link to="/products">Products</Link>
           <Link to="/">Home</Link>
+          <Link to="/products">Products</Link>
           <Link to="/cart">Cart</Link>
           {cartItems.length > 0 && (
             <p className="font-bold">: {cartItems.length}</p>
