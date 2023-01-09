@@ -28,13 +28,23 @@ function NavBar({ children }: any) {
   if (!user) {
     return (
       <>
-        <nav className="flex bg-slate-200 top-0 left-0 right-0 fixed justify-between h-10 items-center p-3">
+        <nav className="flex bg-slate-200 top-0 left-0 right-0 fixed justify-between h-12 items-center p-3 font-bold">
           <div className="md:ml-5">E-COMMERCE STORE</div>
           <div className="flex justify-evenly w-[300px]">
             <Link to="">Home</Link>
             <Link to="/products">Products</Link>
-            <Link to="/login">Login</Link>
-            <Link to="/signup">Sign Up</Link>
+            <Link
+              className="bg-violet-600 p-1 px-2 rounded-md text-white"
+              to="/login"
+            >
+              Login
+            </Link>
+            <Link
+              className="bg-violet-600 p-1 px-2 rounded-md text-white"
+              to="/signup"
+            >
+              Sign Up
+            </Link>
           </div>
         </nav>
         <main className="mt-12 ml-4">{children}</main>
@@ -44,17 +54,25 @@ function NavBar({ children }: any) {
 
   return (
     <>
-      <nav className="flex bg-slate-200 top-0 left-0 right-0 fixed justify-between h-10 items-center p-2">
+      <nav className="flex bg-slate-200 top-0 left-0 right-0 fixed justify-between h-12 items-center p-2 font-bold">
         <div className="md:ml-5">E-COMMERCE STORE</div>
-        <div className="flex justify-evenly gap-3">
-          <button onClick={handleLogOut}>Log out</button>
+        <div className="flex justify-evenly gap-3 items-center">
           <Link to="/">Home</Link>
           <Link to="/products">Products</Link>
-          <Link to="/cart">Cart</Link>
-          {cartItems.length > 0 && (
-            <p className="font-bold">: {cartItems.length}</p>
-          )}
+          <Link className="flex " to="/cart">
+            Cart
+            {cartItems.length > 0 && (
+              <p className="font-bold">: {cartItems.length}</p>
+            )}
+          </Link>
+
           <Link to="/orders">Orders</Link>
+          <button
+            className="bg-violet-600 py-1 px-2 rounded-md text-white"
+            onClick={handleLogOut}
+          >
+            Log out
+          </button>
         </div>
       </nav>
       <main className="mt-12 ml-4">{children}</main>

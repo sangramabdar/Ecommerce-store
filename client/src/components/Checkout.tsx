@@ -103,7 +103,7 @@ function Checkout() {
   };
 
   return (
-    <div className="bg-white rounded-md shadow-md p-5 w-[80%] mx-auto flex flex-col justify-center items-center max-w-[500px]">
+    <div className="bg-white rounded-md shadow-lg p-5 w-[80%] mx-auto flex flex-col justify-center items-center max-w-[500px]">
       <div
         className="flex flex-col items-center
        space-y-6"

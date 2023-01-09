@@ -43,7 +43,7 @@ function Product(product: any) {
   };
 
   return (
-    <div className="bg-white rounded-mg shadow-md mx-auto w-[70%] max-w-[500px]">
+    <div className="bg-white my-[80px] rounded-md shadow-lg mx-auto w-[70%] p-3 max-w-[500px]">
       <div
         className="flex justify-evenly p-3 space-y-2"
         key={id}

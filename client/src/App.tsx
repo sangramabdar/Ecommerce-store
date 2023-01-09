@@ -49,7 +49,7 @@ function MainApplication() {
             <Route path="/checkout" element={<CheckoutPage />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/orders" element={<OrderPage />} />
-            <Route path="*" element={<Navigate replace to="" />} />
+            <Route path="*" element={<Navigate replace to="/" />} />
           </Routes>
         </BrowserRouter>
       </div>

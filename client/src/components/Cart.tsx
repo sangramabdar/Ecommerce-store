@@ -48,21 +48,21 @@ function CartProduct(product: CartProductPropsType) {
   return (
     <div
       className="bg-white flex justify-between
-     p-2 items-center rounded-md h-fit lg:w-[70%] lg:mx-auto
+     p-2 items-center rounded-md shadow-lg h-fit lg:w-[70%] lg:mx-auto
       "
     >
       <div className="w-10">
-        <img className="h-fit w-12 object-cover" src={image} alt="" />
+        <img className="h-fit object-cover" src={image} alt="" />
       </div>
       <button
-        className="bg-violet-600 rounded-md w-7"
+        className="bg-violet-600 rounded-md w-7 font-bold text-white"
         onClick={handleIncrement}
       >
         +
       </button>
       <p className="text-center ">{quantity}</p>
       <button
-        className="bg-violet-600 rounded-md w-7"
+        className="bg-violet-600 text-white font-bold rounded-md w-7"
         disabled={quantity === 0 ? true : false}
         onClick={handleDecrement}
       >

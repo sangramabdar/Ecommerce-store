@@ -54,7 +54,7 @@ function Product(product: any) {
 
   return (
     <div
-      className="flex flex-col justify-evenly items-center bg-white rounded h-[250px]"
+      className="flex flex-col justify-evenly items-center bg-white rounded-md h-[250px] shadow-lg"
       key={id}
       onClick={handleProductPageNavigation}
     >
