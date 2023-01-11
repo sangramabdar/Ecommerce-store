@@ -23,7 +23,7 @@ function OrderProduct(product: any) {
 
   return (
     <div
-      className="bg-white flex justify-between
+      className="flex justify-between
      p-2 items-center rounded-md space-x-6
       "
     >
@@ -34,14 +34,14 @@ function OrderProduct(product: any) {
       <p className="text-center ">{quantity}</p>
       <p className="text-center w-44">{title}</p>
       <p className="text-center w-10">$ {price}</p>
-      <button
+      {/* <button
         className="text-center p-1 rounded bg-violet-600 text-white"
         onClick={() => {
           handleRemoveProduct(id);
         }}
       >
         remove
-      </button>
+      </button> */}
     </div>
   );
 }
@@ -103,12 +103,12 @@ function Checkout() {
   };
 
   return (
-    <div className="bg-white rounded-md shadow-lg p-5 w-[80%] mx-auto flex flex-col justify-center items-center max-w-[500px]">
+    <div className="bg-white rounded-md shadow-lg p-5s sm:w-[80%] mx-auto flex flex-col justify-center items-center max-w-[600px]">
       <div
         className="flex flex-col items-center
        space-y-6"
       >
-        <section className="flex flex-col w-full h-full">
+        <section className="flex flex-col justify-center items-center w-full h-full">
           <h1 className="font-bold text-lg flex">Delivery Address</h1>
           <div
             className="flex flex-col items-start space-y-3
@@ -147,16 +147,18 @@ function Checkout() {
           </div>
         </section>
         <section>
-          <h1 className="font-bold text-lg">Order Summary</h1>
+          <h1 className="font-bold text-lg flex flex-col justify-center   items-center">
+            Order Summary
+          </h1>
           {cartItems.map((item: any) => {
             return <OrderProduct key={item.id} {...item} />;
           })}
-          <span className="mt-2">Total Price : $ {totalPrice}</span>
+          <span className="mt-2 ml-2s">Total Price : $ {totalPrice}</span>
         </section>
       </div>
       <button
         onClick={handlePlaceOrder}
-        className=" bg-violet-600 p-1 text-white rounded-md mt-4"
+        className=" bg-violet-600 mb-2 p-1 text-white rounded-md mt-4"
       >
         Place Order
       </button>

@@ -17,14 +17,11 @@ async function validateCartDto(req: Request, res: Response, next) {
     if (!Array.isArray(cartItems))
       return next(new BadRequest("cartItems is required"));
 
-    // if (cartItems.length == 0)
-    //   return next(new BadRequest("items must be provided in cartItems"));
-
     const newcartItems = [];
     let finalOrder = {};
 
     for (let order of cartItems) {
-      finalOrder = await cartDto.validate(order);
+      finalOrder = await cartDto.validate(order, { stripUnknown: true });
       newcartItems.push(finalOrder);
     }
 

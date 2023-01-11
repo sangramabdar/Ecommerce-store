@@ -44,7 +44,7 @@ function OrderTable() {
     );
 
   return (
-    <div className="relative overflow-x-auto shadow-md sm:rounded-lg bg-white p-4">
+    <div className="overflow-x-auto shadow-md sm:rounded-lg bg-white p-4">
       <table className="table-auto w-full text-sm text-center">
         <thead className="text-xs text-gray-700 uppercase font-bold">
           <tr>

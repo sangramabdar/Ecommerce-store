@@ -48,7 +48,7 @@ function CartProduct(product: CartProductPropsType) {
   return (
     <div
       className="bg-white flex justify-between
-     p-2 items-center rounded-md shadow-lg h-fit lg:w-[70%] lg:mx-auto
+    p-2 items-center  rounded-md shadow-lg h-fit sm:w-[70%] sm:mx-auto
       "
     >
       <div className="w-10">

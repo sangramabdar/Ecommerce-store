@@ -1,7 +1,6 @@
 import { Response, Request, NextFunction } from "express";
 import { CustomError } from "./exceptions";
 import ResponseBodyBuilder from "./responseBodyBuilder";
-import { ValidationError } from "yup";
 
 function invalidPathHandler(
   request: Request,

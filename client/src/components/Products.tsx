@@ -5,6 +5,7 @@ import Product from "./Product";
 import Loading from "./Loading";
 
 function Products() {
+  console.log("products");
   const dispatch = useDispatch();
   const { data: products, status } = useSelector<
     any,

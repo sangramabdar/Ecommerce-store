@@ -7,7 +7,7 @@ function HomePage() {
       <div className="flex justify-center items-center m-28">
         <Link
           to="/products"
-          className="btn bg-violet-600 rounded-md p-2 text-white"
+          className="btn bg-violet-600 rounded-md p-2 text-center text-white"
         >
           Start Shopping
         </Link>
