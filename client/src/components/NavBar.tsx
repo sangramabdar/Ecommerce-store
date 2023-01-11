@@ -13,8 +13,8 @@ function SideNavigation({ open }: { open: boolean }) {
 
   return (
     <div className={classes}>
-      <div className="flex flex-col justify-center items-center pt-12 space-y-5">
-        <Link className="m-2" to="">
+      <div className="flex flex-col justify-center items-center pt-12">
+        <Link className="m-2" to="/">
           Home
         </Link>
         <Link className="m-2" to="/products">
@@ -53,8 +53,8 @@ function LogOutSideNavigation({
 
   return (
     <div className={classes}>
-      <div className="flex flex-col justify-center items-center pt-12 space-y-5">
-        <Link className="" to="/">
+      <div className="flex flex-col justify-center items-center pt-12">
+        <Link className="m-2" to="/">
           Home
         </Link>
         <Link className="m-2" to="/products">
@@ -81,7 +81,6 @@ function LogOutSideNavigation({
 }
 
 function NavBar({ children }: any) {
-  console.log("navbar");
   const { user } = useSelector<any, any>(state => state.auth);
   const { cartItems } = useSelector<any, any>(state => state.cart);
 
@@ -116,18 +115,18 @@ function NavBar({ children }: any) {
           <div className="md:ml-5">E-COMMERCE STORE</div>
           {open ? (
             <ImCross
-              className="sm:hidden h-6 w-10 z-10"
+              className="h-6 w-10 z-10 md:hidden"
               onClick={handleSideNavbarClick}
             />
           ) : (
             <GiHamburgerMenu
-              className="sm:hidden h-8 w-10 z-10"
+              className="h-6 w-10 z-10 md:hidden"
               onClick={handleSideNavbarClick}
             />
           )}
           <SideNavigation open={open} />
-          <div className="hidden sm:flex sm:justify-evenly w-[300px] sm:items-center">
-            <Link to="">Home</Link>
+          <div className="hidden md:flex justify-evenly w-[300px] items-center">
+            <Link to="/">Home</Link>
             <Link to="/products">Products</Link>
             <Link
               className="bg-violet-600 p-1 px-2 rounded-md text-white"
@@ -143,7 +142,7 @@ function NavBar({ children }: any) {
             </Link>
           </div>
         </nav>
-        <main className="mt-12 ml-4">{children}</main>
+        <main className="mt-12">{children}</main>
       </>
     );
   }
@@ -154,12 +153,12 @@ function NavBar({ children }: any) {
         <div className="md:ml-5">E-COMMERCE STORE</div>
         {open ? (
           <ImCross
-            className="sm:hidden h-6 w-10 z-10"
+            className="md:hidden h-6 w-10 z-10"
             onClick={handleSideNavbarClick}
           />
         ) : (
           <GiHamburgerMenu
-            className="sm:hidden h-8 w-10 z-10"
+            className="md:hidden h-8 w-10 z-10"
             onClick={handleSideNavbarClick}
           />
         )}
@@ -168,7 +167,7 @@ function NavBar({ children }: any) {
           cartItems={cartItems}
           handleLogOut={handleLogOut}
         />
-        <div className="hidden sm:flex sm:justify-evenly gap-3 items-center">
+        <div className="hidden md:flex justify-evenly gap-3 items-center">
           <Link to="/">Home</Link>
           <Link to="/products">Products</Link>
           <Link className="flex " to="/cart">
@@ -187,7 +186,7 @@ function NavBar({ children }: any) {
           </button>
         </div>
       </nav>
-      <main className="mt-12 ml-4">{children}</main>
+      <main className="mt-12">{children}</main>
     </>
   );
 }

@@ -30,9 +30,9 @@ function Products() {
   }
 
   return (
-    <div className="">
+    <div>
       <h1 className="font-bold mb-5">Products</h1>
-      <div className="grid grid-cols-2 gap-5 md:grid-cols-4">
+      <div className="grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-4">
         {products.map(product => {
           return <Product key={product.id} {...product} />;
         })}

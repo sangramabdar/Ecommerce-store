@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -43,9 +43,9 @@ function Product(product: any) {
   };
 
   return (
-    <div className="bg-white my-[80px] rounded-md shadow-lg mx-auto w-[70%] p-3 max-w-[500px]">
+    <div className="bg-white my-[80px] rounded-md shadow-lg w-full p-3 md:max-w-[500px] md:mx-auto">
       <div
-        className="flex justify-evenly p-3 space-y-2"
+        className="flex flex-col p-3 space-y-2 justify-center items-center md:flex-row md:justify-evenly "
         key={id}
         onClick={handleProductPageNavigation}
       >

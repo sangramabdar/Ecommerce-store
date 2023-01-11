@@ -33,7 +33,7 @@ function OrderProduct(product: any) {
 
       <p className="text-center ">{quantity}</p>
       <p className="text-center w-44">{title}</p>
-      <p className="text-center w-10">$ {price}</p>
+      <p className="text-center w-10">${price}</p>
       {/* <button
         className="text-center p-1 rounded bg-violet-600 text-white"
         onClick={() => {
@@ -153,7 +153,7 @@ function Checkout() {
           {cartItems.map((item: any) => {
             return <OrderProduct key={item.id} {...item} />;
           })}
-          <span className="mt-2 ml-2s">Total Price : $ {totalPrice}</span>
+          <span className="mt-2 ml-2s">Total Price : ${totalPrice}</span>
         </section>
       </div>
       <button

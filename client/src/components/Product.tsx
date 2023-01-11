@@ -60,7 +60,7 @@ function Product(product: any) {
     >
       <img className="h-fit w-9 object-cover" src={image} />
       <p className="text-center font-bold">{title}</p>
-      <p className="text-center font-bold"> {price}</p>
+      <p className="text-center font-bold">Price : ${price}</p>
       <button
         className="bg-violet-600 font-bold text-white rounded p-1"
         onClick={e => {
