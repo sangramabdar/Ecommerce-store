@@ -1,5 +1,11 @@
 import { Provider, useDispatch, useSelector } from "react-redux";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 import "./App.css";
 import CartPage from "./pages/CartPage";
 import HomePage from "./pages/HomePage";
@@ -16,17 +22,37 @@ import CheckoutPage from "./pages/CheckoutPage";
 import ProductPage from "./pages/ProductPage";
 import OrderPage from "./pages/OrderPage";
 import ProductsPage from "./pages/ProductsPage";
+import { AnimatePresence, Variants } from "framer-motion";
+
+const variants: Variants = {
+  initial: {
+    opacity: 0,
+    y: 20,
+  },
+  animate: {
+    opacity: 1,
+    y: 0,
+  },
+  exit: {
+    opacity: 0,
+    x: "100%",
+  },
+};
 
 function App() {
   return (
     <Provider store={store}>
-      <MainApplication />
+      <BrowserRouter>
+        <MainApplication />
+      </BrowserRouter>
     </Provider>
   );
 }
 
 function MainApplication() {
+  const location = useLocation();
   const dispatch = useDispatch();
+
   const user = useSelector<any, any>(state => state.auth.user);
 
   useEffect(() => {
@@ -38,8 +64,8 @@ function MainApplication() {
   return (
     <>
       <div className="App bg-slate-100 px-4 pb-4 h-fit">
-        <BrowserRouter>
-          <Routes>
+        <AnimatePresence mode="wait">
+          <Routes location={location} key={location.pathname}>
             <Route path="/" element={<HomePage />} />
             <Route path="/products" element={<ProductsPage />} />
             <Route path="/products/:id" element={<ProductPage />} />
@@ -51,7 +77,7 @@ function MainApplication() {
             <Route path="/orders" element={<OrderPage />} />
             <Route path="*" element={<Navigate replace to="/" />} />
           </Routes>
-        </BrowserRouter>
+        </AnimatePresence>
       </div>
       <ToastContainer />
     </>

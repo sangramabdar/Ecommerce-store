@@ -30,7 +30,7 @@ function Login() {
   const navigate = useNavigate();
   const [loggedIn, setLoggedIn] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
-  const { user } = useSelector<any, any>(state => state.auth);
+  const user = useSelector<any, any>(state => state.auth.user);
   const [loginInfo, setLoginInfo] = useState(null);
 
   useEffect(() => {

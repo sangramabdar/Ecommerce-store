@@ -1,11 +1,13 @@
-import React from "react";
 import NavBar from "../components/NavBar";
 import Products from "../components/Products";
+import VariantAnimation from "../components/VariantAnimation";
 
 function ProductsPage() {
   return (
     <NavBar>
-      <Products />
+      <VariantAnimation>
+        <Products />
+      </VariantAnimation>
     </NavBar>
   );
 }

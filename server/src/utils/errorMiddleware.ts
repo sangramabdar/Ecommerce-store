@@ -29,7 +29,6 @@ async function handleClientError(
   }
 
   if (error.name === "ValidationError") {
-    console.log("first");
     responseBody.setStatusCode(400);
     responseBody.setError(error.message);
     res.status(400).json(responseBody);

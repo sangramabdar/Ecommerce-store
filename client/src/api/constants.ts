@@ -1,6 +1,7 @@
 enum RequestStatus {
   SUCCESS = "SUCCESS",
   ERROR = "ERROR",
+  LOADING = "LOADING",
 }
 
 interface Result {

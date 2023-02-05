@@ -44,9 +44,9 @@ const cartSlice = createSlice({
         let newProduct = {
           ...action.payload.product,
           totalPrice: action.payload.product.price,
+          quantity: 1,
         };
 
-        newProduct.quantity = 1;
         state.cartItems.push(newProduct);
       }
 
@@ -100,8 +100,6 @@ function getCartItemsService() {
       ...DEFAULT_HEADERS,
       Authorization: "Bearer " + getState().auth.user.accessToken,
     });
-
-    console.log(result.data);
 
     if (result.status === RequestStatus.ERROR) {
       handleTokenError(result.statusCode!!);
