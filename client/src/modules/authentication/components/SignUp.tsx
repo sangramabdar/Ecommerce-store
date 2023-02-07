@@ -1,4 +1,3 @@
-import NavBar from "../../../components/NavBar";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import InputField from "./InputField";
@@ -11,8 +10,8 @@ import {
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
-import { RequestStatus } from "../../../api/constants";
-import { signUpUserService } from "../api/auth";
+import { RequestStatus } from "../../../services/constants";
+import { signUpUserService } from "../services/auth";
 
 const userSchema = yup.object().shape({
   email: yup.string().required("Required").email("email must be valid"),

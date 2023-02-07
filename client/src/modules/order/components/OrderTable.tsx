@@ -1,7 +1,7 @@
-import { useAuthentication } from "../../../utils/hooks";
 import { useSelector } from "react-redux";
 import Loading from "../../../components/Loading";
 import OrderRow from "./OrderRow";
+import useAuthentication from "../../../hooks/useAuthentication";
 
 function OrderTable() {
   useAuthentication();

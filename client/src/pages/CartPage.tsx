@@ -1,6 +1,5 @@
 import Cart from "../modules/cart/components/Cart";
 import MountAndUnmountAnimation from "../components/MountAndUnmountAnimation";
-import NavBar from "../components/NavBar";
 
 function CartPage() {
   return (

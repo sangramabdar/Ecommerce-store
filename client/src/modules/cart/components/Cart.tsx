@@ -1,8 +1,8 @@
 import { useSelector } from "react-redux";
-import { useAuthentication } from "../../../utils/hooks";
 import Loading from "../../../components/Loading";
 import { useNavigate } from "react-router-dom";
 import CartProduct from "./CartProduct";
+import useAuthentication from "../../../hooks/useAuthentication";
 
 function Cart() {
   const user = useAuthentication();

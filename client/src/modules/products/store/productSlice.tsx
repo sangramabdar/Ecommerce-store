@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { PRODUCT_BASE_URL } from "../../../api/constants";
 
 interface ProductType {
   id: number;
@@ -45,23 +44,6 @@ const productSlice = createSlice({
 
 let { saveProducts, setStatus } = productSlice.actions;
 
-const PRODUCTS_URL = PRODUCT_BASE_URL + "/products";
-
-function getProducts() {
-  return async function (dispatch: any, getState: any) {
-    try {
-      dispatch(setStatus(STATUS.LOADING));
-      const response = await fetch(PRODUCTS_URL);
-      const data = await response.json();
-      dispatch(setStatus(STATUS.SUCCESS));
-      dispatch(saveProducts(data));
-    } catch (error) {
-      dispatch(setStatus(STATUS.ERROR));
-    }
-  };
-}
-
-export { saveProducts, setStatus, getProducts, STATUS };
+export { saveProducts, setStatus, STATUS };
 export type { ProductType };
-
 export default productSlice.reducer;

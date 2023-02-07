@@ -1,14 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
-
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { STATUS, getProducts } from "../store/product";
+import { STATUS } from "../store/productSlice";
 import Loading from "../../../components/Loading";
+import { showErrorToast, showSuccessToast } from "../../../utils/toast";
+import { getProductsService } from "../services/products";
 import {
   addItemToCartService,
   removeItemFromCartService,
-} from "../../cart/store/cart";
-import { showErrorToast, showSuccessToast } from "../../../utils/toast";
+} from "../../cart/services/cart";
 
 function Product(product: any) {
   const { category, description, id, price, rating, title, image } = product;
@@ -91,7 +91,7 @@ function ProductDescription() {
 
   useEffect(() => {
     if (data.length > 0) return;
-    dispatch<any>(getProducts());
+    dispatch<any>(getProductsService());
   }, []);
 
   if (status === STATUS.LOADING) return <Loading />;

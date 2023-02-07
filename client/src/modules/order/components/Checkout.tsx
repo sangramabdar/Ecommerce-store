@@ -1,16 +1,15 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
-import { placeOrderService } from "../store/order";
 import { showLoadingToast, showSuccessToast } from "../../../utils/toast";
 import { useNavigate } from "react-router-dom";
-import { removeItemFromCartService } from "../../cart/store/cart";
-import { useAuthentication } from "../../../utils/hooks";
 import {
   validateAddress,
   validateCity,
   validatePincode,
 } from "../../../utils/validation";
 import OrderProduct from "./OrderProduct";
+import useAuthentication from "../../../hooks/useAuthentication";
+import { placeOrderService } from "../services/order";
 
 function Checkout() {
   useAuthentication();

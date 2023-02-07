@@ -1,7 +1,5 @@
-import React from "react";
-import NavBar from "../components/NavBar";
 import MountAndUnmountAnimation from "../components/MountAndUnmountAnimation";
-import SignUp from "../modules/auth/components/SignUp";
+import SignUp from "../modules/authentication/components/SignUp";
 
 function SignUpPage() {
   return (

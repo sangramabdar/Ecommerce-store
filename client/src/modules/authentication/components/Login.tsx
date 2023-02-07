@@ -1,10 +1,9 @@
-import NavBar from "../../../components/NavBar";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import InputField from "./InputField";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { addUser } from "../store/auth";
+import { addUser } from "../store/authSlice";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import {
@@ -12,8 +11,8 @@ import {
   showLoadingToast,
   showSuccessToast,
 } from "../../../utils/toast";
-import { RequestStatus } from "../../../api/constants";
-import { loginUserService } from "../api/auth";
+import { RequestStatus } from "../../../services/constants";
+import { loginUserService } from "../services/auth";
 
 const loginSchema = yup.object().shape({
   email: yup.string().required("Required").email("email must be valid"),

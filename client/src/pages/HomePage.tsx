@@ -1,8 +1,4 @@
-import { motion, Variants } from "framer-motion";
-import MountAndUnmountAnimation, {
-  variants,
-} from "../components/MountAndUnmountAnimation";
-import NavBar from "../components/NavBar";
+import MountAndUnmountAnimation from "../components/MountAndUnmountAnimation";
 import { Link } from "react-router-dom";
 
 function HomePage() {

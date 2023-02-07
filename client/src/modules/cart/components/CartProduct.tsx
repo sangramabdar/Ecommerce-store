@@ -1,7 +1,10 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { removeItemFromCartService, addItemToCartService } from "../store/cart";
 import { showSuccessToast } from "../../../utils/toast";
+import {
+  removeItemFromCartService,
+  addItemToCartService,
+} from "../services/cart";
 
 interface CartProductPropsType {
   quantity: number;

@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts, ProductType, STATUS } from "../store/product";
+import { ProductType, STATUS } from "../store/productSlice";
 import Product from "./Product";
 import Loading from "../../../components/Loading";
+import { getProductsService } from "../services/products";
 
 function Products() {
   console.log("products");
@@ -19,7 +20,7 @@ function Products() {
     if (products.length > 0) return;
 
     setTimeout(() => {
-      dispatch<any>(getProducts());
+      dispatch<any>(getProductsService());
     }, 2000);
   }, []);
 

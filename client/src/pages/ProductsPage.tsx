@@ -1,5 +1,4 @@
 import MountAndUnmountAnimation from "../components/MountAndUnmountAnimation";
-import NavBar from "../components/NavBar";
 import Products from "../modules/products/components/Products";
 
 function ProductsPage() {

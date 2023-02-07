@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { showSuccessToast } from "../../../utils/toast";
-import { removeItemFromCartService } from "../../cart/store/cart";
+import { removeItemFromCartService } from "../../cart/services/cart";
 
 function OrderProduct(product: any) {
   const { id, image, title, price, quantity } = product;

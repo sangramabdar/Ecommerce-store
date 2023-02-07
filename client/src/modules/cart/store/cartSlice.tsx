@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getRequest, postRequest, putRequest } from "../../../api/requests";
+import { getRequest, putRequest } from "../../../services/requests";
 import {
   BASE_URL,
   DEFAULT_HEADERS,
   RequestStatus,
-} from "../../../api/constants";
+} from "../../../services/constants";
 import { handleTokenError } from "../../../utils/tokenError";
 
 const initialCart: {
@@ -79,74 +79,9 @@ const cartSlice = createSlice({
   },
 });
 
-function removeItemFromCartService(product: any) {
-  return async function (dispatch: any, getState: any) {
-    dispatch(removeFromCart(product));
-
-    const cartItems = getState().cart.cartItems;
-
-    const CART_URL = BASE_URL + "/carts";
-    const result = await putRequest(
-      CART_URL,
-      { cartItems },
-      {
-        ...DEFAULT_HEADERS,
-        Authorization: "Bearer " + getState().auth.user.accessToken,
-      }
-    );
-  };
-}
-
-function getCartItemsService() {
-  return async function (dispatch: any, getState: any) {
-    const CART_URL = BASE_URL + "/carts";
-    const result = await getRequest(CART_URL, {
-      ...DEFAULT_HEADERS,
-      Authorization: "Bearer " + getState().auth.user.accessToken,
-    });
-
-    if (result.status === RequestStatus.ERROR) {
-      handleTokenError(result.statusCode!!);
-      return;
-    }
-
-    dispatch(loadInitialCartItems(result.data));
-  };
-}
-
-function addItemToCartService(product: any, actionType: string) {
-  return async function (dispatch: any, getState: any) {
-    dispatch(
-      addToCart({
-        product,
-        actionType,
-      })
-    );
-
-    const cartItems = getState().cart.cartItems;
-
-    const CART_URL = BASE_URL + "/carts";
-    const result = await putRequest(
-      CART_URL,
-      { cartItems },
-      {
-        ...DEFAULT_HEADERS,
-        Authorization: "Bearer " + getState().auth.user.accessToken,
-      }
-    );
-  };
-}
-
 const { addToCart, removeFromCart, loadInitialCartItems, emptyCart } =
   cartSlice.actions;
 
-export {
-  addToCart,
-  removeFromCart,
-  emptyCart,
-  addItemToCartService,
-  getCartItemsService,
-  removeItemFromCartService,
-};
+export { addToCart, removeFromCart, emptyCart, loadInitialCartItems };
 
 export default cartSlice.reducer;

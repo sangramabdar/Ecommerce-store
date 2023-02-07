@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { MouseEventHandler, useEffect, useState } from "react";
-import { addUser, removeUser } from "../modules/auth/store/auth";
+import { addUser, removeUser } from "../modules/authentication/store/authSlice";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { ImCross } from "react-icons/im";
 import { motion } from "framer-motion";

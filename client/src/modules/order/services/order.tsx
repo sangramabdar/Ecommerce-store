@@ -1,39 +1,19 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { emptyCart } from "../../cart/store/cart";
-import { getRequest, postRequest } from "../../../api/requests";
+import { toast } from "react-toastify";
 import {
   BASE_URL,
   DEFAULT_HEADERS,
   RequestStatus,
-} from "../../../api/constants";
+} from "../../../services/constants";
+import { postRequest, getRequest } from "../../../services/requests";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
-import { toast } from "react-toastify";
 import { handleTokenError } from "../../../utils/tokenError";
+import { emptyCart } from "../../cart/store/cartSlice";
+import { loadInitialOrders } from "../store/orderSlice";
 
-const initialOrders: {
-  orders: any;
-} = {
-  orders: null,
-};
-
-const orderSlice = createSlice({
-  name: "order",
-  initialState: initialOrders,
-  reducers: {
-    loadInitialOrders(state, action) {
-      state.orders = [...action.payload];
-    },
-
-    addOrder(state, action) {
-      if (!state.orders) state.orders = [];
-      state.orders.push(action.payload);
-    },
-  },
-});
+const ORDER_URL = BASE_URL + "/orders";
 
 function placeOrderService(orderAddress: any) {
   return async function (dispatch: any, getState: any) {
-    const ORDER_URL = BASE_URL + "/orders";
     const result = await postRequest(
       ORDER_URL,
       { orderAddress },
@@ -59,7 +39,6 @@ function placeOrderService(orderAddress: any) {
 
 function getOrdersService() {
   return async function (dispatch: any, getState: any) {
-    const ORDER_URL = BASE_URL + "/orders";
     const result = await getRequest(ORDER_URL, {
       ...DEFAULT_HEADERS,
       Authorization: "Bearer " + getState().auth.user.accessToken,
@@ -69,8 +48,4 @@ function getOrdersService() {
   };
 }
 
-const { loadInitialOrders, addOrder } = orderSlice.actions;
-
-export { placeOrderService, getOrdersService };
-
-export default orderSlice.reducer;
+export { getOrdersService, placeOrderService };

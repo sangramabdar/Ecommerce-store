@@ -64,7 +64,13 @@ async function deleteRequest(url: string, headers: {} = {}): Promise<Result> {
 function handleSuccess(result: Result, response: AxiosResponse) {
   result.statusCode = response.status;
   result.status = RequestStatus.SUCCESS;
-  result.data = response.data.data;
+
+  if (response.data.data) {
+    result.data = response.data.data;
+  } else {
+    result.data = response.data;
+  }
+
   return result;
 }
 

@@ -11,19 +11,16 @@ import CartPage from "./pages/CartPage";
 import HomePage from "./pages/HomePage";
 import store from "./store/store";
 import { ToastContainer } from "react-toastify";
-import Login from "./modules/auth/components/Login";
-import SignUp from "./modules/auth/components/SignUp";
 import { useEffect } from "react";
-import { loadInitialThings } from "./modules/auth/store/auth";
-
 import CheckoutPage from "./pages/CheckoutPage";
 import ProductPage from "./pages/ProductPage";
 import OrderPage from "./pages/OrderPage";
 import ProductsPage from "./pages/ProductsPage";
-import { AnimatePresence, Variants } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import NavBar from "./components/NavBar";
+import { loadInitialThingsService } from "./modules/authentication/services/auth";
 
 function App() {
   return (
@@ -44,7 +41,7 @@ function MainApplication() {
   useEffect(() => {
     if (!user) return;
 
-    dispatch<any>(loadInitialThings());
+    dispatch<any>(loadInitialThingsService());
   }, [user]);
 
   return (

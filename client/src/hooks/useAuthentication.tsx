@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addUser } from "../modules/auth/store/auth";
+import { useNavigate } from "react-router-dom";
+import { addUser } from "../modules/authentication/store/authSlice";
 
 function useAuthentication() {
   const navigate = useNavigate();
@@ -23,13 +23,4 @@ function useAuthentication() {
   return user;
 }
 
-function useMounAndUnMount(name: string) {
-  useEffect(() => {
-    console.log(name + " mounted");
-    return () => {
-      console.log(name + " unmounted");
-    };
-  }, []);
-}
-
-export { useAuthentication, useMounAndUnMount };
+export default useAuthentication;

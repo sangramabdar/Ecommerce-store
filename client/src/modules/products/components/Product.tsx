@@ -5,8 +5,7 @@ import { useMemo } from "react";
 import {
   addItemToCartService,
   removeItemFromCartService,
-} from "../../cart/store/cart";
-
+} from "../../cart/services/cart";
 interface ProductPropstype {
   id: number;
   title: string;

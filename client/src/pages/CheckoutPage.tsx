@@ -1,5 +1,3 @@
-import React from "react";
-import NavBar from "../components/NavBar";
 import Checkout from "../modules/order/components/Checkout";
 import MountAndUnmountAnimation from "../components/MountAndUnmountAnimation";
 
