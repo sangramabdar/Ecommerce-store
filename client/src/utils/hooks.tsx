@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addUser } from "../store/auth";
+import { addUser } from "../modules/auth/store/auth";
 
 function useAuthentication() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { user } = useSelector<any, any>(state => state.auth);
+  const user = useSelector<any, any>(state => state.auth.user);
 
   useEffect(() => {
     if (user) return;

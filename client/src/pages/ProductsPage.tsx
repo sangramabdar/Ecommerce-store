@@ -1,14 +1,12 @@
 import MountAndUnmountAnimation from "../components/MountAndUnmountAnimation";
 import NavBar from "../components/NavBar";
-import Products from "../components/Products";
+import Products from "../modules/products/components/Products";
 
 function ProductsPage() {
   return (
-    <NavBar>
-      <MountAndUnmountAnimation>
-        <Products />
-      </MountAndUnmountAnimation>
-    </NavBar>
+    <MountAndUnmountAnimation>
+      <Products />
+    </MountAndUnmountAnimation>
   );
 }
 

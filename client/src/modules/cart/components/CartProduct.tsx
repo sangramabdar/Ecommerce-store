@@ -1,10 +1,7 @@
-import { useDispatch, useSelector } from "react-redux";
-import { addItemToCartService, removeItemFromCartService } from "../store/cart";
-import { useAuthentication } from "../utils/hooks";
 import { useEffect } from "react";
-import { showSuccessToast } from "../utils/toast";
-import Loading from "./Loading";
-import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { removeItemFromCartService, addItemToCartService } from "../store/cart";
+import { showSuccessToast } from "../../../utils/toast";
 
 interface CartProductPropsType {
   quantity: number;
@@ -87,41 +84,4 @@ function CartProduct(product: CartProductPropsType) {
   );
 }
 
-function Cart() {
-  const user = useAuthentication();
-  const { cartItems, totalPrice } = useSelector<any, any>(state => state.cart);
-
-  const navigate = useNavigate();
-
-  const handleCheckout = () => {
-    navigate("/checkout");
-  };
-
-  if (!user) {
-    return <Loading />;
-  }
-
-  return (
-    <div className="flex flex-col gap-5">
-      {cartItems.map((item: any) => {
-        return <CartProduct key={item.id} {...item} />;
-      })}
-
-      {cartItems.length ? (
-        <div className="flex justify-end">Total Price : $ {totalPrice}</div>
-      ) : null}
-      {cartItems.length ? (
-        <div className="flex justify-end">
-          <button
-            className="bg-violet-600 text-white rounded-md p-2"
-            onClick={handleCheckout}
-          >
-            Proceed to checkout
-          </button>
-        </div>
-      ) : null}
-    </div>
-  );
-}
-
-export default Cart;
+export default CartProduct;

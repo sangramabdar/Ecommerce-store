@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { PRODUCT_BASE_URL } from "../api/constants";
+import { PRODUCT_BASE_URL } from "../../../api/constants";
 
 interface ProductType {
   id: number;

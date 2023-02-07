@@ -1,4 +1,4 @@
-import NavBar from "./NavBar";
+import NavBar from "../../../components/NavBar";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import InputField from "./InputField";
@@ -11,8 +11,8 @@ import {
   showErrorToast,
   showLoadingToast,
   showSuccessToast,
-} from "../utils/toast";
-import { RequestStatus } from "../api/constants";
+} from "../../../utils/toast";
+import { RequestStatus } from "../../../api/constants";
 import { loginUserService } from "../api/auth";
 
 const loginSchema = yup.object().shape({
@@ -78,45 +78,43 @@ function Login() {
     });
 
   return (
-    <NavBar>
-      <form
-        className="flex flex-col justify-center items-center mt-[100px] bg-white m-auto w-[300px] rounded-lg
+    <form
+      className="flex flex-col justify-center items-center mt-[100px] bg-white m-auto w-[300px] rounded-lg
       "
-        onSubmit={handleSubmit}
+      onSubmit={handleSubmit}
+    >
+      <h1 className="font-bold m-5">Login</h1>
+      <InputField
+        name="email"
+        error={errors.email}
+        touched={touched.email}
+        value={values.email}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        label="Email"
+        type="email"
+      />
+      <InputField
+        name="password"
+        error={errors.password}
+        touched={touched.password}
+        value={values.password}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        label="Password"
+        type="password"
+      />
+      <button
+        className="w-20 h-10 bg-violet-600 text-white rounded-md"
+        type="submit"
+        disabled={isDisabled}
       >
-        <h1 className="font-bold m-5">Login</h1>
-        <InputField
-          name="email"
-          error={errors.email}
-          touched={touched.email}
-          value={values.email}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          label="Email"
-          type="email"
-        />
-        <InputField
-          name="password"
-          error={errors.password}
-          touched={touched.password}
-          value={values.password}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          label="Password"
-          type="password"
-        />
-        <button
-          className="w-20 h-10 bg-violet-600 text-white rounded-md"
-          type="submit"
-          disabled={isDisabled}
-        >
-          Submit
-        </button>
-        <Link to="/signup" className="m-5">
-          Don't have an account ?
-        </Link>
-      </form>
-    </NavBar>
+        Submit
+      </button>
+      <Link to="/signup" className="m-5">
+        Don't have an account ?
+      </Link>
+    </form>
   );
 }
 

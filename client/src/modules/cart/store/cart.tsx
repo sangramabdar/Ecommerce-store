@@ -1,7 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getRequest, postRequest, putRequest } from "../api/requests";
-import { BASE_URL, DEFAULT_HEADERS, RequestStatus } from "../api/constants";
-import { handleTokenError } from "../utils/tokenError";
+import { getRequest, postRequest, putRequest } from "../../../api/requests";
+import {
+  BASE_URL,
+  DEFAULT_HEADERS,
+  RequestStatus,
+} from "../../../api/constants";
+import { handleTokenError } from "../../../utils/tokenError";
 
 const initialCart: {
   cartItems: any[];

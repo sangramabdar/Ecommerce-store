@@ -3,9 +3,12 @@ import { useEffect, useMemo, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { STATUS, getProducts } from "../store/product";
-import Loading from "./Loading";
-import { addItemToCartService, removeItemFromCartService } from "../store/cart";
-import { showErrorToast, showSuccessToast } from "../utils/toast";
+import Loading from "../../../components/Loading";
+import {
+  addItemToCartService,
+  removeItemFromCartService,
+} from "../../cart/store/cart";
+import { showErrorToast, showSuccessToast } from "../../../utils/toast";
 
 function Product(product: any) {
   const { category, description, id, price, rating, title, image } = product;

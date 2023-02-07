@@ -1,5 +1,5 @@
-import { BASE_URL, DEFAULT_HEADERS } from "./constants";
-import { postRequest } from "./requests";
+import { BASE_URL, DEFAULT_HEADERS } from "../../../api/constants";
+import { postRequest } from "../../../api/requests";
 
 async function loginUserService(user: any) {
   const LOGIN_URL = BASE_URL + "/auth/login";

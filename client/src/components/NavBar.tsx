@@ -1,12 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { MouseEventHandler, useEffect, useState } from "react";
-import { addUser, removeUser } from "../store/auth";
+import { addUser, removeUser } from "../modules/auth/store/auth";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { ImCross } from "react-icons/im";
 import { motion } from "framer-motion";
 
-function SideNavigation({ open }: { open: boolean }) {
+function SideNavigation({ open, onClick }: { open: boolean; onClick: any }) {
   let classes = `absolute right-0 top-0 h-screen transition-all duration-200 bg-white w-[200px] ${
     open ? "translate-x-0" : "translate-x-[200px]"
   }
@@ -15,21 +15,23 @@ function SideNavigation({ open }: { open: boolean }) {
   return (
     <div className={classes}>
       <div className="flex flex-col justify-center items-center pt-12">
-        <Link className="m-2" to="/">
+        <Link className="m-2" to="/" onClick={onClick}>
           Home
         </Link>
-        <Link className="m-2" to="/products">
+        <Link className="m-2" to="/products" onClick={onClick}>
           Products
         </Link>
         <Link
           className="bg-violet-600 m-2 p-1 px-2 rounded-md text-white"
           to="/login"
+          onClick={onClick}
         >
           Login
         </Link>
         <Link
           className="bg-violet-600 m-2 p-1 px-2 rounded-md text-white"
           to="/signup"
+          onClick={onClick}
         >
           Sign Up
         </Link>
@@ -42,10 +44,12 @@ function LogOutSideNavigation({
   open,
   cartItems,
   handleLogOut,
+  onClick,
 }: {
   open: boolean;
   cartItems: any[];
   handleLogOut: MouseEventHandler<HTMLButtonElement>;
+  onClick: any;
 }) {
   let classes = `absolute right-0 top-0 h-screen transition-all duration-200 bg-white w-[200px] ${
     open ? "translate-x-0" : "translate-x-[200px]"
@@ -54,19 +58,19 @@ function LogOutSideNavigation({
   return (
     <motion.div className={classes}>
       <div className="flex flex-col justify-center items-center pt-12">
-        <Link className="m-2" to="/">
+        <Link className="m-2" to="/" onClick={onClick}>
           Home
         </Link>
-        <Link className="m-2" to="/products">
+        <Link className="m-2" to="/products" onClick={onClick}>
           Products
         </Link>
-        <Link className="m-2 flex" to="/cart">
+        <Link className="m-2 flex" to="/cart" onClick={onClick}>
           <span>Cart</span>
           {cartItems.length > 0 && (
             <p className="font-bold">: {cartItems.length}</p>
           )}
         </Link>
-        <Link className="m-2" to="/orders">
+        <Link className="m-2" to="/orders" onClick={onClick}>
           Orders
         </Link>
         <button
@@ -108,6 +112,10 @@ function NavBar({ children }: any) {
     setOpen(!open);
   };
 
+  const handleLinkClick = () => {
+    setOpen(!open);
+  };
+
   if (!user) {
     return (
       <>
@@ -124,7 +132,7 @@ function NavBar({ children }: any) {
               onClick={handleSideNavbarClick}
             />
           )}
-          <SideNavigation open={open} />
+          <SideNavigation open={open} onClick={handleLinkClick} />
           <div className="hidden md:flex justify-evenly w-[300px] items-center">
             <Link to="/">Home</Link>
             <Link to="/products">Products</Link>
@@ -142,7 +150,6 @@ function NavBar({ children }: any) {
             </Link>
           </div>
         </nav>
-        <main className="mt-12">{children}</main>
       </>
     );
   }
@@ -166,6 +173,7 @@ function NavBar({ children }: any) {
           open={open}
           cartItems={cartItems}
           handleLogOut={handleLogOut}
+          onClick={handleLinkClick}
         />
         <div className="hidden md:flex justify-evenly gap-3 items-center">
           <Link to="/">Home</Link>
@@ -186,7 +194,6 @@ function NavBar({ children }: any) {
           </button>
         </div>
       </nav>
-      <main className="mt-12">{children}</main>
     </>
   );
 }

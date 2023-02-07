@@ -29,3 +29,4 @@ function MountAndUnmountAnimation({ children }: any) {
 }
 
 export default MountAndUnmountAnimation;
+export { variants };

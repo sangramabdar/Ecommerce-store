@@ -1,10 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { emptyCart } from "./cart";
-import { getRequest, postRequest } from "../api/requests";
-import { BASE_URL, DEFAULT_HEADERS, RequestStatus } from "../api/constants";
-import { showErrorToast, showSuccessToast } from "../utils/toast";
+import { emptyCart } from "../../cart/store/cart";
+import { getRequest, postRequest } from "../../../api/requests";
+import {
+  BASE_URL,
+  DEFAULT_HEADERS,
+  RequestStatus,
+} from "../../../api/constants";
+import { showErrorToast, showSuccessToast } from "../../../utils/toast";
 import { toast } from "react-toastify";
-import { handleTokenError } from "../utils/tokenError";
+import { handleTokenError } from "../../../utils/tokenError";
 
 const initialOrders: {
   orders: any;

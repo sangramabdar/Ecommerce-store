@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getCartItemsService } from "./cart";
-import { getOrdersService } from "./order";
+import { getCartItemsService } from "../../cart/store/cart";
+import { getOrdersService } from "../../order/store/order";
 
 const initailSignedInUser: {
   user: any;

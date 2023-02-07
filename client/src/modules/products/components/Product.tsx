@@ -1,8 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { showErrorToast, showSuccessToast } from "../utils/toast";
+import { showErrorToast, showSuccessToast } from "../../../utils/toast";
 import { useMemo } from "react";
-import { addItemToCartService, removeItemFromCartService } from "../store/cart";
+import {
+  addItemToCartService,
+  removeItemFromCartService,
+} from "../../cart/store/cart";
 
 interface ProductPropstype {
   id: number;

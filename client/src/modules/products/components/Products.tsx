@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts, ProductType, STATUS } from "../store/product";
 import Product from "./Product";
-import Loading from "./Loading";
+import Loading from "../../../components/Loading";
 
 function Products() {
   console.log("products");
@@ -18,7 +18,9 @@ function Products() {
   useEffect(() => {
     if (products.length > 0) return;
 
-    dispatch<any>(getProducts());
+    setTimeout(() => {
+      dispatch<any>(getProducts());
+    }, 2000);
   }, []);
 
   if (status === STATUS.LOADING) {

@@ -1,15 +1,14 @@
 import React from "react";
 import NavBar from "../components/NavBar";
-import Checkout from "../modules/order/components/Checkout";
 import MountAndUnmountAnimation from "../components/MountAndUnmountAnimation";
+import SignUp from "../modules/auth/components/SignUp";
 
-function CheckoutPage() {
+function SignUpPage() {
   return (
     <MountAndUnmountAnimation>
-      <h1 className="font-bold mb-5">Checkout</h1>
-      <Checkout />
+      <SignUp />
     </MountAndUnmountAnimation>
   );
 }
 
-export default CheckoutPage;
+export default SignUpPage;
