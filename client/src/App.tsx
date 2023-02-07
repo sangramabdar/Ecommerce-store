@@ -14,7 +14,6 @@ import { ToastContainer } from "react-toastify";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import Profile from "./components/Profile";
-import Order from "./components/Order";
 import { useEffect } from "react";
 import { loadInitialThings } from "./store/auth";
 
@@ -23,21 +22,6 @@ import ProductPage from "./pages/ProductPage";
 import OrderPage from "./pages/OrderPage";
 import ProductsPage from "./pages/ProductsPage";
 import { AnimatePresence, Variants } from "framer-motion";
-
-const variants: Variants = {
-  initial: {
-    opacity: 0,
-    y: 20,
-  },
-  animate: {
-    opacity: 1,
-    y: 0,
-  },
-  exit: {
-    opacity: 0,
-    x: "100%",
-  },
-};
 
 function App() {
   return (

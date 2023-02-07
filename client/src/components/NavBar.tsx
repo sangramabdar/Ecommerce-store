@@ -1,9 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { MouseEventHandler, useEffect, useState } from "react";
-import { addUser, removeUser, loadInitialThings } from "../store/auth";
+import { addUser, removeUser } from "../store/auth";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { ImCross } from "react-icons/im";
+import { motion } from "framer-motion";
 
 function SideNavigation({ open }: { open: boolean }) {
   let classes = `absolute right-0 top-0 h-screen transition-all duration-200 bg-white w-[200px] ${
@@ -48,11 +49,10 @@ function LogOutSideNavigation({
 }) {
   let classes = `absolute right-0 top-0 h-screen transition-all duration-200 bg-white w-[200px] ${
     open ? "translate-x-0" : "translate-x-[200px]"
-  }
-  `;
+  }`;
 
   return (
-    <div className={classes}>
+    <motion.div className={classes}>
       <div className="flex flex-col justify-center items-center pt-12">
         <Link className="m-2" to="/">
           Home
@@ -76,12 +76,12 @@ function LogOutSideNavigation({
           Log out
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
 function NavBar({ children }: any) {
-  const { user } = useSelector<any, any>(state => state.auth);
+  const user = useSelector<any, any>(state => state.auth.user);
   const { cartItems } = useSelector<any, any>(state => state.cart);
 
   const dispatch = useDispatch();

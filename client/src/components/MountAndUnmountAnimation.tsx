@@ -15,7 +15,7 @@ const variants: Variants = {
   },
 };
 
-function VariantAnimation({ children }: any) {
+function MountAndUnmountAnimation({ children }: any) {
   return (
     <motion.div
       variants={variants}
@@ -28,4 +28,4 @@ function VariantAnimation({ children }: any) {
   );
 }
 
-export default VariantAnimation;
+export default MountAndUnmountAnimation;
