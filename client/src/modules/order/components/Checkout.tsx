@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
-import { showLoadingToast, showSuccessToast } from "../../../utils/toast";
+import { showLoadingToast } from "../../../utils/toast";
 import { useNavigate } from "react-router-dom";
 import {
   validateAddress,
@@ -10,65 +10,52 @@ import {
 import OrderProduct from "./OrderProduct";
 import useAuthentication from "../../../hooks/useAuthentication";
 import { placeOrderService } from "../services/order";
+import * as yup from "yup";
+import OrderSummary from "./OrderSummary";
+import { useFormik } from "formik";
+import CheckoutInputField from "./CheckOutInputField";
+
+const deliveryInfoSchema = yup.object().shape({
+  address: yup.string().required("Required"),
+  city: yup.string().required("Required"),
+  pincode: yup.number().required("Required"),
+});
+
+const initialDeliveryInfo = {
+  address: "",
+  city: "",
+  pincode: null,
+};
 
 function Checkout() {
   useAuthentication();
   const totalPrice = useSelector<any, any>(state => state.cart.totalPrice);
-  const cartItems = useSelector<any, any>(state => state.cart.cartItems);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (totalPrice > 0) return;
-    navigate("/");
+    navigate("/products");
   }, [totalPrice]);
 
-  const [orderAddress, setOrderAddress] = useState({
-    address: "",
-    pincode: "",
-    city: "",
-  });
-
-  const [errors, setErrors] = useState({
-    address: "",
-    pincode: "",
-    city: "",
-  });
-
-  const handlePlaceOrder = () => {
-    const address = validateAddress(orderAddress.address);
-    const city = validateCity(orderAddress.city);
-    const pincode = validatePincode(orderAddress.pincode);
-
-    if (address || city || pincode) {
-      setErrors(previous => ({
-        ...previous,
-        address,
-        city,
-        pincode,
-      }));
-      return;
-    }
-
+  const handleOnSubmit = (deliveryInfo: any) => {
     showLoadingToast("Processing");
-    dispatch<any>(placeOrderService(orderAddress));
+    dispatch<any>(placeOrderService(deliveryInfo));
   };
 
-  const handleChange = (e: any) => {
-    const value = e.target.value;
-    const name = e.target.name;
-
-    setOrderAddress(previous => {
-      return {
-        ...previous,
-        [name]: value,
-      };
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+    useFormik({
+      validationSchema: deliveryInfoSchema,
+      onSubmit: handleOnSubmit,
+      initialValues: initialDeliveryInfo,
     });
-  };
 
   return (
-    <div className="bg-white rounded-md shadow-lg p-5s sm:w-[80%] mx-auto flex flex-col justify-center items-center max-w-[600px]">
+    <form
+      className="bg-white rounded-md shadow-lg p-5s sm:w-[80%] mx-auto flex flex-col justify-center items-center max-w-[600px]"
+      onSubmit={handleSubmit}
+    >
       <div
         className="flex flex-col items-center
        space-y-6"
@@ -79,55 +66,51 @@ function Checkout() {
             className="flex flex-col items-start space-y-3
     "
           >
-            <div className="flex flex-col">
-              <span className="mb-1">Address</span>
-              <input
-                className="border-black border-solid border-2 rounded-md focus:outline-none pl-2"
-                type="text"
-                name="address"
-                onChange={handleChange}
-              />
-              <span className="text-red-600">{errors.address}</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="mb-1">City</span>
-              <input
-                className="border-black border-solid border-2 rounded-md focus:outline-none pl-2"
-                type="text"
-                name="city"
-                onChange={handleChange}
-              />
-              <span className="text-red-600">{errors.city}</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="mb-1">Pincode</span>
-              <input
-                className="border-black border-solid border-2 rounded-md focus:outline-none pl-2"
-                type="text"
-                name="pincode"
-                onChange={handleChange}
-              />
-              <span className="text-red-600">{errors.pincode}</span>
-            </div>
+            <CheckoutInputField
+              name="address"
+              value={values.address}
+              error={errors.address}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              type="text"
+              label="Address"
+              touched={touched.address}
+            />
+            <CheckoutInputField
+              name="city"
+              value={values.city}
+              error={errors.city}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              type="text"
+              label="City"
+              touched={touched.city}
+            />
+            <CheckoutInputField
+              name="pincode"
+              value={values.pincode}
+              error={
+                errors.pincode?.includes("number")
+                  ? "pincode must be number"
+                  : errors.pincode
+              }
+              onChange={handleChange}
+              onBlur={handleBlur}
+              type="text"
+              label="Address"
+              touched={touched.pincode}
+            />
           </div>
         </section>
-        <section>
-          <h1 className="font-bold text-lg flex flex-col justify-center   items-center">
-            Order Summary
-          </h1>
-          {cartItems.map((item: any) => {
-            return <OrderProduct key={item.id} {...item} />;
-          })}
-          <span className="mt-2 ml-2s">Total Price : ${totalPrice}</span>
-        </section>
+        <OrderSummary />
       </div>
       <button
-        onClick={handlePlaceOrder}
+        type="submit"
         className=" bg-violet-600 mb-2 p-1 text-white rounded-md mt-4"
       >
         Place Order
       </button>
-    </div>
+    </form>
   );
 }
 
