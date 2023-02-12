@@ -12,6 +12,8 @@ import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { RequestStatus } from "../../../services/constants";
 import { signUpUserService } from "../services/auth";
+import { RootState } from "../../../store/store";
+import { AuthSliceType } from "../store/authSlice";
 
 const userSchema = yup.object().shape({
   email: yup.string().required("Required").email("email must be valid"),
@@ -29,8 +31,10 @@ const initialUserInfo = {
 function SignUp() {
   const [isDisabled, setIsDisabled] = useState(false);
   const navigate = useNavigate();
-  const user = useSelector<any, any>(state => state.auth.user);
-  const [signUpInfo, setSignUpinfo] = useState(null);
+  const user = useSelector<RootState, AuthSliceType>(state => state.auth.user);
+  const [signUpInfo, setSignUpinfo] = useState<typeof initialUserInfo | null>(
+    null
+  );
 
   useEffect(() => {
     if (!signUpInfo) return;
@@ -42,7 +46,7 @@ function SignUp() {
     navigate("/");
   }, [user]);
 
-  const signUpUser = async (user: any) => {
+  const signUpUser = async (user: typeof initialUserInfo) => {
     const result = await signUpUserService(user);
     toast.dismiss();
 
@@ -56,7 +60,7 @@ function SignUp() {
     setIsDisabled(false);
   };
 
-  const handleOnSubmit = (signUpInfo: any) => {
+  const handleOnSubmit = (signUpInfo: typeof initialUserInfo) => {
     showLoadingToast("Processing");
     setIsDisabled(true);
     setSignUpinfo(signUpInfo);

@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import InputField from "./InputField";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { addUser } from "../store/authSlice";
+import { AuthSliceType, addUser } from "../store/authSlice";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import {
@@ -13,6 +13,7 @@ import {
 } from "../../../utils/toast";
 import { RequestStatus } from "../../../services/constants";
 import { loginUserService } from "../services/auth";
+import { RootState } from "../../../store/store";
 
 const loginSchema = yup.object().shape({
   email: yup.string().required("Required").email("email must be valid"),
@@ -29,8 +30,10 @@ function Login() {
   const navigate = useNavigate();
   const [loggedIn, setLoggedIn] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
-  const user = useSelector<any, any>(state => state.auth.user);
-  const [loginInfo, setLoginInfo] = useState(null);
+  const user = useSelector<RootState, AuthSliceType>(state => state.auth.user);
+  const [loginInfo, setLoginInfo] = useState<typeof initialLoginInfo | null>(
+    null
+  );
 
   useEffect(() => {
     if (!user) return;

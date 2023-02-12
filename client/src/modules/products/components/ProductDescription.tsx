@@ -1,16 +1,22 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { STATUS } from "../store/productSlice";
+import { ProductSliceType, ProductType, STATUS } from "../store/productSlice";
 import Loading from "../../../components/Loading";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
 import { getProductsService } from "../services/products";
+import React from "react";
+import { RootState } from "../../../store/store";
 import {
   addItemToCartService,
   removeItemFromCartService,
 } from "../../cart/services/cart";
 
-function Product(product: any) {
+interface ProductProps {
+  product: ProductType;
+}
+
+function Product({ product }: React.PropsWithChildren<ProductProps>) {
   const { category, description, id, price, rating, title, image } = product;
 
   const dispatch = useDispatch();
@@ -78,14 +84,17 @@ function Product(product: any) {
 
 function ProductDescription() {
   const { id } = useParams();
-  const { data, status } = useSelector<any, any>(state => state.products);
+  const { data, status } = useSelector<RootState, ProductSliceType>(
+    state => state.products
+  );
   const dispatch = useDispatch();
-  const [product, setProduct] = useState({});
+
+  const [product, setProduct] = useState({} as ProductType);
 
   useEffect(() => {
     if (status === STATUS.LOADING) return;
     if (status === STATUS.ERROR) return;
-    let product = data.find((element: any) => element.id == id);
+    let product = data.find((element: any) => element.id == id) as ProductType;
     setProduct(product);
   }, [status]);
 
@@ -100,7 +109,7 @@ function ProductDescription() {
     return <div>something went wrong</div>;
   }
 
-  return <Product {...product} />;
+  return <Product product={product} />;
 }
 
 export default ProductDescription;

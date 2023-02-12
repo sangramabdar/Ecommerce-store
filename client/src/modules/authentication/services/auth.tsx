@@ -1,5 +1,6 @@
 import { BASE_URL, DEFAULT_HEADERS } from "../../../services/constants";
 import { postRequest } from "../../../services/requests";
+import { AppDispatch, RootState } from "../../../store/store";
 import { getCartItemsService } from "../../cart/services/cart";
 import { getOrdersService } from "../../order/services/order";
 
@@ -16,7 +17,7 @@ async function signUpUserService(user: any) {
 }
 
 function loadInitialThingsService() {
-  return async function (dispatch: any, getState: any) {
+  return async function (dispatch: AppDispatch, getState: () => RootState) {
     dispatch(getCartItemsService());
     dispatch(getOrdersService());
   };

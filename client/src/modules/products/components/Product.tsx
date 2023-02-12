@@ -2,24 +2,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
 import { useMemo } from "react";
+import React from "react";
 import {
   addItemToCartService,
   removeItemFromCartService,
 } from "../../cart/services/cart";
-interface ProductPropstype {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  category: string;
-  image: string;
-  rating: {
-    rate: number;
-    count: number;
-  };
+import { ProductType } from "../store/productSlice";
+
+interface ProductProps {
+  product: ProductType;
 }
 
-function Product(product: any) {
+function Product({ product }: React.PropsWithChildren<ProductProps>) {
   const { category, description, id, price, rating, title, image } = product;
 
   const dispatch = useDispatch();

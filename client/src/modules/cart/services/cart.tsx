@@ -5,6 +5,7 @@ import {
 } from "../../../services/constants";
 import { putRequest, getRequest } from "../../../services/requests";
 import { handleTokenError } from "../../../utils/tokenError";
+import { AppDispatch, RootState } from "../../../store/store";
 import {
   removeFromCart,
   addToCart,
@@ -14,7 +15,7 @@ import {
 const CART_URL = BASE_URL + "/carts";
 
 function removeItemFromCartService(product: any) {
-  return async function (dispatch: any, getState: any) {
+  return async function (dispatch: AppDispatch, getState: () => RootState) {
     dispatch(removeFromCart(product));
 
     const cartItems = getState().cart.cartItems;
@@ -31,7 +32,7 @@ function removeItemFromCartService(product: any) {
 }
 
 function getCartItemsService() {
-  return async function (dispatch: any, getState: any) {
+  return async function (dispatch: AppDispatch, getState: () => RootState) {
     const result = await getRequest(CART_URL, {
       ...DEFAULT_HEADERS,
       Authorization: "Bearer " + getState().auth.user.accessToken,
@@ -47,7 +48,7 @@ function getCartItemsService() {
 }
 
 function addItemToCartService(product: any, actionType: string) {
-  return async function (dispatch: any, getState: any) {
+  return async function (dispatch: AppDispatch, getState: () => RootState) {
     dispatch(
       addToCart({
         product,

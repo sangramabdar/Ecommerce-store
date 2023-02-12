@@ -1,16 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getRequest, putRequest } from "../../../services/requests";
-import {
-  BASE_URL,
-  DEFAULT_HEADERS,
-  RequestStatus,
-} from "../../../services/constants";
-import { handleTokenError } from "../../../utils/tokenError";
 
-const initialCart: {
+interface CartSliceType {
   cartItems: any[];
   totalPrice: number;
-} = {
+}
+
+const initialCart: CartSliceType = {
   cartItems: [],
   totalPrice: 0,
 };
@@ -83,5 +78,6 @@ const { addToCart, removeFromCart, loadInitialCartItems, emptyCart } =
   cartSlice.actions;
 
 export { addToCart, removeFromCart, emptyCart, loadInitialCartItems };
+export type { CartSliceType };
 
 export default cartSlice.reducer;

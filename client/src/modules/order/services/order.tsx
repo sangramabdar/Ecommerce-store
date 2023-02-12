@@ -9,11 +9,12 @@ import { showErrorToast, showSuccessToast } from "../../../utils/toast";
 import { handleTokenError } from "../../../utils/tokenError";
 import { emptyCart } from "../../cart/store/cartSlice";
 import { loadInitialOrders } from "../store/orderSlice";
+import { RootState, AppDispatch } from "../../../store/store";
 
 const ORDER_URL = BASE_URL + "/orders";
 
 function placeOrderService(orderAddress: any) {
-  return async function (dispatch: any, getState: any) {
+  return async function (dispatch: AppDispatch, getState: () => RootState) {
     const result = await postRequest(
       ORDER_URL,
       { orderAddress },
@@ -38,7 +39,7 @@ function placeOrderService(orderAddress: any) {
 }
 
 function getOrdersService() {
-  return async function (dispatch: any, getState: any) {
+  return async function (dispatch: AppDispatch, getState: () => RootState) {
     const result = await getRequest(ORDER_URL, {
       ...DEFAULT_HEADERS,
       Authorization: "Bearer " + getState().auth.user.accessToken,

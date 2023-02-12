@@ -1,18 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { emptyCart } from "../../cart/store/cartSlice";
-import { getRequest, postRequest } from "../../../services/requests";
-import {
-  BASE_URL,
-  DEFAULT_HEADERS,
-  RequestStatus,
-} from "../../../services/constants";
-import { showErrorToast, showSuccessToast } from "../../../utils/toast";
-import { toast } from "react-toastify";
-import { handleTokenError } from "../../../utils/tokenError";
 
-const initialOrders: {
+interface OrderSliceType {
   orders: any;
-} = {
+}
+
+const initialOrders: OrderSliceType = {
   orders: null,
 };
 
@@ -34,5 +26,6 @@ const orderSlice = createSlice({
 const { loadInitialOrders, addOrder } = orderSlice.actions;
 
 export { loadInitialOrders };
+export type { OrderSliceType };
 
 export default orderSlice.reducer;

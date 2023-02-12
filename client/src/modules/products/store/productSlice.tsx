@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface ProductType {
   id: number;
@@ -25,18 +25,23 @@ function convertPriceToRoundvalue(products: any[]) {
   });
 }
 
+interface ProductSliceType {
+  data: ProductType[];
+  status: STATUS;
+}
+
 const productSlice = createSlice({
   name: "products",
   initialState: {
-    data: [],
+    data: [] as ProductType[],
     status: STATUS.LOADING,
   },
   reducers: {
-    saveProducts(state, action) {
+    saveProducts(state, action: PayloadAction<ProductType[]>) {
       convertPriceToRoundvalue(action.payload);
       state.data = action.payload;
     },
-    setStatus(state, action) {
+    setStatus(state, action: PayloadAction<STATUS>) {
       state.status = action.payload;
     },
   },
@@ -45,5 +50,5 @@ const productSlice = createSlice({
 let { saveProducts, setStatus } = productSlice.actions;
 
 export { saveProducts, setStatus, STATUS };
-export type { ProductType };
+export type { ProductType, ProductSliceType };
 export default productSlice.reducer;

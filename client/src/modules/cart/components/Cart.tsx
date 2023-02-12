@@ -3,11 +3,14 @@ import Loading from "../../../components/Loading";
 import { useNavigate } from "react-router-dom";
 import CartProduct from "./CartProduct";
 import useAuthentication from "../../../hooks/useAuthentication";
+import { RootState } from "../../../store/store";
+import { CartSliceType } from "../store/cartSlice";
 
 function Cart() {
   const user = useAuthentication();
-  const { cartItems, totalPrice } = useSelector<any, any>(state => state.cart);
-
+  const { cartItems, totalPrice } = useSelector<RootState, CartSliceType>(
+    state => state.cart
+  );
   const navigate = useNavigate();
 
   const handleCheckout = () => {
@@ -21,7 +24,7 @@ function Cart() {
   return (
     <div className="flex flex-col gap-5">
       {cartItems.map((item: any) => {
-        return <CartProduct key={item.id} {...item} />;
+        return <CartProduct key={item.id} cartProduct={item} />;
       })}
 
       {cartItems.length ? (

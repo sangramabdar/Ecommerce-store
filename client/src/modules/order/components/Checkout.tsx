@@ -1,19 +1,14 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { showLoadingToast } from "../../../utils/toast";
 import { useNavigate } from "react-router-dom";
-import {
-  validateAddress,
-  validateCity,
-  validatePincode,
-} from "../../../utils/validation";
-import OrderProduct from "./OrderProduct";
-import useAuthentication from "../../../hooks/useAuthentication";
 import { placeOrderService } from "../services/order";
 import * as yup from "yup";
 import OrderSummary from "./OrderSummary";
 import { useFormik } from "formik";
 import CheckoutInputField from "./CheckOutInputField";
+import useAuthentication from "../../../hooks/useAuthentication";
+import { RootState } from "../../../store/store";
 
 const deliveryInfoSchema = yup.object().shape({
   address: yup.string().required("Required"),
@@ -29,7 +24,9 @@ const initialDeliveryInfo = {
 
 function Checkout() {
   useAuthentication();
-  const totalPrice = useSelector<any, any>(state => state.cart.totalPrice);
+  const totalPrice = useSelector<RootState, number>(
+    state => state.cart.totalPrice
+  );
 
   const dispatch = useDispatch();
   const navigate = useNavigate();

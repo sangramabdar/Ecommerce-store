@@ -103,7 +103,7 @@ function NavBar({ children }: any) {
 
   const handleLogOut = () => {
     localStorage.removeItem("user");
-    dispatch(removeUser(""));
+    dispatch(removeUser());
     navigate("/");
     location.reload();
   };

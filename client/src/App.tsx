@@ -32,6 +32,49 @@ function App() {
   );
 }
 
+const routes = [
+  {
+    path: "/",
+    element: <HomePage />,
+  },
+  {
+    path: "products",
+    element: <ProductsPage />,
+  },
+  {
+    path: "login",
+    element: <LoginPage />,
+  },
+  {
+    path: "signup",
+    element: <SignUpPage />,
+  },
+  {
+    path: "products",
+    element: <ProductsPage />,
+  },
+  {
+    path: "products/:id",
+    element: <ProductPage />,
+  },
+  {
+    path: "cart",
+    element: <CartPage />,
+  },
+  {
+    path: "checkout",
+    element: <CheckoutPage />,
+  },
+  {
+    path: "orders",
+    element: <OrderPage />,
+  },
+  {
+    path: "*",
+    element: <Navigate replace to="/" />,
+  },
+];
+
 function MainApplication() {
   const location = useLocation();
   const dispatch = useDispatch();
@@ -51,15 +94,15 @@ function MainApplication() {
         <main className="mt-12">
           <AnimatePresence mode="wait">
             <Routes location={location} key={location.pathname}>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/products" element={<ProductsPage />} />
-              <Route path="/products/:id" element={<ProductPage />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/signup" element={<SignUpPage />} />
-              <Route path="/cart" element={<CartPage />} />
-              <Route path="/checkout" element={<CheckoutPage />} />
-              <Route path="/orders" element={<OrderPage />} />
-              <Route path="*" element={<Navigate replace to="/" />} />
+              {routes.map((route: any) => {
+                return (
+                  <Route
+                    key={route.path}
+                    path={route.path}
+                    element={route.element}
+                  />
+                );
+              })}
             </Routes>
           </AnimatePresence>
         </main>

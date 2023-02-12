@@ -2,11 +2,11 @@ import { useSelector } from "react-redux";
 import Loading from "../../../components/Loading";
 import OrderRow from "./OrderRow";
 import useAuthentication from "../../../hooks/useAuthentication";
+import { RootState } from "../../../store/store";
 
 function OrderTable() {
   useAuthentication();
-
-  const { orders } = useSelector<any, any>(state => state.order);
+  const orders = useSelector<RootState, null | []>(state => state.order.orders);
 
   if (!orders) return <Loading />;
 

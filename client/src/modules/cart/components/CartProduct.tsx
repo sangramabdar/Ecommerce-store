@@ -1,32 +1,37 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { showSuccessToast } from "../../../utils/toast";
+import React from "react";
 import {
   removeItemFromCartService,
   addItemToCartService,
 } from "../services/cart";
 
-interface CartProductPropsType {
-  quantity: number;
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  category: string;
-  image: string;
-  totalPrice: number;
-  rating: {
-    rate: number;
-    count: number;
+interface CartProductProps {
+  cartProduct: {
+    quantity: number;
+    id: number;
+    title: string;
+    price: number;
+    description: string;
+    category: string;
+    image: string;
+    totalPrice: number;
+    rating: {
+      rate: number;
+      count: number;
+    };
   };
 }
 
-function CartProduct(product: CartProductPropsType) {
-  const { image, title, price, quantity, totalPrice } = product;
+function CartProduct({
+  cartProduct,
+}: React.PropsWithChildren<CartProductProps>) {
+  const { image, title, price, quantity, totalPrice } = cartProduct;
 
   useEffect(() => {
     if (quantity > 0) return;
-    dispatch<any>(removeItemFromCartService(product));
+    dispatch<any>(removeItemFromCartService(cartProduct));
     showSuccessToast("Removed");
   }, [quantity]);
 
@@ -34,15 +39,15 @@ function CartProduct(product: CartProductPropsType) {
 
   const handleRemoveProduct = () => {
     showSuccessToast("Removed");
-    dispatch<any>(removeItemFromCartService(product));
+    dispatch<any>(removeItemFromCartService(cartProduct));
   };
 
   const handleIncrement = () => {
-    dispatch<any>(addItemToCartService(product, "increment"));
+    dispatch<any>(addItemToCartService(cartProduct, "increment"));
   };
 
   const handleDecrement = () => {
-    dispatch<any>(addItemToCartService(product, "decrement"));
+    dispatch<any>(addItemToCartService(cartProduct, "decrement"));
   };
 
   return (

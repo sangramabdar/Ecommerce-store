@@ -1,16 +1,18 @@
 interface OrderProps {
-  _id: string;
-  orderItems: any[];
-  orderStatus: string;
-  totalPrice: number;
-  orderAddress: {
-    address: string;
-    city: string;
-    pincode: number;
+  order: {
+    _id: string;
+    orderItems: any[];
+    orderStatus: string;
+    totalPrice: number;
+    orderAddress: {
+      address: string;
+      city: string;
+      pincode: number;
+    };
   };
 }
 
-function OrderRow({ order }: { order: OrderProps }) {
+function OrderRow({ order }: OrderProps) {
   const { _id, totalPrice, orderAddress, orderItems, orderStatus } = order;
 
   return (

@@ -1,8 +1,10 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const initailSignedInUser: {
+interface AuthSliceType {
   user: any;
-} = {
+}
+
+const initailSignedInUser: AuthSliceType = {
   user: null,
 };
 
@@ -14,12 +16,13 @@ const authSlice = createSlice({
       state.user = action.payload;
     },
 
-    removeUser(state, action) {
+    removeUser(state, action: PayloadAction<undefined>) {
       state.user = null;
     },
   },
 });
 
 export const { addUser, removeUser } = authSlice.actions;
+export type { AuthSliceType };
 
 export default authSlice.reducer;

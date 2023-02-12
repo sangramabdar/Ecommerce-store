@@ -1,18 +1,22 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { addUser } from "../modules/authentication/store/authSlice";
+import {
+  AuthSliceType,
+  addUser,
+} from "../modules/authentication/store/authSlice";
+import { RootState } from "../store/store";
 
 function useAuthentication() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const user = useSelector<any, any>(state => state.auth.user);
+  const user = useSelector<RootState, AuthSliceType>(state => state.auth.user);
 
   useEffect(() => {
     if (user) return;
 
     if (!localStorage.getItem("user")) {
-      navigate("/ecommerce-deploy-login");
+      navigate("/");
       return;
     }
 

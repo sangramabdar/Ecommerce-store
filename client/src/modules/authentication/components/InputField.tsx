@@ -1,8 +1,8 @@
 interface InputFieldProps {
   name: string;
   value: string;
-  onChange: any;
-  onBlur: any;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
+  onBlur: React.FocusEventHandler<HTMLInputElement>;
   error: string;
   touched: boolean;
   label: string;
