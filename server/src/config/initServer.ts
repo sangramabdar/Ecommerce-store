@@ -5,6 +5,7 @@ import initRoutes from "./initRoutes";
 import mongoose from "mongoose";
 import { requestLogger } from "../utils/logger";
 import User from "../models/User";
+import path from "path";
 
 const PORT = 8080;
 
@@ -16,6 +17,9 @@ async function initServer() {
     Express.json({
       type: ["json"],
     })
+  );
+  app.use(
+    Express.static(path.join(__dirname, "..", "..", "..", "client", "dist"))
   );
   app.use(requestLogger);
   await mongoose.connect(process.env.DB_URL);

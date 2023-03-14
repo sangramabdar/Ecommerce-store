@@ -1,6 +1,7 @@
 import { Response, Request, NextFunction } from "express";
 import { CustomError } from "./exceptions";
 import ResponseBodyBuilder from "./responseBodyBuilder";
+import path from "path";
 
 function invalidPathHandler(
   request: Request,
@@ -10,6 +11,14 @@ function invalidPathHandler(
   response.status(404).json({
     error: "invalid path",
   });
+}
+
+function invalidPageHandler(
+  request: Request,
+  response: Response,
+  next: NextFunction
+) {
+  response.redirect("/");
 }
 
 //handle expected error
@@ -47,4 +56,9 @@ async function handleError(error: Error, req: Request, res: Response, next) {
   res.status(500).json(responseBody);
 }
 
-export { handleClientError, handleError, invalidPathHandler };
+export {
+  handleClientError,
+  handleError,
+  invalidPathHandler,
+  invalidPageHandler,
+};

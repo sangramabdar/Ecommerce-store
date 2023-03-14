@@ -37,12 +37,10 @@ async function validateCartDto(req, res, next) {
         const cartItems = req.body.cartItems;
         if (!Array.isArray(cartItems))
             return next(new exceptions_1.BadRequest("cartItems is required"));
-        // if (cartItems.length == 0)
-        //   return next(new BadRequest("items must be provided in cartItems"));
         const newcartItems = [];
         let finalOrder = {};
         for (let order of cartItems) {
-            finalOrder = await cartDto.validate(order);
+            finalOrder = await cartDto.validate(order, { stripUnknown: true });
             newcartItems.push(finalOrder);
         }
         req.body = newcartItems;

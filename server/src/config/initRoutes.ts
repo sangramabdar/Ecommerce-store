@@ -4,6 +4,7 @@ import authRouter from "../modules/auth/auth.router";
 import {
   handleClientError,
   handleError,
+  invalidPageHandler,
   invalidPathHandler,
 } from "../utils/errorMiddleware";
 import { errorLogger } from "../utils/logger";
@@ -16,7 +17,8 @@ async function initRoutes() {
   app.use("/api/auth", authRouter);
   app.use("/api/carts", cartRouter);
   app.use("/api/orders", orderRouter);
-  app.use("*", invalidPathHandler);
+  app.use("/api/*", invalidPathHandler);
+  app.use("*", invalidPageHandler);
 
   //global error handling middleware
   app.use(errorLogger);
