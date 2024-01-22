@@ -4,7 +4,9 @@
 // const initServer_1 = require("./build/config/initServer");
 // (0, initServer_1.initServer)();
 
-const app = require("express");
+const express = require("express");
+
+const app = express();
 
 app.use("*", (req, res) => {
   res.send("server is ready");
