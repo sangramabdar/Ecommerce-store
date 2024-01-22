@@ -5,11 +5,6 @@
       "src": "build/main.js",
       "use": "@vercel/node"
     }
-  ]
-  // "routes": [
-  //   {
-  //     "src": "/(.*)",
-  //     "dest": "build/main.js"
-  //   }
-  // ]
+  ],
+  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
 }
