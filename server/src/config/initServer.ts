@@ -19,7 +19,7 @@ async function initServer() {
     })
   );
   app.use(
-    Express.static(path.join(__dirname, "..", "..", "..", "client", "dist2"))
+    Express.static(path.join(__dirname, "..", "..", "..", "client", "dist"))
   );
   app.use(requestLogger);
   await mongoose.connect(process.env.DB_URL);
