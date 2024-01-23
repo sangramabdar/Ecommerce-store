@@ -16,8 +16,7 @@ async function initRoutes() {
     initServer_1.app.use("/api/auth", auth_router_1.default);
     initServer_1.app.use("/api/carts", cart_router_1.default);
     initServer_1.app.use("/api/orders", order_router_1.default);
-    initServer_1.app.use("/api/*", errorMiddleware_1.invalidPathHandler);
-    initServer_1.app.use("*", errorMiddleware_1.invalidPageHandler);
+    initServer_1.app.use("*", errorMiddleware_1.invalidPathHandler);
     //global error handling middleware
     initServer_1.app.use(logger_1.errorLogger);
     initServer_1.app.use(errorMiddleware_1.handleClientError);

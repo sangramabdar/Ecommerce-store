@@ -3,6 +3,7 @@ class ResponseBodyBuilder<T = any> {
   private error: string = "";
   private statusCode: number = 200;
   private data: T | {} = null;
+  private ok: boolean = true;
 
   setError(error: string) {
     this.error = error;

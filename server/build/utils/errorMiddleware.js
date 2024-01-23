@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.invalidPageHandler = exports.invalidPathHandler = exports.handleError = exports.handleClientError = void 0;
+exports.invalidPathHandler = exports.handleError = exports.handleClientError = void 0;
 const responseBodyBuilder_1 = __importDefault(require("./responseBodyBuilder"));
 function invalidPathHandler(request, response, next) {
     response.status(404).json({
@@ -11,10 +11,6 @@ function invalidPathHandler(request, response, next) {
     });
 }
 exports.invalidPathHandler = invalidPathHandler;
-function invalidPageHandler(request, response, next) {
-    response.redirect("/");
-}
-exports.invalidPageHandler = invalidPageHandler;
 //handle expected error
 async function handleClientError(error, req, res, next) {
     const responseBody = new responseBodyBuilder_1.default();

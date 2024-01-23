@@ -6,6 +6,7 @@ class ResponseBodyBuilder {
         this.error = "";
         this.statusCode = 200;
         this.data = null;
+        this.ok = true;
     }
     setError(error) {
         this.error = error;

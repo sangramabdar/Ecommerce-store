@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
-import path from "path";
+import ResponseBodyBuilder from "../../utils/responseBodyBuilder";
 
 class RootController {
   static async get(req: Request, res: Response) {
-    res.sendFile(
-      path.join(__dirname, "..", "..", "..", "..", "client", "dist")
-    );
+    const responseBody = new ResponseBodyBuilder();
+
+    res.statusCode = 200;
+    res.json(responseBody);
   }
 }
 
