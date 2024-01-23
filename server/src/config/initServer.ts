@@ -22,7 +22,8 @@ async function initServer() {
     Express.static(path.join(__dirname, "..", "..", "..", "client", "dist"))
   );
   app.use(requestLogger);
-  await mongoose.connect(process.env.DB_URL);
+  console.log(process.env.DB_URL);
+  await mongoose.connect(process.env.DB_URL, {});
 
   await initRoutes();
   app.listen(PORT, () => {
