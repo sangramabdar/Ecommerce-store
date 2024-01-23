@@ -4,7 +4,7 @@ enum RequestStatus {
   LOADING = "LOADING",
 }
 
-interface Result {
+interface ApiResult {
   data?: any;
   status?: RequestStatus;
   error?: string;
@@ -21,4 +21,4 @@ const BASE_URL = "https://ecommerce-store-o9dl.vercel.app/api";
 // const BASE_URL = "http://localhost:8080/api";
 
 export { RequestStatus, BASE_URL, DEFAULT_HEADERS };
-export type { Result };
+export type { ApiResult };

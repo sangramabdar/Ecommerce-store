@@ -1,33 +1,33 @@
 import axios, { AxiosResponse } from "axios";
-import { Result, RequestStatus } from "./constants";
+import { ApiResult, RequestStatus } from "./constants";
 
 async function postRequest(
   url: string,
   data: any = {},
   headers: {} = {}
-): Promise<Result> {
-  let result: Result = {};
+): Promise<ApiResult> {
+  let result: ApiResult = {};
 
   try {
     const response = await axios.post(url, data, {
       headers,
     });
-    return handleSuccess(result, response);
+    return generateSuccessApiResult(result, response);
   } catch (error: any) {
-    return handleError(result, error);
+    return generateErrorApiResult(result, error);
   }
 }
 
-async function getRequest(url: string, headers: {} = {}): Promise<Result> {
-  let result: Result = {};
+async function getRequest(url: string, headers: {} = {}): Promise<ApiResult> {
+  let result: ApiResult = {};
 
   try {
     const response = await axios.get(url, {
       headers,
     });
-    return handleSuccess(result, response);
+    return generateSuccessApiResult(result, response);
   } catch (error: any) {
-    return handleError(result, error);
+    return generateErrorApiResult(result, error);
   }
 }
 
@@ -35,33 +35,36 @@ async function putRequest(
   url: string,
   data: any,
   headers: {} = {}
-): Promise<Result> {
-  let result: Result = {};
+): Promise<ApiResult> {
+  let result: ApiResult = {};
 
   try {
     const response = await axios.put(url, data, {
       headers,
     });
-    return handleSuccess(result, response);
+    return generateSuccessApiResult(result, response);
   } catch (error: any) {
-    return handleError(result, error);
+    return generateErrorApiResult(result, error);
   }
 }
 
-async function deleteRequest(url: string, headers: {} = {}): Promise<Result> {
-  let result: Result = {};
+async function deleteRequest(
+  url: string,
+  headers: {} = {}
+): Promise<ApiResult> {
+  let result: ApiResult = {};
 
   try {
     const response = await axios.delete(url, {
       headers,
     });
-    return handleSuccess(result, response);
+    return generateSuccessApiResult(result, response);
   } catch (error: any) {
-    return handleError(result, error);
+    return generateErrorApiResult(result, error);
   }
 }
 
-function handleSuccess(result: Result, response: AxiosResponse) {
+function generateSuccessApiResult(result: ApiResult, response: AxiosResponse) {
   result.statusCode = response.status;
   result.status = RequestStatus.SUCCESS;
 
@@ -74,15 +77,17 @@ function handleSuccess(result: Result, response: AxiosResponse) {
   return result;
 }
 
-function handleError(result: Result, error: any) {
+function generateErrorApiResult(result: ApiResult, error: any) {
   result.status = RequestStatus.ERROR;
 
+  //error genearated at client like network error
   if (!error.response) {
     result.error = "Network Error";
     result.statusCode = 500;
     return result;
   }
 
+  //error sent by server
   result.statusCode = error.response.status;
   result.error = error.response.data.error;
   return result;
