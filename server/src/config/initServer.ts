@@ -4,7 +4,6 @@ import initRoutes from "./initRoutes";
 
 import mongoose from "mongoose";
 import { requestLogger } from "../utils/logger";
-import User from "../models/User";
 import path from "path";
 
 const PORT = 8080;
