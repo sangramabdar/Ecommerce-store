@@ -16,7 +16,7 @@ const DEFAULT_HEADERS = {
   "Content-Type": "application/json",
 };
 
-const BASE_URL = "https://ecommerce-store-9an7.vercel.app/api";
+const BASE_URL = "https://ecommerce-store-o9dl.vercel.app/api";
 
 // const BASE_URL = "http://localhost:8080/api";
 
