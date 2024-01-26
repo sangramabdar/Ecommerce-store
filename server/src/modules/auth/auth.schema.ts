@@ -16,18 +16,6 @@ const loginSchema = z.object({
   }),
 });
 
-type LoginType = z.infer<typeof loginSchema>;
-
-async function validateLoginSchema(req: Request, res: Response, next) {
-  try {
-    req.body = await loginSchema.parseAsync(req.body);
-    next();
-  } catch (error) {
-    error = new CustomError(error.errors[0].message, StatusCodes.BAD_REQUEST);
-    next(error);
-  }
-}
-
 const signUpSchema = z
   .object({
     name: z
@@ -66,7 +54,19 @@ const signUpSchema = z
     message: "password and confirm password must be similar",
   });
 
+type LoginType = z.infer<typeof loginSchema>;
+
 type SignUpType = z.infer<typeof loginSchema>;
+
+async function validateLoginSchema(req: Request, res: Response, next) {
+  try {
+    req.body = await loginSchema.parseAsync(req.body);
+    next();
+  } catch (error) {
+    error = new CustomError(error.errors[0].message, StatusCodes.BAD_REQUEST);
+    next(error);
+  }
+}
 
 async function validateSignUpSchema(req: Request, res: Response, next) {
   try {
@@ -79,4 +79,11 @@ async function validateSignUpSchema(req: Request, res: Response, next) {
   }
 }
 
-export { validateLoginSchema, validateSignUpSchema, SignUpType, LoginType };
+export {
+  validateLoginSchema,
+  validateSignUpSchema,
+  SignUpType,
+  LoginType,
+  loginSchema,
+  signUpSchema,
+};
