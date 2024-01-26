@@ -1,6 +1,7 @@
 import { Response, Request } from "express";
 import ResponseBodyBuilder from "../../utils/responseBodyBuilder";
 import { addCartItemsToCartService, getCartItemsService } from "./cart.service";
+import { StatusCodes } from "http-status-codes";
 
 async function addCartItemsToCartController(req: Request, res: Response, next) {
   const [data, error] = await addCartItemsToCartService(req);
@@ -8,10 +9,10 @@ async function addCartItemsToCartController(req: Request, res: Response, next) {
   if (error) return next(error);
 
   const responseBody = new ResponseBodyBuilder()
-    .setStatusCode(200)
+    .setStatusCode(StatusCodes.OK)
     .setData(data);
 
-  res.status(200).json(responseBody);
+  res.status(StatusCodes.OK).json(responseBody);
 }
 
 async function getCartItemsController(req: Request, res: Response, next) {
@@ -20,10 +21,10 @@ async function getCartItemsController(req: Request, res: Response, next) {
   if (error) return next(error);
 
   const responseBody = new ResponseBodyBuilder()
-    .setStatusCode(200)
+    .setStatusCode(StatusCodes.OK)
     .setData(data);
 
-  res.status(200).json(responseBody);
+  res.status(StatusCodes.OK).json(responseBody);
 }
 
 export { addCartItemsToCartController, getCartItemsController };

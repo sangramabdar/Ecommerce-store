@@ -1,3 +1,5 @@
+import { StatusCodes } from "http-status-codes";
+
 class CustomError extends Error {
   statusCode: number | null = null;
   constructor(message: string, statusCode: number) {
@@ -12,34 +14,34 @@ class CustomError extends Error {
 
 class BadRequest extends CustomError {
   constructor(message: string = "bad request") {
-    super(message, 400);
+    super(message, StatusCodes.BAD_REQUEST);
   }
 }
 
 class DataBaseConnectionError extends CustomError {
   private static message: string = "db connection error";
   constructor() {
-    super(DataBaseConnectionError.message, 500);
+    super(DataBaseConnectionError.message, StatusCodes.INTERNAL_SERVER_ERROR);
   }
 }
 
 class NotFound extends CustomError {
   private static message: string = " not found";
   constructor(entity: string) {
-    super(`${entity} ${NotFound.message}`, 404);
+    super(`${entity} ${NotFound.message}`, StatusCodes.NOT_FOUND);
   }
 }
 
 class WrongContent extends CustomError {
   constructor(message: string) {
-    super(message, 404);
+    super(message, StatusCodes.BAD_REQUEST);
   }
 }
 
 class EmailExists extends CustomError {
   private static message: string = "email already exists";
   constructor() {
-    super(EmailExists.message, 401);
+    super(EmailExists.message, StatusCodes.UNAUTHORIZED);
   }
 }
 
@@ -53,7 +55,7 @@ class NotRegistered extends CustomError {
 class Unauthorized extends CustomError {
   private static message: string = "unauthorized";
   constructor() {
-    super(Unauthorized.message, 401);
+    super(Unauthorized.message, StatusCodes.FORBIDDEN);
   }
 }
 

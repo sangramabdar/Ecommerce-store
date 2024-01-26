@@ -1,6 +1,6 @@
 import { Response, Request, NextFunction } from "express";
-import { CustomError } from "./exceptions";
 import ResponseBodyBuilder from "./responseBodyBuilder";
+import { StatusCodes } from "http-status-codes";
 
 function invalidPathHandler(
   request: Request,
@@ -9,11 +9,11 @@ function invalidPathHandler(
 ) {
   const responseBody = new ResponseBodyBuilder()
     .setOK(false)
-    .setStatusCode(404)
+    .setStatusCode(StatusCodes.NOT_FOUND)
     .setErrors(["not found"])
     .build();
 
-  response.status(404).json(responseBody);
+  response.status(StatusCodes.NOT_FOUND).json(responseBody);
 }
 
 async function handleClientErrors(
@@ -45,11 +45,11 @@ async function handleServerErrors(
 ) {
   const response = new ResponseBodyBuilder()
     .setOK(false)
-    .setStatusCode(500)
+    .setStatusCode(StatusCodes.INTERNAL_SERVER_ERROR)
     .setErrors([error.message])
     .build();
 
-  res.status(500);
+  res.status(StatusCodes.INTERNAL_SERVER_ERROR);
   res.json(response);
 }
 

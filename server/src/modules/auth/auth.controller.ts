@@ -2,6 +2,7 @@ import { Response, Request } from "express";
 
 import { loginService, signUpService } from "./auth.service";
 import ResponseBodyBuilder from "../../utils/responseBodyBuilder";
+import { StatusCodes } from "http-status-codes";
 
 async function loginController(req: Request, res: Response, next) {
   const [data, error] = await loginService(req);
@@ -9,10 +10,10 @@ async function loginController(req: Request, res: Response, next) {
   if (error) return next(error);
 
   const responseBody = new ResponseBodyBuilder()
-    .setStatusCode(200)
+    .setStatusCode(StatusCodes.OK)
     .setData(data);
 
-  res.status(200).json(responseBody);
+  res.status(StatusCodes.OK).json(responseBody);
 }
 
 async function signUpController(req: Request, res: Response, next) {
@@ -21,10 +22,10 @@ async function signUpController(req: Request, res: Response, next) {
   if (error) return next(error);
 
   const responseBody = new ResponseBodyBuilder()
-    .setStatusCode(201)
+    .setStatusCode(StatusCodes.CREATED)
     .setData(data);
 
-  res.status(201).json(responseBody);
+  res.status(StatusCodes.CREATED).json(responseBody);
 }
 
 export { loginController, signUpController };

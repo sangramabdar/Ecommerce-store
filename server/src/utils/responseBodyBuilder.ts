@@ -1,8 +1,10 @@
+import { StatusCodes } from "http-status-codes";
+
 class ResponseBodyBuilder<T = any> {
   private timeStamp: number = Date.now();
   private errors: any[] = [];
-  private statusCode: number = 200;
-  private data: T | {} = null;
+  private statusCode: number = StatusCodes.OK;
+  private data: T | {} = {};
   private ok: boolean = true;
 
   setErrors(errors: any[]) {
