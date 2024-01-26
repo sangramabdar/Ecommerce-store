@@ -79,8 +79,6 @@ function MainApplication() {
   const location = useLocation();
   const dispatch = useDispatch();
 
-  console.log(location.pathname);
-
   const user = useSelector<any, any>(state => state.auth.user);
 
   useEffect(() => {

@@ -1,8 +1,8 @@
 import { Router } from "express";
 import RootController from "./root.controller";
 
-const RootRouter = Router();
+const rootRouter = Router();
 
-RootRouter.get("/", RootController.get);
+rootRouter.get("/", RootController.get);
 
-export default RootRouter;
+export default rootRouter;

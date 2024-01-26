@@ -1,4 +1,5 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { fetchProducts } from "../services/products";
 
 interface ProductType {
   id: number;
@@ -44,6 +45,20 @@ const productSlice = createSlice({
     setStatus(state, action: PayloadAction<STATUS>) {
       state.status = action.payload;
     },
+  },
+  extraReducers: builder => {
+    builder.addCase(fetchProducts.pending, (state, action) => {
+      state.status = STATUS.LOADING;
+    });
+
+    builder.addCase(fetchProducts.fulfilled, (state, action) => {
+      state.data = action.payload;
+      state.status = STATUS.SUCCESS;
+    });
+
+    builder.addCase(fetchProducts.rejected, (state, action) => {
+      state.status = STATUS.ERROR;
+    });
   },
 });
 
