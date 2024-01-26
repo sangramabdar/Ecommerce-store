@@ -3,13 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 class ResponseBodyBuilder {
     constructor() {
         this.timeStamp = Date.now();
-        this.error = "";
+        this.errors = [];
         this.statusCode = 200;
         this.data = null;
         this.ok = true;
     }
-    setError(error) {
-        this.error = error;
+    setErrors(errors) {
+        this.errors = errors;
         return this;
     }
     setStatusCode(statusCode) {
@@ -18,6 +18,10 @@ class ResponseBodyBuilder {
     }
     setData(data) {
         this.data = data;
+        return this;
+    }
+    setOK(ok) {
+        this.ok = ok;
         return this;
     }
     build() {

@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { ObjectId } from "mongodb";
 import { BadRequest, CustomError, NotFound, Unauthorized } from "./exceptions";
 import { verifyAccessToken } from "./jwt";
-import User from "../models/User";
 
 async function validateId(req: Request, res: Response, next) {
   let id = req.params["id"];
