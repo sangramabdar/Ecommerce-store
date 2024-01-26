@@ -1,12 +1,12 @@
 import { Router } from "express";
 
-import { validateLoginDto, validateSignUpDto } from "./auth.dto";
+import { validateLoginSchema, validateSignUpSchema } from "./auth.dto";
 import { loginController, signUpController } from "./auth.controller";
 
 const authRouter = Router();
 
-authRouter.post("/signup", validateSignUpDto, signUpController);
+authRouter.post("/signup", validateSignUpSchema, signUpController);
 
-authRouter.post("/login", validateLoginDto, loginController);
+authRouter.post("/login", validateLoginSchema, loginController);
 
 export default authRouter;

@@ -1,81 +1,82 @@
 import { Request, Response } from "express";
+import { CustomError } from "../../utils/exceptions";
+import { z } from "zod";
+import { StatusCodes } from "http-status-codes";
 
-import * as yup from "yup";
-import { BadRequest } from "../../utils/exceptions";
-import { trimAllStrings } from "../../utils/utils";
-
-interface SignUpDto {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
-
-interface LoginDto {
-  email: string;
-  password: string;
-}
-
-const signUpDto = yup.object().shape({
-  // name: yup
-  //   .string()
-  //   .required("name is required")
-  //   .min(3, "name must contain at least 3 characters"),
-  email: yup
-    .string()
-    .email("email must be valid")
-    .required("email is required"),
-  password: yup
-    .string()
-    .required("password is required")
-    .min(8, "password must contain between 8 to 20 characters"),
+const loginSchema = z.object({
+  email: z
+    .string({
+      required_error: "email is required",
+    })
+    .email({
+      message: "email is not valid",
+    }),
+  password: z.string().min(8, {
+    message: "password must contain between 8 to 20 characters",
+  }),
 });
 
-const loginDto = yup.object().shape({
-  email: yup
-    .string()
-    .email("email must be valid")
-    .required("email is required"),
-  password: yup
-    .string()
-    .required("password is required")
-    .min(8, "password must contain between 8 to 20 characters"),
-});
+type LoginType = z.infer<typeof loginSchema>;
 
-async function validateLoginDto(req: Request, res: Response, next) {
+async function validateLoginSchema(req: Request, res: Response, next) {
   try {
-    req.body = trimAllStrings(req.body);
-    req.body = await loginDto.validate(req.body, {
-      stripUnknown: true,
-    });
-
+    req.body = await loginSchema.parseAsync(req.body);
     next();
   } catch (error) {
-    error = new BadRequest(error.message);
+    error = new CustomError(error.errors[0].message, StatusCodes.BAD_REQUEST);
     next(error);
   }
 }
 
-async function validateSignUpDto(req: Request, res: Response, next) {
+const signUpSchema = z
+  .object({
+    name: z
+      .string({
+        required_error: "name is required",
+      })
+      .min(3, {
+        message: "name must contain 3 characters",
+      }),
+
+    email: z
+      .string({
+        required_error: "email is required",
+      })
+      .email({
+        message: "email is not valid",
+      }),
+
+    password: z
+      .string({
+        required_error: "password is required",
+      })
+      .min(8, {
+        message: "password must contain between 8 to 20 characters",
+      }),
+
+    confirmPassword: z
+      .string({
+        required_error: "confirmPassword is required",
+      })
+      .min(8, {
+        message: "confirm password must contain between 8 to 20 characters",
+      }),
+  })
+  .refine(({ password, confirmPassword }) => password === confirmPassword, {
+    message: "password and confirm password must be similar",
+  });
+
+type SignUpType = z.infer<typeof loginSchema>;
+
+async function validateSignUpSchema(req: Request, res: Response, next) {
   try {
-    req.body = trimAllStrings(req.body);
-    req.body = await signUpDto.validate(req.body, {
-      stripUnknown: true,
-    });
-
-    // if (req.body["password"] !== req.body["confirmPassword"]) {
-    //   let error = new BadRequest("password and confirmPassword must be same");
-    //   next(error);
-    //   return;
-    // }
-
-    // delete req.body.confirmPassword;
-
+    req.body = await signUpSchema.parseAsync(req.body);
+    console.log(req.body);
     next();
   } catch (error) {
-    error = new BadRequest(error.message);
+    error = new CustomError(error.errors[0].message, StatusCodes.BAD_REQUEST);
     next(error);
   }
 }
 
-export { validateSignUpDto, validateLoginDto, SignUpDto, LoginDto };
+export { validateLoginSchema, validateSignUpSchema, SignUpType, LoginType };
