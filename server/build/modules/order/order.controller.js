@@ -6,14 +6,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getOrdersController = exports.placeOrderController = void 0;
 const responseBodyBuilder_1 = __importDefault(require("../../utils/responseBodyBuilder"));
 const order_service_1 = require("./order.service");
+const http_status_codes_1 = require("http-status-codes");
 async function placeOrderController(req, res, next) {
     const [data, error] = await (0, order_service_1.placeOrderService)(req);
     if (error)
         return next(error);
     const responseBody = new responseBodyBuilder_1.default()
-        .setStatusCode(201)
+        .setStatusCode(http_status_codes_1.StatusCodes.CREATED)
         .setData(data);
-    res.status(201).json(responseBody);
+    res.status(http_status_codes_1.StatusCodes.CREATED).json(responseBody);
 }
 exports.placeOrderController = placeOrderController;
 async function getOrdersController(req, res, next) {
@@ -21,8 +22,8 @@ async function getOrdersController(req, res, next) {
     if (error)
         return next(error);
     const responseBody = new responseBodyBuilder_1.default()
-        .setStatusCode(200)
+        .setStatusCode(http_status_codes_1.StatusCodes.OK)
         .setData(data);
-    res.status(200).json(responseBody);
+    res.status(http_status_codes_1.StatusCodes.OK).json(responseBody);
 }
 exports.getOrdersController = getOrdersController;

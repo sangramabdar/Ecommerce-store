@@ -1,9 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const auth_dto_1 = require("./auth.dto");
+const auth_schema_1 = require("./auth.schema");
 const auth_controller_1 = require("./auth.controller");
+const zod_1 = require("../../utils/zod");
 const authRouter = (0, express_1.Router)();
-authRouter.post("/signup", auth_dto_1.validateSignUpDto, auth_controller_1.signUpController);
-authRouter.post("/login", auth_dto_1.validateLoginDto, auth_controller_1.loginController);
+authRouter.post("/signup", (0, zod_1.validateSchema)(auth_schema_1.signUpSchema), auth_controller_1.signUpController);
+authRouter.post("/login", (0, zod_1.validateSchema)(auth_schema_1.loginSchema), auth_controller_1.loginController);
 exports.default = authRouter;
