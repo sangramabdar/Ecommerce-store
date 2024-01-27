@@ -11,19 +11,9 @@ const cartDto = yup.object().shape({
   price: yup.number().required("price is required"),
 });
 
-const cartSchema = z.object({
-  id: z.number({
-    required_error: "id is required",
-  }),
-  title: z.string({
-    required_error: "name is required",
-  }),
-  quantity: z.number({
-    required_error: "quantity is required",
-  }),
-  price: z.number({
-    required_error: "price is required",
-  }),
+const cartItemSchema = z.object({
+  id: z.string(),
+  quantity: z.number(),
 });
 
 async function validateCartDto(req: Request, res: Response, next) {
@@ -49,4 +39,4 @@ async function validateCartDto(req: Request, res: Response, next) {
   }
 }
 
-export { validateCartDto };
+export { validateCartDto, cartItemSchema };

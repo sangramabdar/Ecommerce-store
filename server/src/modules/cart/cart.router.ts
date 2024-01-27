@@ -4,14 +4,15 @@ import {
   getCartItemsController,
 } from "./cart.controller";
 import { validateToken } from "../../utils/validation";
-import { validateCartDto } from "./cart.schema";
+import { cartItemSchema, validateCartDto } from "./cart.schema";
+import { validateSchema } from "../../utils/zod";
 
 const cartRouter = Router();
 
 cartRouter.put(
   "/",
   validateToken,
-  validateCartDto,
+  validateSchema(cartItemSchema),
   addCartItemsToCartController
 );
 

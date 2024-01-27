@@ -9,6 +9,7 @@ function validateSchema(schema: ZodSchema) {
       req.body = await schema.parseAsync(req.body);
       next();
     } catch (error) {
+      console.log(error);
       error = new CustomError(error.errors[0].message, StatusCodes.BAD_REQUEST);
       next(error);
     }

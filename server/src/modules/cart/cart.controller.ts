@@ -4,27 +4,31 @@ import { addCartItemsToCartService, getCartItemsService } from "./cart.service";
 import { StatusCodes } from "http-status-codes";
 
 async function addCartItemsToCartController(req: Request, res: Response, next) {
-  const [data, error] = await addCartItemsToCartService(req);
+  try {
+    const data = await addCartItemsToCartService(req);
 
-  if (error) return next(error);
+    const responseBody = new ResponseBodyBuilder()
+      .setStatusCode(StatusCodes.OK)
+      .setData(data);
 
-  const responseBody = new ResponseBodyBuilder()
-    .setStatusCode(StatusCodes.OK)
-    .setData(data);
-
-  res.status(StatusCodes.OK).json(responseBody);
+    res.status(StatusCodes.OK).json(responseBody);
+  } catch (error) {
+    next(error);
+  }
 }
 
 async function getCartItemsController(req: Request, res: Response, next) {
-  const [data, error] = await getCartItemsService(req);
+  try {
+    const data = await getCartItemsService(req);
 
-  if (error) return next(error);
+    const responseBody = new ResponseBodyBuilder()
+      .setStatusCode(StatusCodes.OK)
+      .setData(data);
 
-  const responseBody = new ResponseBodyBuilder()
-    .setStatusCode(StatusCodes.OK)
-    .setData(data);
-
-  res.status(StatusCodes.OK).json(responseBody);
+    res.status(StatusCodes.OK).json(responseBody);
+  } catch (error) {
+    next(error);
+  }
 }
 
 export { addCartItemsToCartController, getCartItemsController };

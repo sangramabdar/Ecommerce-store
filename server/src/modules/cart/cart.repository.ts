@@ -11,6 +11,16 @@ async function addCartItemsToCartById(cardId, cartItems) {
   await cartDoc.save();
 }
 
+async function addProductToCartById(cardId, cartItem) {
+  const cartDoc = await Cart.findById(cardId);
+  // const totalPrice = calculateTotalPrice(cartItem);
+
+  cartDoc.cartItems.push(cartItem);
+  // cartDoc.totalPrice = totalPrice;
+
+  await cartDoc.save();
+}
+
 async function getCartItemsByCartId(cardId) {
   const cart = await Cart.findById(cardId);
 
@@ -19,4 +29,4 @@ async function getCartItemsByCartId(cardId) {
   return cart.cartItems;
 }
 
-export { addCartItemsToCartById, getCartItemsByCartId };
+export { addCartItemsToCartById, getCartItemsByCartId, addProductToCartById };
