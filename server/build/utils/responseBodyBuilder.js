@@ -1,15 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const http_status_codes_1 = require("http-status-codes");
 class ResponseBodyBuilder {
     constructor() {
-        this.timeStamp = Date.now();
-        this.errors = [];
-        this.statusCode = 200;
-        this.data = null;
+        this.statusCode = http_status_codes_1.StatusCodes.OK;
         this.ok = true;
     }
-    setErrors(errors) {
-        this.errors = errors;
+    setError(error) {
+        this.error = error;
         return this;
     }
     setStatusCode(statusCode) {

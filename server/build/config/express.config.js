@@ -12,6 +12,7 @@ const cart_router_1 = __importDefault(require("../modules/cart/cart.router"));
 const order_router_1 = __importDefault(require("../modules/order/order.router"));
 const root_router_1 = __importDefault(require("../modules/root/root.router"));
 const middlewares_1 = require("../utils/middlewares");
+const product_router_1 = __importDefault(require("../modules/product/product.router"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.use(express_1.default.json({
@@ -22,6 +23,7 @@ app.use("/", root_router_1.default);
 app.use("/api/auth", auth_router_1.default);
 app.use("/api/carts", cart_router_1.default);
 app.use("/api/orders", order_router_1.default);
+app.use("/api/products", product_router_1.default);
 app.use("*", middlewares_1.invalidPathHandler);
 //error middlewares
 app.use(middlewares_1.handleClientErrors);

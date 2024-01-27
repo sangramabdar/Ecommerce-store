@@ -10,14 +10,14 @@ async function signUpService(req) {
         let { email, password } = req.body;
         let user = await (0, auth_repository_1.getUserByEmail)(email);
         if (user)
-            return [null, new exceptions_1.EmailExists()];
+            throw new exceptions_1.EmailExists();
         const salt = await (0, bcryptjs_1.genSalt)(10);
         const hashPassword = await (0, bcryptjs_1.hash)(password, salt);
         let result = await (0, auth_repository_1.saveUser)(Object.assign(Object.assign({}, req.body), { password: hashPassword }));
-        return [result, null];
+        return result;
     }
     catch (error) {
-        return [null, error];
+        throw error;
     }
 }
 exports.signUpService = signUpService;
@@ -26,27 +26,24 @@ async function loginService(req) {
         const { email, password } = req.body;
         const user = await (0, auth_repository_1.getUserByEmail)(email);
         if (!user) {
-            return [null, new exceptions_1.NotRegistered()];
+            throw new exceptions_1.NotRegistered();
         }
         const isMatched = await (0, bcryptjs_1.compare)(password, user.password);
         if (!isMatched) {
-            return [null, new exceptions_1.BadRequest("password is not matched")];
+            return new exceptions_1.BadRequest("password is not matched");
         }
         const accessToken = await (0, jwt_1.generateAccessToken)({
             _id: user._id,
             email: user.email,
         }, "24h");
-        return [
-            {
-                _id: user._id,
-                email: user.email,
-                accessToken,
-            },
-            null,
-        ];
+        return {
+            _id: user._id,
+            email: user.email,
+            accessToken,
+        };
     }
     catch (error) {
-        return [null, error];
+        throw error;
     }
 }
 exports.loginService = loginService;
