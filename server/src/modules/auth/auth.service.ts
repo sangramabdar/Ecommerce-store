@@ -3,40 +3,41 @@ import { Request } from "express";
 import { getUserByEmail, saveUser } from "./auth.repository";
 import { EmailExists, NotRegistered, BadRequest } from "../../utils/exceptions";
 import { generateAccessToken } from "../../utils/jwt";
+import { LoginSchema, SignUpSchema } from "./auth.schema";
 
 async function signUpService(req: Request) {
   try {
-    let { email, password } = req.body;
+    let { email, password } = req.body as SignUpSchema;
 
     let user = await getUserByEmail(email);
 
-    if (user) return [null, new EmailExists()];
+    if (user) throw new EmailExists();
 
     const salt = await genSalt(10);
     const hashPassword = await hash(password, salt);
 
     let result = await saveUser({ ...req.body, password: hashPassword });
 
-    return [result, null];
+    return result;
   } catch (error) {
-    return [null, error];
+    throw error;
   }
 }
 
 async function loginService(req: Request) {
   try {
-    const { email, password } = req.body;
+    const { email, password } = req.body as LoginSchema;
 
     const user = await getUserByEmail(email);
 
     if (!user) {
-      return [null, new NotRegistered()];
+      throw new NotRegistered();
     }
 
     const isMatched = await compare(password, user.password);
 
     if (!isMatched) {
-      return [null, new BadRequest("password is not matched")];
+      return new BadRequest("password is not matched");
     }
 
     const accessToken = await generateAccessToken(
@@ -47,16 +48,13 @@ async function loginService(req: Request) {
       "24h"
     );
 
-    return [
-      {
-        _id: user._id,
-        email: user.email,
-        accessToken,
-      },
-      null,
-    ];
+    return {
+      _id: user._id,
+      email: user.email,
+      accessToken,
+    };
   } catch (error) {
-    return [null, error];
+    throw error;
   }
 }
 

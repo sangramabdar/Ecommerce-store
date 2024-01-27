@@ -1,7 +1,4 @@
-import { Request, Response } from "express";
-import { CustomError } from "../../utils/exceptions";
 import { z } from "zod";
-import { StatusCodes } from "http-status-codes";
 
 const loginSchema = z.object({
   email: z
@@ -11,9 +8,13 @@ const loginSchema = z.object({
     .email({
       message: "email is not valid",
     }),
-  password: z.string().min(8, {
-    message: "password must contain between 8 to 20 characters",
-  }),
+  password: z
+    .string({
+      required_error: "password is required",
+    })
+    .min(8, {
+      message: "password must contain between 8 to 20 characters",
+    }),
 });
 
 const signUpSchema = z
@@ -54,36 +55,8 @@ const signUpSchema = z
     message: "password and confirm password must be similar",
   });
 
-type LoginType = z.infer<typeof loginSchema>;
+type LoginSchema = z.infer<typeof loginSchema>;
 
-type SignUpType = z.infer<typeof loginSchema>;
+type SignUpSchema = z.infer<typeof signUpSchema>;
 
-async function validateLoginSchema(req: Request, res: Response, next) {
-  try {
-    req.body = await loginSchema.parseAsync(req.body);
-    next();
-  } catch (error) {
-    error = new CustomError(error.errors[0].message, StatusCodes.BAD_REQUEST);
-    next(error);
-  }
-}
-
-async function validateSignUpSchema(req: Request, res: Response, next) {
-  try {
-    req.body = await signUpSchema.parseAsync(req.body);
-    console.log(req.body);
-    next();
-  } catch (error) {
-    error = new CustomError(error.errors[0].message, StatusCodes.BAD_REQUEST);
-    next(error);
-  }
-}
-
-export {
-  validateLoginSchema,
-  validateSignUpSchema,
-  SignUpType,
-  LoginType,
-  loginSchema,
-  signUpSchema,
-};
+export { loginSchema, signUpSchema, LoginSchema, SignUpSchema };

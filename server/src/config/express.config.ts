@@ -12,6 +12,7 @@ import {
   handleClientErrors,
   handleServerErrors,
 } from "../utils/middlewares";
+import productRouter from "../modules/product/product.router";
 
 const app: Application = express();
 
@@ -31,6 +32,7 @@ app.use("/", RootRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/carts", cartRouter);
 app.use("/api/orders", orderRouter);
+app.use("/api/products", productRouter);
 app.use("*", invalidPathHandler);
 
 //error middlewares

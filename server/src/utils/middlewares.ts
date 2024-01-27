@@ -10,7 +10,9 @@ function invalidPathHandler(
   const responseBody = new ResponseBodyBuilder()
     .setOK(false)
     .setStatusCode(StatusCodes.NOT_FOUND)
-    .setErrors(["not found"])
+    .setError({
+      message: "not found",
+    })
     .build();
 
   response.status(StatusCodes.NOT_FOUND).json(responseBody);
@@ -26,7 +28,7 @@ async function handleClientErrors(
     const response = new ResponseBodyBuilder()
       .setOK(false)
       .setStatusCode(error.statusCode)
-      .setErrors([error.message])
+      .setError({ message: error.message })
       .build();
 
     res.status(error.statusCode);
@@ -46,7 +48,7 @@ async function handleServerErrors(
   const response = new ResponseBodyBuilder()
     .setOK(false)
     .setStatusCode(StatusCodes.INTERNAL_SERVER_ERROR)
-    .setErrors([error.message])
+    .setError([error.message])
     .build();
 
   res.status(StatusCodes.INTERNAL_SERVER_ERROR);

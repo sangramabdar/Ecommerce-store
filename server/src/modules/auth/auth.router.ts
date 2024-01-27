@@ -1,5 +1,4 @@
 import { Router } from "express";
-
 import { loginSchema, signUpSchema } from "./auth.schema";
 import { loginController, signUpController } from "./auth.controller";
 import { validateSchema } from "../../utils/zod";

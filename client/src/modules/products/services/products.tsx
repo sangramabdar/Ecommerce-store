@@ -2,11 +2,13 @@ import { getRequest } from "../../../services/requests";
 import { setStatus, STATUS, saveProducts } from "../store/productSlice";
 import { RootState, AppDispatch } from "../../../store/store";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { BASE_URL } from "../../../services/constants";
 
-const PRODUCTS_URL = "https://fakestoreapi.com/products";
+const PRODUCTS_URL = BASE_URL + "/products";
 
 const fetchProducts = createAsyncThunk("products/fetchProducts", async () => {
   const result = await getRequest(PRODUCTS_URL);
+  console.log(result.data);
   return result.data;
 });
 

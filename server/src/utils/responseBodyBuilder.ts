@@ -1,14 +1,13 @@
 import { StatusCodes } from "http-status-codes";
 
 class ResponseBodyBuilder<T = any> {
-  private timeStamp: number = Date.now();
-  private errors: any[] = [];
-  private statusCode: number = StatusCodes.OK;
-  private data: T | {} = {};
-  private ok: boolean = true;
+  error: {};
+  statusCode: number = StatusCodes.OK;
+  data: T | {};
+  ok: boolean = true;
 
-  setErrors(errors: any[]) {
-    this.errors = errors;
+  setError(error: {}) {
+    this.error = error;
     return this;
   }
 
