@@ -10,6 +10,7 @@ import { handleTokenError } from "../../../utils/tokenError";
 import { emptyCart } from "../../cart/store/cartSlice";
 import { loadInitialOrders } from "../store/orderSlice";
 import { RootState, AppDispatch } from "../../../store/store";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 
 const ORDER_URL = BASE_URL + "/orders";
 
@@ -38,6 +39,19 @@ function placeOrderService(orderAddress: any) {
   };
 }
 
+const ORDERS_URL = BASE_URL + "/products";
+
+const fetchOrders = createAsyncThunk<any, any, any>(
+  "products/fetchProducts",
+  async (_, { getState }: any) => {
+    const result = await getRequest(ORDERS_URL, {
+      ...DEFAULT_HEADERS,
+      Authorization: "Bearer " + getState()!!.auth.user.accessToken,
+    });
+    return result.data.orders;
+  }
+);
+
 function getOrdersService() {
   return async function (dispatch: AppDispatch, getState: () => RootState) {
     const result = await getRequest(ORDER_URL, {
@@ -49,4 +63,4 @@ function getOrdersService() {
   };
 }
 
-export { getOrdersService, placeOrderService };
+export { getOrdersService, placeOrderService, fetchOrders };

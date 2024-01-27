@@ -1,6 +1,13 @@
 import { Request, Response } from "express";
 import { ObjectId } from "mongodb";
-import { BadRequest, CustomError, NotFound, Unauthorized } from "./exceptions";
+import {
+  BadRequest,
+  CustomError,
+  NotFound,
+  TokenError,
+  Unauthenticated,
+  Unauthorized,
+} from "./exceptions";
 import { verifyAccessToken } from "./jwt";
 
 async function validateId(req: Request, res: Response, next) {
@@ -23,7 +30,7 @@ async function validateBody(req: Request, res: Response, next) {
 }
 
 async function validateToken(req: any, res: Response, next) {
-  let error = new Unauthorized();
+  let error = new Unauthenticated();
   try {
     const token = req.headers["authorization"];
 
@@ -40,15 +47,15 @@ async function validateToken(req: any, res: Response, next) {
     }
 
     let user = await verifyAccessToken(tokenPart);
-    req.user = user;
 
-    // user = await User.findById(user._id);
-
-    // if (!user) return [null, new NotFound("user doesn't exit")];
+    req.user = {
+      ...user,
+      accessToken: tokenPart,
+    };
 
     next();
-  } catch (error) {
-    error = new CustomError("token is invalid or expired", 403);
+  } catch (_e) {
+    error.setMessage("token is invalid");
     next(error);
   }
 }

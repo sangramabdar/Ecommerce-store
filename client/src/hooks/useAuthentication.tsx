@@ -1,30 +1,34 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import {
-  AuthSliceType,
-  addUser,
-} from "../modules/authentication/store/authSlice";
-import { RootState } from "../store/store";
+import { useDispatch } from "react-redux";
+import { addUser, removeUser } from "../modules/authentication/store/authSlice";
+import { getRequest } from "../services/requests";
+import { BASE_URL, RequestStatus } from "../services/constants";
 
 function useAuthentication() {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const user = useSelector<RootState, AuthSliceType>(state => state.auth.user);
 
   useEffect(() => {
-    if (user) return;
+    async function verifyUser() {
+      const localUser = localStorage.getItem("user");
 
-    if (!localStorage.getItem("user")) {
-      navigate("/");
-      return;
+      const user: any = JSON.parse(localUser ? localUser : "{}");
+
+      const result = await getRequest(BASE_URL + "/auth/verify", {
+        Authorization: `Bearer ${user?.accessToken}`,
+      });
+
+      if (result.status === RequestStatus.ERROR) {
+        dispatch(removeUser());
+        return;
+      }
+
+      dispatch(addUser(result.data));
     }
 
-    const authUser = JSON.parse(localStorage.getItem("user")!!);
-    dispatch(addUser(authUser));
+    setTimeout(() => {
+      verifyUser();
+    }, 1000);
   }, []);
-
-  return user;
 }
 
 export default useAuthentication;

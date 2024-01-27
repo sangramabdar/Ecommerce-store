@@ -21,13 +21,17 @@ import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import NavBar from "./components/NavBar";
 import { loadInitialThingsService } from "./modules/authentication/services/auth";
+import { getRequest } from "./services/requests";
+import { BASE_URL, RequestStatus } from "./services/constants";
+import Loading from "./components/Loading";
+import { addUser, removeUser } from "./modules/authentication/store/authSlice";
+import useAuthentication from "./hooks/useAuthentication";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   return (
     <Provider store={store}>
-      <BrowserRouter>
-        <MainApplication />
-      </BrowserRouter>
+      <MainApplication />
     </Provider>
   );
 }
@@ -67,7 +71,11 @@ const routes = [
   },
   {
     path: "orders",
-    element: <OrderPage />,
+    element: (
+      <Route element={<PrivateRoute />}>
+        <OrderPage />
+      </Route>
+    ),
   },
   {
     path: "*",
@@ -76,37 +84,41 @@ const routes = [
 ];
 
 function MainApplication() {
-  const location = useLocation();
-  const dispatch = useDispatch();
+  useAuthentication();
 
-  const user = useSelector<any, any>(state => state.auth.user);
-
-  useEffect(() => {
-    if (!user) return;
-
-    dispatch<any>(loadInitialThingsService());
-  }, [user]);
+  const { isAuthenticating } = useSelector<any, any>(state => state.auth);
 
   return (
     <>
-      <div className="App bg-slate-100 px-4 pb-4 h-fit">
-        <NavBar />
-        <main className="mt-12">
-          <AnimatePresence mode="wait">
-            <Routes location={location} key={location.pathname}>
-              {routes.map((route: any) => {
-                return (
-                  <Route
-                    key={route.path}
-                    path={route.path}
-                    element={route.element}
-                  />
-                );
-              })}
-            </Routes>
-          </AnimatePresence>
-        </main>
-      </div>
+      {isAuthenticating ? (
+        <div className="bg-red-200 h-screen animate-bounce text-center flex justify-center items-center">
+          Loading
+        </div>
+      ) : (
+        <BrowserRouter>
+          <div className="App bg-slate-100 px-4 pb-4 h-fit">
+            <NavBar />
+            <main className="mt-12">
+              <AnimatePresence mode="wait">
+                <Routes>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="products" element={<ProductsPage />} />
+                  <Route path="login" element={<LoginPage />} />
+                  <Route path="signup" element={<SignUpPage />} />
+                  <Route path="products/:id" element={<ProductPage />} />
+                  <Route element={<PrivateRoute />}>
+                    <Route path="orders" element={<OrderPage />} />
+                    <Route path="cart" element={<CartPage />} />
+                    <Route path="checkout" element={<CheckoutPage />} />
+                  </Route>
+                  <Route path="*" element={<HomePage />} />
+                </Routes>
+              </AnimatePresence>
+            </main>
+          </div>
+        </BrowserRouter>
+      )}
+
       <ToastContainer />
     </>
   );

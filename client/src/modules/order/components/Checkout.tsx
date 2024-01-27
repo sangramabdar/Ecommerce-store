@@ -23,7 +23,6 @@ const initialDeliveryInfo = {
 };
 
 function Checkout() {
-  useAuthentication();
   const totalPrice = useSelector<RootState, number>(
     state => state.cart.totalPrice
   );

@@ -2,10 +2,14 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface AuthSliceType {
   user: any;
+  isAuthenticated: boolean;
+  isAuthenticating: boolean;
 }
 
 const initailSignedInUser: AuthSliceType = {
   user: null,
+  isAuthenticated: false,
+  isAuthenticating: true,
 };
 
 const authSlice = createSlice({
@@ -14,10 +18,14 @@ const authSlice = createSlice({
   reducers: {
     addUser(state, action) {
       state.user = action.payload;
+      state.isAuthenticated = true;
+      state.isAuthenticating = false;
     },
 
     removeUser(state, action: PayloadAction<undefined>) {
       state.user = null;
+      state.isAuthenticated = false;
+      state.isAuthenticating = false;
     },
   },
 });

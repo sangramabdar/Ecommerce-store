@@ -7,7 +7,6 @@ import { RootState } from "../../../store/store";
 import { CartSliceType } from "../store/cartSlice";
 
 function Cart() {
-  const user = useAuthentication();
   const { cartItems, totalPrice } = useSelector<RootState, CartSliceType>(
     state => state.cart
   );
@@ -17,9 +16,9 @@ function Cart() {
     navigate("/checkout");
   };
 
-  if (!user) {
-    return <Loading />;
-  }
+  // if (!user) {
+  //   return <Loading />;
+  // }
 
   return (
     <div className="flex flex-col gap-5">

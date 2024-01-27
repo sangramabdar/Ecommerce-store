@@ -32,4 +32,16 @@ async function signUpController(req: Request, res: Response, next) {
   }
 }
 
-export { loginController, signUpController };
+async function verifyTokenController(req: any, res: Response, next) {
+  try {
+    const responseBody = new ResponseBodyBuilder()
+      .setStatusCode(StatusCodes.OK)
+      .setData(req.user);
+
+    res.status(StatusCodes.OK).json(responseBody);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export { loginController, signUpController, verifyTokenController };
