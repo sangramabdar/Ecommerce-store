@@ -10,7 +10,6 @@ const fetchProducts = createAsyncThunk("products/fetchProducts", async () => {
   const result = await getRequest(PRODUCTS_URL, {
     ...DEFAULT_HEADERS,
   });
-  console.log(result.data);
   return result.data;
 });
 

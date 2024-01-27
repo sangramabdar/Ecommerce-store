@@ -14,14 +14,14 @@ interface ProductProps {
 }
 
 function Product({ product }: React.PropsWithChildren<ProductProps>) {
-  const { category, description, id, price, rating, title, image } = product;
+  const { category, description, _id, price, rating, title, image } = product;
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector<any, any>(state => state.auth);
 
   const cartItem = useSelector<any, any>(state =>
-    state.cart.cartItems.find((product: any) => product.id == id)
+    state.cart.cartItems.find((product: any) => product._id == _id)
   );
 
   const action = useMemo(() => (cartItem ? "remove" : "add"), [cartItem]);
@@ -45,13 +45,13 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
   };
 
   const handleProductPageNavigation = () => {
-    navigate(`/products/${id}`);
+    navigate(`/products/${_id}`);
   };
 
   return (
     <div
       className="flex flex-col justify-evenly items-center bg-white rounded-md h-[250px] shadow-lg"
-      key={id}
+      key={_id}
       onClick={handleProductPageNavigation}
     >
       <img className="h-fit w-9 object-cover" src={image} />

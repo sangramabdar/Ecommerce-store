@@ -34,7 +34,7 @@ function Products() {
       <h1 className="font-bold mb-5">Products</h1>
       <div className="grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-4">
         {products.map(product => {
-          return <Product key={product.id} product={product} />;
+          return <Product key={product._id} product={product} />;
         })}
       </div>
     </div>

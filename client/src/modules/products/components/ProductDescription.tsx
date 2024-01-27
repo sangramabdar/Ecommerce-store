@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ProductSliceType, ProductType, STATUS } from "../store/productSlice";
 import Loading from "../../../components/Loading";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
-import { getProductsService } from "../services/products";
+import { fetchProducts, getProductsService } from "../services/products";
 import React from "react";
 import { RootState } from "../../../store/store";
 import {
@@ -17,14 +17,14 @@ interface ProductProps {
 }
 
 function Product({ product }: React.PropsWithChildren<ProductProps>) {
-  const { category, description, id, price, rating, title, image } = product;
+  const { category, description, _id, price, rating, title, image } = product;
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector<any, any>(state => state.auth);
 
   const cartItem = useSelector<any, any>(state =>
-    state.cart.cartItems.find((product: any) => product.id == id)
+    state.cart.cartItems.find((product: any) => product._id == _id)
   );
 
   const action = useMemo(() => (cartItem ? "remove" : "add"), [cartItem]);
@@ -48,14 +48,14 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
   };
 
   const handleProductPageNavigation = () => {
-    navigate(`/products/${id}`);
+    navigate(`/products/${_id}`);
   };
 
   return (
     <div className="bg-white my-[80px] rounded-md shadow-lg w-full p-3 md:max-w-[500px] md:mx-auto">
       <div
         className="flex flex-col p-3 space-y-2 justify-center items-center md:flex-row md:justify-evenly "
-        key={id}
+        key={_id}
         onClick={handleProductPageNavigation}
       >
         <img className="w-40" src={image} />
@@ -94,13 +94,16 @@ function ProductDescription() {
   useEffect(() => {
     if (status === STATUS.LOADING) return;
     if (status === STATUS.ERROR) return;
-    let product = data.find((element: any) => element.id == id) as ProductType;
+    let product = data.find(
+      (element: any) => element._id === id
+    ) as ProductType;
+
+    console.log(product);
     setProduct(product);
   }, [status]);
 
   useEffect(() => {
-    if (data.length > 0) return;
-    dispatch<any>(getProductsService());
+    dispatch<any>(fetchProducts());
   }, []);
 
   if (status === STATUS.LOADING) return <Loading />;
