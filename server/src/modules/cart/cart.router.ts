@@ -4,7 +4,7 @@ import {
   getCartItemsController,
 } from "./cart.controller";
 import { validateToken } from "../../utils/validation";
-import { validateCartDto } from "./cart.dto";
+import { validateCartDto } from "./cart.schema";
 
 const cartRouter = Router();
 

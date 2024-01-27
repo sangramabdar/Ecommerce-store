@@ -1,12 +1,13 @@
-class ResponseBodyBuilder<T = any> {
-  private timeStamp: number = Date.now();
-  private errors: any[] = [];
-  private statusCode: number = 200;
-  private data: T | {} = null;
-  private ok: boolean = true;
+import { StatusCodes } from "http-status-codes";
 
-  setErrors(errors: any[]) {
-    this.errors = errors;
+class ResponseBodyBuilder<T = any> {
+  error: {};
+  statusCode: number = StatusCodes.OK;
+  data: T | {};
+  ok: boolean = true;
+
+  setError(error: {}) {
+    this.error = error;
     return this;
   }
 
