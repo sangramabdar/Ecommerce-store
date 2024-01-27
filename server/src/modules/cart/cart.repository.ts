@@ -12,8 +12,11 @@ async function addCartItemsToCartById(cardId, cartItems) {
 }
 
 async function getCartItemsByCartId(cardId) {
-  const cartDoc = await Cart.findById(cardId);
-  return cartDoc.cartItems;
+  const cart = await Cart.findById(cardId);
+
+  if (!cart) return null;
+
+  return cart.cartItems;
 }
 
 export { addCartItemsToCartById, getCartItemsByCartId };

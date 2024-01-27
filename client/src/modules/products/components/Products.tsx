@@ -3,22 +3,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { ProductSliceType, ProductType, STATUS } from "../store/productSlice";
 import Product from "./Product";
 import Loading from "../../../components/Loading";
-import { fetchProducts, getProductsService } from "../services/products";
+import { fetchProductsService, getProductsService } from "../services/products";
 import { RootState } from "../../../store/store";
 
 function Products() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const { data: products, status } = useSelector<RootState, ProductSliceType>(
     state => state.products
   );
 
   useEffect(() => {
-    if (products.length > 0) return;
-
-    setTimeout(() => {
-      // dispatch<any>(getProductsService());
-      dispatch<any>(fetchProducts());
-    }, 2000);
+    dispatch(fetchProductsService());
   }, []);
 
   if (status === STATUS.LOADING) {

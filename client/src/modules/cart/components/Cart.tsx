@@ -1,24 +1,28 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Loading from "../../../components/Loading";
 import { useNavigate } from "react-router-dom";
 import CartProduct from "./CartProduct";
-import useAuthentication from "../../../hooks/useAuthentication";
 import { RootState } from "../../../store/store";
 import { CartSliceType } from "../store/cartSlice";
+import { useEffect } from "react";
+import { fetchCartItemsService } from "../services/cart";
 
 function Cart() {
   const { cartItems, totalPrice } = useSelector<RootState, CartSliceType>(
     state => state.cart
   );
+
+  const dispatch = useDispatch<any>();
+
+  useEffect(() => {
+    dispatch(fetchCartItemsService(null));
+  }, []);
+
   const navigate = useNavigate();
 
   const handleCheckout = () => {
     navigate("/checkout");
   };
-
-  // if (!user) {
-  //   return <Loading />;
-  // }
 
   return (
     <div className="flex flex-col gap-5">

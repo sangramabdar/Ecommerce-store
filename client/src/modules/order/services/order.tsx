@@ -41,13 +41,17 @@ function placeOrderService(orderAddress: any) {
 
 const ORDERS_URL = BASE_URL + "/products";
 
-const fetchOrders = createAsyncThunk<any, any, any>(
+const fetchOrdersService = createAsyncThunk<any, any, { state: RootState }>(
   "products/fetchProducts",
-  async (_, { getState }: any) => {
+  async (_, { getState, rejectWithValue }) => {
     const result = await getRequest(ORDERS_URL, {
       ...DEFAULT_HEADERS,
-      Authorization: "Bearer " + getState()!!.auth.user.accessToken,
+      Authorization: "Bearer " + getState().auth.user.accessToken,
     });
+
+    if (result.status === RequestStatus.ERROR) {
+      return rejectWithValue(result);
+    }
     return result.data.orders;
   }
 );
@@ -63,4 +67,4 @@ function getOrdersService() {
   };
 }
 
-export { getOrdersService, placeOrderService, fetchOrders };
+export { getOrdersService, placeOrderService, fetchOrdersService };

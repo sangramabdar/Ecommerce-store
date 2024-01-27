@@ -4,6 +4,7 @@ import {
   getCartItemsByCartId,
 } from "./cart.repository";
 import Cart from "../../models/Cart";
+import { NotFound } from "../../utils/exceptions";
 
 function calculateTotalPrice(cartItems: any[]) {
   let totalPrice = 0;
@@ -52,11 +53,13 @@ async function getCartItemsService(req: any) {
     const user = await User.findById(_id);
     const cartId = user.cartId;
 
+    console.log(cartId);
+
     if (!cartId) return [[], null];
 
     const cartItems = await getCartItemsByCartId(cartId);
 
-    return [cartItems, null];
+    if (!cartItems) return [null, new NotFound("cart")];
   } catch (error) {
     return [null, error];
   }

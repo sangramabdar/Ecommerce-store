@@ -12,9 +12,9 @@ async function postRequest(
     const response = await axios.post(url, data, {
       headers,
     });
-    return generateSuccessApiResult(result, response);
+    return generateSuccessApiResult(response);
   } catch (error: any) {
-    return generateErrorApiResult(result, error);
+    return generateErrorApiResult(error);
   }
 }
 
@@ -25,9 +25,9 @@ async function getRequest(url: string, headers: {} = {}): Promise<ApiResult> {
     const response = await axios.get(url, {
       headers,
     });
-    return generateSuccessApiResult(result, response);
+    return generateSuccessApiResult(response);
   } catch (error: any) {
-    return generateErrorApiResult(result, error);
+    return generateErrorApiResult(error);
   }
 }
 
@@ -42,9 +42,9 @@ async function putRequest(
     const response = await axios.put(url, data, {
       headers,
     });
-    return generateSuccessApiResult(result, response);
+    return generateSuccessApiResult(response);
   } catch (error: any) {
-    return generateErrorApiResult(result, error);
+    return generateErrorApiResult(error);
   }
 }
 
@@ -58,13 +58,15 @@ async function deleteRequest(
     const response = await axios.delete(url, {
       headers,
     });
-    return generateSuccessApiResult(result, response);
+    return generateSuccessApiResult(response);
   } catch (error: any) {
-    return generateErrorApiResult(result, error);
+    return generateErrorApiResult(error);
   }
 }
 
-function generateSuccessApiResult(result: ApiResult, response: AxiosResponse) {
+function generateSuccessApiResult(response: AxiosResponse) {
+  let result: ApiResult = {};
+
   result.statusCode = response.status;
   result.status = RequestStatus.SUCCESS;
 
@@ -77,7 +79,9 @@ function generateSuccessApiResult(result: ApiResult, response: AxiosResponse) {
   return result;
 }
 
-function generateErrorApiResult(result: ApiResult, error: any) {
+function generateErrorApiResult(error: any) {
+  let result: ApiResult = {};
+
   result.status = RequestStatus.ERROR;
 
   //error genearated at client like network error
@@ -89,7 +93,7 @@ function generateErrorApiResult(result: ApiResult, error: any) {
 
   //error sent by server
   result.statusCode = error.response.status;
-  result.error = error.response.data.error;
+  result.error = error.response.data.error.message;
   return result;
 }
 

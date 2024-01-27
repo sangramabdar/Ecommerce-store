@@ -13,7 +13,7 @@ const store = configureStore({
     auth: signedInUserReducer,
     order: orderReducer,
   },
-  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(logger),
+  // middleware: getDefaultMiddleware => getDefaultMiddleware().concat(logger),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

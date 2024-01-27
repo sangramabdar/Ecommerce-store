@@ -2,16 +2,27 @@ import { getRequest } from "../../../services/requests";
 import { setStatus, STATUS, saveProducts } from "../store/productSlice";
 import { RootState, AppDispatch } from "../../../store/store";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { BASE_URL, DEFAULT_HEADERS } from "../../../services/constants";
+import {
+  BASE_URL,
+  DEFAULT_HEADERS,
+  RequestStatus,
+} from "../../../services/constants";
 
 const PRODUCTS_URL = BASE_URL + "/products";
 
-const fetchProducts = createAsyncThunk("products/fetchProducts", async () => {
-  const result = await getRequest(PRODUCTS_URL, {
-    ...DEFAULT_HEADERS,
-  });
-  return result.data;
-});
+const fetchProductsService = createAsyncThunk(
+  "products/fetchProducts",
+  async (_, thunkApi) => {
+    const result = await getRequest(PRODUCTS_URL, {
+      ...DEFAULT_HEADERS,
+    });
+
+    if (result.status === RequestStatus.ERROR) {
+      return thunkApi.rejectWithValue(result);
+    }
+    return result.data;
+  }
+);
 
 function getProductsService() {
   return async function (dispatch: AppDispatch, getState: () => RootState) {
@@ -26,4 +37,4 @@ function getProductsService() {
   };
 }
 
-export { getProductsService, fetchProducts };
+export { getProductsService, fetchProductsService };

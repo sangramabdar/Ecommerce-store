@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ProductSliceType, ProductType, STATUS } from "../store/productSlice";
 import Loading from "../../../components/Loading";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
-import { fetchProducts, getProductsService } from "../services/products";
+import { fetchProductsService } from "../services/products";
 import React from "react";
 import { RootState } from "../../../store/store";
 import {
@@ -98,12 +98,11 @@ function ProductDescription() {
       (element: any) => element._id === id
     ) as ProductType;
 
-    console.log(product);
     setProduct(product);
   }, [status]);
 
   useEffect(() => {
-    dispatch<any>(fetchProducts());
+    dispatch<any>(fetchProductsService());
   }, []);
 
   if (status === STATUS.LOADING) return <Loading />;
