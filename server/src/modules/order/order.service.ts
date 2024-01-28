@@ -3,25 +3,36 @@ import { NotFound } from "../../utils/exceptions";
 import { placeOrderForSpecificUser } from "./order.repository";
 import Cart from "../../models/Cart";
 import Order from "../../models/Order";
+import { TOrderSchema } from "./order.schema";
+import { getCartItemsByCartId } from "../cart/cart.repository";
 
 async function placeOrderService(req: any) {
   try {
     const userId = req.user._id;
-    const orderAddress = req.body.orderAddress;
+    const orderAddress = req.body as TOrderSchema;
 
     const user = await User.findById(userId);
 
-    if (!user.cartId) return [null, new NotFound("cart")];
+    if (!user.cartId) throw new NotFound("cart");
 
+    const cartItems = await getCartItemsByCartId(user.cartId.toString());
+
+    if (!cartItems) throw new NotFound("cart");
+
+    const orderId = await placeOrderForSpecificUser(
+      user,
+      cartItems,
+      orderAddress
+    );
+
+    //make cart empty
     const cart = await Cart.findById(user.cartId);
+    cart.cartItems.pull(-1);
+    await cart.save();
 
-    if (cart.cartItems.length === 0) return [null, new NotFound("cart")];
-
-    const orderId = await placeOrderForSpecificUser(user, cart, orderAddress);
-
-    return [{ orderId }, null];
+    return { orderId };
   } catch (error) {
-    return [null, error];
+    throw error;
   }
 }
 
@@ -34,9 +45,9 @@ async function getOrdersService(req: any) {
       _id: { $in: user.orders },
     });
 
-    return [{ orders }, null];
+    return orders;
   } catch (error) {
-    return [null, error];
+    throw error;
   }
 }
 

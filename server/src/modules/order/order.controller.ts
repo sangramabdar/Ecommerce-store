@@ -4,27 +4,31 @@ import { getOrdersService, placeOrderService } from "./order.service";
 import { StatusCodes } from "http-status-codes";
 
 async function placeOrderController(req: Request, res: Response, next) {
-  const [data, error] = await placeOrderService(req);
+  try {
+    const data = await placeOrderService(req);
 
-  if (error) return next(error);
+    const responseBody = new ResponseBodyBuilder()
+      .setStatusCode(StatusCodes.CREATED)
+      .setData(data);
 
-  const responseBody = new ResponseBodyBuilder()
-    .setStatusCode(StatusCodes.CREATED)
-    .setData(data);
-
-  res.status(StatusCodes.CREATED).json(responseBody);
+    res.status(StatusCodes.CREATED).json(responseBody);
+  } catch (error) {
+    next(error);
+  }
 }
 
 async function getOrdersController(req: Request, res: Response, next) {
-  const [data, error] = await getOrdersService(req);
+  try {
+    const data = await getOrdersService(req);
 
-  if (error) return next(error);
+    const responseBody = new ResponseBodyBuilder()
+      .setStatusCode(StatusCodes.OK)
+      .setData(data);
 
-  const responseBody = new ResponseBodyBuilder()
-    .setStatusCode(StatusCodes.OK)
-    .setData(data);
-
-  res.status(StatusCodes.OK).json(responseBody);
+    res.status(StatusCodes.OK).json(responseBody);
+  } catch (error) {
+    next(error);
+  }
 }
 
 export { placeOrderController, getOrdersController };

@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { productSChema } from "./Product";
 
 const orderAddressSchema = new mongoose.Schema(
   {

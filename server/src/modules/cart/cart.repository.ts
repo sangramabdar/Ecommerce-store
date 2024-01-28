@@ -26,10 +26,12 @@ async function getCartItemsByCartId(cardId: string) {
 
   if (!cart) return null;
 
+  if (!cart.cartItems.length) return null;
+
   return cart.cartItems.map(cartItem => {
     return {
       product: cartItem.productId,
-      quatity: cartItem.quantity,
+      quantity: cartItem.quantity,
     };
   });
 }
