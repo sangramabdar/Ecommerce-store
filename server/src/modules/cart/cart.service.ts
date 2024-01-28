@@ -1,20 +1,7 @@
 import User from "../../models/User";
-import {
-  addCartItemsToCartById,
-  addProductToCartById,
-  getCartItemsByCartId,
-} from "./cart.repository";
+import { addProductToCartById, getCartItemsByCartId } from "./cart.repository";
 import Cart from "../../models/Cart";
 import { NotFound } from "../../utils/exceptions";
-import Product from "../../models/Product";
-
-function calculateTotalPrice(cartItems: any[]) {
-  let totalPrice = 0;
-  for (let item of cartItems) {
-    totalPrice += item.price;
-  }
-  return totalPrice;
-}
 
 async function addCartItemsToCartService(req: any) {
   try {
@@ -22,9 +9,9 @@ async function addCartItemsToCartService(req: any) {
     const cartItem = req.body;
 
     const user = await User.findById(_id);
-
     const cartId = user.cartId;
 
+    ///created new cart
     if (!cartId) {
       const cart = new Cart({
         userId: user._id,
@@ -34,13 +21,13 @@ async function addCartItemsToCartService(req: any) {
       await cart.save();
       user.cartId = cart._id;
       await user.save();
-
-      return { cartId: cart._id };
     } else {
+      //update carts
       await addProductToCartById(cartId, cartItem);
     }
+    const cartItems = await getCartItemsByCartId(cartId);
 
-    return { cartId };
+    return cartItems;
   } catch (error) {
     throw error;
   }
@@ -57,19 +44,12 @@ async function getCartItemsService(req: any) {
 
     const cartItems = await getCartItemsByCartId(cartId);
 
-    if (!cartItems) throw new NotFound("cart");
+    if (!cartItems) throw new NotFound("cartItems");
 
-    const products = [];
-
-    for (let cartItem of cartItems) {
-      const product = await Product.findById(cartItem.id);
-      products.push(product);
-    }
-
-    return products;
+    return cartItems;
   } catch (error) {
     return error;
   }
 }
 
-export { addCartItemsToCartService, calculateTotalPrice, getCartItemsService };
+export { addCartItemsToCartService, getCartItemsService };

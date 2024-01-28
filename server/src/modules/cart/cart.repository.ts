@@ -1,32 +1,32 @@
 import Cart from "../../models/Cart";
-import { calculateTotalPrice } from "./cart.service";
-
-async function addCartItemsToCartById(cardId, cartItems) {
-  const cartDoc = await Cart.findById(cardId);
-  const totalPrice = calculateTotalPrice(cartItems);
-
-  cartDoc.cartItems = cartItems;
-  cartDoc.totalPrice = totalPrice;
-
-  await cartDoc.save();
-}
 
 async function addProductToCartById(cardId, cartItem) {
   const cartDoc = await Cart.findById(cardId);
-  // const totalPrice = calculateTotalPrice(cartItem);
 
-  cartDoc.cartItems.push(cartItem);
-  // cartDoc.totalPrice = totalPrice;
+  const oldCartItem = cartDoc.cartItems.find(item => {
+    return item.product.toString() === cartItem.product;
+  });
+
+  if (oldCartItem) {
+    oldCartItem.quantity = cartItem.quantity;
+    await oldCartItem.save();
+  } else {
+    cartDoc.cartItems.push(cartItem);
+  }
 
   await cartDoc.save();
 }
 
 async function getCartItemsByCartId(cardId) {
-  const cart = await Cart.findById(cardId);
+  const cart = await (
+    await Cart.findById(cardId)
+  ).populate({
+    path: "cartItems.product",
+  });
 
   if (!cart) return null;
 
   return cart.cartItems;
 }
 
-export { addCartItemsToCartById, getCartItemsByCartId, addProductToCartById };
+export { getCartItemsByCartId, addProductToCartById };

@@ -12,7 +12,7 @@ const cartDto = yup.object().shape({
 });
 
 const cartItemSchema = z.object({
-  id: z.string(),
+  product: z.string(),
   quantity: z.number(),
 });
 
