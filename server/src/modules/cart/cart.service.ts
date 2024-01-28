@@ -1,15 +1,21 @@
 import User from "../../models/User";
 import { addProductToCartById, getCartItemsByCartId } from "./cart.repository";
 import Cart from "../../models/Cart";
-import { NotFound } from "../../utils/exceptions";
+import { BadRequest, NotFound } from "../../utils/exceptions";
+import { TCartSchema } from "./cart.schema";
+import Product from "../../models/Product";
 
 async function addCartItemsToCartService(req: any) {
   try {
     const _id = req.user._id;
-    const cartItem = req.body;
+    const cartItem = req.body as TCartSchema;
 
     const user = await User.findById(_id);
-    const cartId = user.cartId;
+    const cartId = user.cartId.toString();
+
+    //check if product is valid or not
+    const product = await Product.findById(cartItem.productId);
+    if (!product) throw new NotFound("prodduct");
 
     ///created new cart
     if (!cartId) {
@@ -19,11 +25,12 @@ async function addCartItemsToCartService(req: any) {
       });
 
       await cart.save();
+
       user.cartId = cart._id;
       await user.save();
     } else {
       //update carts
-      await addProductToCartById(cartId, cartItem);
+      await addProductToCartById(cartId.toString(), cartItem);
     }
     const cartItems = await getCartItemsByCartId(cartId);
 
@@ -35,10 +42,10 @@ async function addCartItemsToCartService(req: any) {
 
 async function getCartItemsService(req: any) {
   try {
-    const _id = req.user._id;
+    const userId = req.user._id;
 
-    const user = await User.findById(_id);
-    const cartId = user.cartId;
+    const user = await User.findById(userId);
+    const cartId = user.cartId.toString();
 
     if (!cartId) throw new NotFound("cart");
 
@@ -48,7 +55,7 @@ async function getCartItemsService(req: any) {
 
     return cartItems;
   } catch (error) {
-    return error;
+    throw error;
   }
 }
 

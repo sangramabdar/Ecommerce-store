@@ -8,10 +8,10 @@ async function addCartItemsToCartController(req: Request, res: Response, next) {
     const data = await addCartItemsToCartService(req);
 
     const responseBody = new ResponseBodyBuilder()
-      .setStatusCode(StatusCodes.OK)
+      .setStatusCode(StatusCodes.CREATED)
       .setData(data);
 
-    res.status(StatusCodes.OK).json(responseBody);
+    res.status(StatusCodes.CREATED).json(responseBody);
   } catch (error) {
     next(error);
   }
@@ -27,6 +27,7 @@ async function getCartItemsController(req: Request, res: Response, next) {
 
     res.status(StatusCodes.OK).json(responseBody);
   } catch (error) {
+    console.log(error);
     next(error);
   }
 }
