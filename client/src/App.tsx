@@ -42,7 +42,7 @@ function MainApplication() {
               <AnimatePresence mode="wait">
                 <Routes>
                   <Route path="/" element={<ProductsPage />} />
-                  <Route path="products" element={<ProductsPage />} />
+                  {/* <Route path="products" element={<ProductsPage />} /> */}
                   <Route path="login" element={<LoginPage />} />
                   <Route path="signup" element={<SignUpPage />} />
                   <Route path="products/:id" element={<ProductPage />} />
@@ -51,7 +51,7 @@ function MainApplication() {
                     <Route path="cart" element={<CartPage />} />
                     <Route path="checkout" element={<CheckoutPage />} />
                   </Route>
-                  <Route path="*" element={<HomePage />} />
+                  <Route path="*" element={<ProductsPage />} />
                 </Routes>
               </AnimatePresence>
             </main>

@@ -70,13 +70,13 @@ button:focus-visible {
 } */
 
 * {
-    margin: 0px;
-    padding: 0px;
-    box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
 }
 
 body {
-    background-color: rgb(241 245 249);
+  background-color: rgb(241 245 249);
 }
 
 @tailwind base;

@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useMemo } from "react";
 import React from "react";
+import Image from "../../../assets/prodcuct.png";
 import {
   addItemToCartService,
   removeItemFromCartService,

@@ -1,0 +1,27 @@
+.shimmer::after {
+  content: "";
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
+  animation: shimmer 2s linear infinite;
+  background-repeat: no-repeat;
+  background-color: #f1f1f1;
+  background: linear-gradient(
+    90deg,
+    rgba(238, 238, 238, 1) 9%,
+    rgba(226, 226, 226, 1) 18%,
+    rgba(238, 238, 238, 1) 31%
+  );
+  background-size: 1300px 100%;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 100% 0;
+  }
+}

@@ -109,10 +109,15 @@ function ProductDescription() {
   }, [status]);
 
   useEffect(() => {
-    dispatch<any>(fetchProductsService());
+    setTimeout(() => {
+      dispatch<any>(fetchProductsService());
+    }, 2000);
   }, []);
 
-  if (status === RequestStatus.LOADING) return <Loading />;
+  if (status === RequestStatus.LOADING)
+    return (
+      <div className="my-[80px] rounded-md shadow-lg w-full p-3 h-[500px] md:max-w-[500px] md:mx-auto shimmer relative"></div>
+    );
 
   if (status === RequestStatus.ERROR) {
     return <div>something went wrong</div>;
