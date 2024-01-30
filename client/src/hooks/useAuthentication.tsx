@@ -22,10 +22,12 @@ function useAuthentication() {
         return;
       }
 
-      dispatch(addUser(result.data));
+      dispatch(addUser(user));
     }
 
-    verifyUser();
+    setTimeout(() => {
+      verifyUser();
+    }, 2000);
   }, []);
 }
 
