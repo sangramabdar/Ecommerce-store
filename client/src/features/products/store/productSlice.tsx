@@ -52,7 +52,6 @@ const productSlice = createSlice({
     });
 
     builder.addCase(fetchProductsService.rejected, (state, action) => {
-      console.log(action);
       state.status = RequestStatus.ERROR;
     });
   },

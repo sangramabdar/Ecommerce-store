@@ -28,9 +28,7 @@ function useAuthentication() {
       dispatch(addUser(user));
     }
 
-    setTimeout(() => {
-      verifyUser();
-    }, 2000);
+    verifyUser();
   }, []);
 }
 
