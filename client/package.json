@@ -23,6 +23,7 @@
     "react-router-dom": "^6.4.1",
     "react-toastify": "^9.1.1",
     "redux-logger": "^3.0.6",
+    "tailwind-merge": "^2.2.1",
     "yup": "^0.32.11"
   },
   "devDependencies": {

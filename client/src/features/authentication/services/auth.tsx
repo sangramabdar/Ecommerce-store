@@ -1,8 +1,5 @@
 import { BASE_URL, DEFAULT_HEADERS } from "../../../services/constants";
 import { postRequest } from "../../../services/requests";
-import { AppDispatch, RootState } from "../../../store/store";
-import { getCartItemsService } from "../../cart/services/cart";
-import { getOrdersService } from "../../order/services/order";
 
 async function loginUserService(user: any) {
   const LOGIN_URL = BASE_URL + "/auth/login";
@@ -16,11 +13,4 @@ async function signUpUserService(user: any) {
   return result;
 }
 
-function loadInitialThingsService() {
-  return async function (dispatch: AppDispatch, getState: () => RootState) {
-    dispatch(getCartItemsService());
-    dispatch(getOrdersService());
-  };
-}
-
-export { loginUserService, signUpUserService, loadInitialThingsService };
+export { loginUserService, signUpUserService };

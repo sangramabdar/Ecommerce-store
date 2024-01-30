@@ -1,5 +1,5 @@
 import MountAndUnmountAnimation from "../components/MountAndUnmountAnimation";
-import ProductDescription from "../modules/products/components/ProductDescription";
+import ProductDescription from "../features/products/components/ProductDescription";
 
 export default function ProductPage() {
   return (

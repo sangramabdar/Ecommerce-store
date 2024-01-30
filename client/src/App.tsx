@@ -1,21 +1,21 @@
 import { Provider, useSelector } from "react-redux";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import CartPage from "./pages/CartPage";
-import HomePage from "./pages/HomePage";
-import store from "./store/store";
-import { ToastContainer } from "react-toastify";
-import CheckoutPage from "./pages/CheckoutPage";
-import ProductPage from "./pages/ProductPage";
-import OrderPage from "./pages/OrderPage";
-import ProductsPage from "./pages/ProductsPage";
 import { AnimatePresence } from "framer-motion";
-import LoginPage from "./pages/LoginPage";
-import SignUpPage from "./pages/SignUpPage";
-import NavBar from "./components/NavBar";
-import useAuthentication from "./hooks/useAuthentication";
-import PrivateRoute from "./components/PrivateRoute";
+import { ToastContainer } from "react-toastify";
 import AppLoading from "./components/AppLoading";
+import NavBar from "./components/NavBar";
+import PrivateRoute from "./components/PrivateRoute";
+import useAuthentication from "./hooks/useAuthentication";
+import CartPage from "./pages/CartPage";
+import CheckoutPage from "./pages/CheckoutPage";
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
+import OrderPage from "./pages/OrderPage";
+import ProductPage from "./pages/ProductPage";
+import ProductsPage from "./pages/ProductsPage";
+import SignUpPage from "./pages/SignUpPage";
+import store from "./store/store";
 
 function App() {
   return (
@@ -42,7 +42,7 @@ function MainApplication() {
               <AnimatePresence mode="wait">
                 <Routes>
                   <Route path="/" element={<ProductsPage />} />
-                  {/* <Route path="products" element={<ProductsPage />} /> */}
+                  <Route path="products" element={<ProductsPage />} />
                   <Route path="login" element={<LoginPage />} />
                   <Route path="signup" element={<SignUpPage />} />
                   <Route path="products/:id" element={<ProductPage />} />

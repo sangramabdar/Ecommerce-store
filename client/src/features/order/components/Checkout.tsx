@@ -1,14 +1,13 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { showLoadingToast } from "../../../utils/toast";
 import { useNavigate } from "react-router-dom";
 import { placeOrderService } from "../services/order";
 import * as yup from "yup";
 import OrderSummary from "./OrderSummary";
 import { useFormik } from "formik";
 import CheckoutInputField from "./CheckOutInputField";
-import useAuthentication from "../../../hooks/useAuthentication";
 import { RootState } from "../../../store/store";
+import { showLoadingToast } from "../../../utils/toast";
 
 const deliveryInfoSchema = yup.object().shape({
   address: yup.string().required("Required"),

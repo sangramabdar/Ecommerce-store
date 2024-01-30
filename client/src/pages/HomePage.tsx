@@ -1,5 +1,5 @@
-import MountAndUnmountAnimation from "../components/MountAndUnmountAnimation";
 import { Link } from "react-router-dom";
+import MountAndUnmountAnimation from "../components/MountAndUnmountAnimation";
 
 function HomePage() {
   return (

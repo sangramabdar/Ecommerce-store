@@ -1,5 +1,5 @@
-import Checkout from "../modules/order/components/Checkout";
 import MountAndUnmountAnimation from "../components/MountAndUnmountAnimation";
+import Checkout from "../features/order/components/Checkout";
 
 function CheckoutPage() {
   return (

@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { showErrorToast, showSuccessToast } from "../../../utils/toast";
 import { useMemo } from "react";
 import React from "react";
 import {
@@ -8,6 +7,7 @@ import {
   removeItemFromCartService,
 } from "../../cart/services/cart";
 import { ProductType } from "../store/productSlice";
+import { showErrorToast, showSuccessToast } from "../../../utils/toast";
 
 interface ProductProps {
   product: ProductType;

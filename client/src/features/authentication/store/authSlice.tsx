@@ -14,7 +14,7 @@ const initailSignedInUser: AuthSliceType = {
 
 const authSlice = createSlice({
   name: "user",
-  initialState: { ...initailSignedInUser },
+  initialState: initailSignedInUser,
   reducers: {
     addUser(state, action) {
       state.user = action.payload;

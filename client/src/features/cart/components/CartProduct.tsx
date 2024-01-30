@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { showSuccessToast } from "../../../utils/toast";
 import React from "react";
 import {
   removeItemFromCartService,
   addItemToCartService,
 } from "../services/cart";
+import { showSuccessToast } from "../../../utils/toast";
 
 interface CartProductProps {
   cartProduct: {

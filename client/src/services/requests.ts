@@ -6,8 +6,6 @@ async function postRequest(
   data: any = {},
   headers: {} = {}
 ): Promise<ApiResult> {
-  let result: ApiResult = {};
-
   try {
     const response = await axios.post(url, data, {
       headers,
@@ -19,8 +17,6 @@ async function postRequest(
 }
 
 async function getRequest(url: string, headers: {} = {}): Promise<ApiResult> {
-  let result: ApiResult = {};
-
   try {
     const response = await axios.get(url, {
       headers,
@@ -36,8 +32,6 @@ async function putRequest(
   data: any,
   headers: {} = {}
 ): Promise<ApiResult> {
-  let result: ApiResult = {};
-
   try {
     const response = await axios.put(url, data, {
       headers,
@@ -52,8 +46,6 @@ async function deleteRequest(
   url: string,
   headers: {} = {}
 ): Promise<ApiResult> {
-  let result: ApiResult = {};
-
   try {
     const response = await axios.delete(url, {
       headers,

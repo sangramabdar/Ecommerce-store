@@ -1,10 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { MouseEventHandler, useEffect, useState } from "react";
-import { addUser, removeUser } from "../modules/authentication/store/authSlice";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { ImCross } from "react-icons/im";
 import { motion } from "framer-motion";
+import {
+  addUser,
+  removeUser,
+} from "../features/authentication/store/authSlice";
 
 function SideNavigation({ open, onClick }: { open: boolean; onClick: any }) {
   let classes = `absolute right-0 top-0 h-screen transition-all duration-200 bg-white w-[200px] ${

@@ -1,6 +1,10 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ProductSliceType, ProductType, STATUS } from "../store/productSlice";
+import {
+  ProductSliceType,
+  ProductType,
+  RequestStatus,
+} from "../store/productSlice";
 import Product from "./Product";
 import Loading from "../../../components/Loading";
 import { fetchProductsService, getProductsService } from "../services/products";
@@ -16,11 +20,11 @@ function Products() {
     dispatch(fetchProductsService());
   }, []);
 
-  if (status === STATUS.LOADING) {
+  if (status === RequestStatus.LOADING) {
     return <Loading />;
   }
 
-  if (status === STATUS.ERROR) {
+  if (status === RequestStatus.ERROR) {
     return <div>something went wrong</div>;
   }
 

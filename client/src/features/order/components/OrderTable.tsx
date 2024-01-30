@@ -1,9 +1,9 @@
 import { useSelector, useDispatch } from "react-redux";
 import Loading from "../../../components/Loading";
 import OrderRow from "./OrderRow";
-import { RootState } from "../../../store/store";
 import { useEffect } from "react";
 import { getOrdersService } from "../services/order";
+import { RootState } from "../../../store/store";
 
 function OrderTable() {
   const orders = useSelector<RootState, null | []>(state => state.order.orders);

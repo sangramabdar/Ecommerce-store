@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import productReducer from "../modules/products/store/productSlice";
-import cartReducer from "../modules/cart/store/cartSlice";
-import signedInUserReducer from "../modules/authentication/store/authSlice";
-import orderReducer from "../modules/order/store/orderSlice";
+import productReducer from "../features/products/store/productSlice";
+import cartReducer from "../features/cart/store/cartSlice";
+import signedInUserReducer from "../features/authentication/store/authSlice";
+import orderReducer from "../features/order/store/orderSlice";
 
 import logger from "redux-logger";
 

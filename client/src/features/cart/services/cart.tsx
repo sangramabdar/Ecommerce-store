@@ -4,8 +4,8 @@ import {
   RequestStatus,
 } from "../../../services/constants";
 import { putRequest, getRequest } from "../../../services/requests";
-import { handleTokenError } from "../../../utils/tokenError";
 import { AppDispatch, RootState } from "../../../store/store";
+import { handleTokenError } from "../../../utils/tokenError";
 import {
   removeFromCart,
   addToCart,

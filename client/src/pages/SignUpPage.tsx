@@ -1,10 +1,10 @@
 import MountAndUnmountAnimation from "../components/MountAndUnmountAnimation";
-import SignUp from "../modules/authentication/components/SignUp";
+import SignUpForm from "../features/authentication/components/SignUpForm";
 
 function SignUpPage() {
   return (
     <MountAndUnmountAnimation>
-      <SignUp />
+      <SignUpForm />
     </MountAndUnmountAnimation>
   );
 }

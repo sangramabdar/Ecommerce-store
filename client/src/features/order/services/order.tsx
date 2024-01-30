@@ -1,16 +1,17 @@
 import { toast } from "react-toastify";
+
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   BASE_URL,
   DEFAULT_HEADERS,
   RequestStatus,
 } from "../../../services/constants";
 import { postRequest, getRequest } from "../../../services/requests";
+import { AppDispatch, RootState } from "../../../store/store";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
 import { handleTokenError } from "../../../utils/tokenError";
 import { emptyCart } from "../../cart/store/cartSlice";
 import { loadInitialOrders } from "../store/orderSlice";
-import { RootState, AppDispatch } from "../../../store/store";
-import { createAsyncThunk } from "@reduxjs/toolkit";
 
 const ORDER_URL = BASE_URL + "/orders";
 

@@ -1,5 +1,5 @@
-import Cart from "../modules/cart/components/Cart";
 import MountAndUnmountAnimation from "../components/MountAndUnmountAnimation";
+import Cart from "../features/cart/components/Cart";
 
 function CartPage() {
   return (

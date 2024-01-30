@@ -1,19 +1,19 @@
 import * as yup from "yup";
 import { useFormik } from "formik";
 import InputField from "./InputField";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthSliceType, addUser } from "../store/authSlice";
-import { useState, useEffect } from "react";
+import { addUser } from "../store/authSlice";
+import { useState } from "react";
 import { toast } from "react-toastify";
+import { RequestStatus } from "../../../services/constants";
 import {
   showErrorToast,
-  showLoadingToast,
   showSuccessToast,
+  showLoadingToast,
 } from "../../../utils/toast";
-import { RequestStatus } from "../../../services/constants";
 import { loginUserService } from "../services/auth";
-import { RootState } from "../../../store/store";
+import cn from "../../../utils/cn";
 
 const loginSchema = yup.object().shape({
   email: yup.string().required("Required").email("email must be valid"),
@@ -25,51 +25,32 @@ const initialLoginInfo = {
   password: "",
 };
 
-function Login() {
+function LoginForm() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [loggedIn, setLoggedIn] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
-  const user = useSelector<RootState, AuthSliceType>(state => state.auth.user);
-  const [loginInfo, setLoginInfo] = useState<typeof initialLoginInfo | null>(
-    null
-  );
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!user) return;
-    navigate("/");
-  }, [user]);
-
-  useEffect(() => {
-    if (!loggedIn) return;
-    navigate("/");
-  }, [loggedIn]);
-
-  useEffect(() => {
-    if (!loginInfo) return;
-
-    loginUser(loginInfo);
-  }, [loginInfo]);
-
-  const loginUser = async (user: any) => {
+  const handleLoginUser = async (user: any) => {
     const result = await loginUserService(user);
     toast.dismiss();
 
     if (result.status === RequestStatus.ERROR) {
       showErrorToast("Invalid email or password");
-    } else {
-      localStorage.setItem("user", JSON.stringify(result.data));
-      dispatch(addUser(result.data));
-      showSuccessToast("Logged In");
-      setLoggedIn(true);
+      setIsDisabled(false);
+      return;
     }
+
+    localStorage.setItem("user", JSON.stringify(result.data));
+    dispatch(addUser(result.data));
+    showSuccessToast("Logged In");
     setIsDisabled(false);
+    navigate("/");
   };
 
   const handleOnSubmit = (loginInfo: any) => {
     setIsDisabled(true);
     showLoadingToast("Processing");
-    setLoginInfo(loginInfo);
+    handleLoginUser(loginInfo);
   };
 
   const { errors, touched, values, handleChange, handleBlur, handleSubmit } =
@@ -107,7 +88,10 @@ function Login() {
         type="password"
       />
       <button
-        className="w-20 h-10 bg-violet-600 text-white rounded-md"
+        className={cn(
+          "w-20 h-10 bg-violet-600 text-white rounded-md",
+          isDisabled && "opacity-30"
+        )}
         type="submit"
         disabled={isDisabled}
       >
@@ -120,4 +104,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default LoginForm;

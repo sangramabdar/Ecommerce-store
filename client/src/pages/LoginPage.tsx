@@ -1,10 +1,10 @@
 import MountAndUnmountAnimation from "../components/MountAndUnmountAnimation";
-import Login from "../modules/authentication/components/Login";
+import LoginForm from "../features/authentication/components/LoginForm";
 
 function LoginPage() {
   return (
     <MountAndUnmountAnimation>
-      <Login />
+      <LoginForm />
     </MountAndUnmountAnimation>
   );
 }

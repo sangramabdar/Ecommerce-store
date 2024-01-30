@@ -1,12 +1,9 @@
+import { BASE_URL, DEFAULT_HEADERS } from "../../../services/constants";
 import { getRequest } from "../../../services/requests";
-import { setStatus, STATUS, saveProducts } from "../store/productSlice";
-import { RootState, AppDispatch } from "../../../store/store";
+import { AppDispatch, RootState } from "../../../store/store";
+import { setStatus, RequestStatus, saveProducts } from "../store/productSlice";
+
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import {
-  BASE_URL,
-  DEFAULT_HEADERS,
-  RequestStatus,
-} from "../../../services/constants";
 
 const PRODUCTS_URL = BASE_URL + "/products";
 
@@ -27,12 +24,12 @@ const fetchProductsService = createAsyncThunk(
 function getProductsService() {
   return async function (dispatch: AppDispatch, getState: () => RootState) {
     try {
-      dispatch(setStatus(STATUS.LOADING));
+      dispatch(setStatus(RequestStatus.LOADING));
       const result = await getRequest(PRODUCTS_URL);
-      dispatch(setStatus(STATUS.SUCCESS));
+      dispatch(setStatus(RequestStatus.SUCCESS));
       dispatch(saveProducts(result.data));
     } catch (error) {
-      dispatch(setStatus(STATUS.ERROR));
+      dispatch(setStatus(RequestStatus.ERROR));
     }
   };
 }
