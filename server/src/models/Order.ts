@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { productSChema } from "./Product";
 
 const orderAddressSchema = new mongoose.Schema(
   {
@@ -28,7 +27,7 @@ const orderSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    orderItems: {
+    orderProducts: {
       type: [],
       required: true,
     },
@@ -50,4 +49,4 @@ const orderSchema = new mongoose.Schema(
 
 const Order = mongoose.model("Order", orderSchema);
 
-export default Order;
+export { Order };

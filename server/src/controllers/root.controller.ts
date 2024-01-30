@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import ResponseBodyBuilder from "../../utils/responseBodyBuilder";
 import { StatusCodes } from "http-status-codes";
+import ResponseBodyBuilder from "../utils/responseBodyBuilder";
 
 class RootController {
   static async get(req: Request, res: Response) {
@@ -11,4 +11,4 @@ class RootController {
   }
 }
 
-export default RootController;
+export { RootController };

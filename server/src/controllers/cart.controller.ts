@@ -1,7 +1,7 @@
 import { Response, Request } from "express";
-import ResponseBodyBuilder from "../../utils/responseBodyBuilder";
-import { addCartItemsToCartService, getCartItemsService } from "./cart.service";
 import { StatusCodes } from "http-status-codes";
+import ResponseBodyBuilder from "../utils/responseBodyBuilder";
+import { addCartItemsToCartService, getCartItemsService } from "../services";
 
 async function addCartItemsToCartController(req: Request, res: Response, next) {
   try {

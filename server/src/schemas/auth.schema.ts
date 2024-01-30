@@ -59,4 +59,5 @@ type LoginSchema = z.infer<typeof loginSchema>;
 
 type SignUpSchema = z.infer<typeof signUpSchema>;
 
-export { loginSchema, signUpSchema, LoginSchema, SignUpSchema };
+export { loginSchema, signUpSchema };
+export type { LoginSchema, SignUpSchema };

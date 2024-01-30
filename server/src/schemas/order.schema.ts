@@ -6,7 +6,7 @@ const orderAddressSchema = z.object({
   pincode: z.number({ required_error: "pincode is required" }),
 });
 
-type TOrderSchema = z.infer<typeof orderAddressSchema>;
+type OrderSchema = z.infer<typeof orderAddressSchema>;
 
-export type { TOrderSchema };
+export type { OrderSchema };
 export { orderAddressSchema };

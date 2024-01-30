@@ -1,7 +1,7 @@
-import ResponseBodyBuilder from "../../utils/responseBodyBuilder";
 import { Response, Request } from "express";
-import { getOrdersService, placeOrderService } from "./order.service";
 import { StatusCodes } from "http-status-codes";
+import ResponseBodyBuilder from "../utils/responseBodyBuilder";
+import { getOrdersService, placeOrderService } from "../services";
 
 async function placeOrderController(req: Request, res: Response, next) {
   try {

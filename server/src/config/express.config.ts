@@ -3,16 +3,19 @@ import morgan from "morgan";
 import cors from "cors";
 
 import mongoose from "mongoose";
-import authRouter from "../modules/auth/auth.router";
-import cartRouter from "../modules/cart/cart.router";
-import orderRouter from "../modules/order/order.router";
-import RootRouter from "../modules/root/root.router";
+
 import {
   invalidPathHandler,
   handleClientErrors,
   handleServerErrors,
 } from "../utils/middlewares";
-import productRouter from "../modules/product/product.router";
+import {
+  authRouter,
+  cartRouter,
+  productRouter,
+  orderRouter,
+  rootRouter,
+} from "../routes";
 
 const app: Application = express();
 
@@ -28,7 +31,7 @@ app.use(
   )
 );
 
-app.use("/", RootRouter);
+app.use("/", rootRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/carts", cartRouter);
 app.use("/api/orders", orderRouter);

@@ -1,7 +1,7 @@
-import UserModel from "../../models/User";
+import { User } from "../models";
 
 async function saveUser(user: any) {
-  const userDoc = new UserModel({
+  const userDoc = new User({
     ...user,
   });
 
@@ -13,7 +13,7 @@ async function saveUser(user: any) {
 }
 
 async function getUserByEmail(email: string) {
-  const userDoc = await UserModel.findOne({
+  const userDoc = await User.findOne({
     email,
   });
 

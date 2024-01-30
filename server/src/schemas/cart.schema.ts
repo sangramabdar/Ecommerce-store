@@ -19,7 +19,7 @@ const cartItemSchema = z.object({
   }),
 });
 
-type TCartSchema = z.infer<typeof cartItemSchema>;
+type CartSchema = z.infer<typeof cartItemSchema>;
 
 export { cartItemSchema };
-export type { TCartSchema };
+export type { CartSchema };

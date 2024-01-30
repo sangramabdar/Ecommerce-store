@@ -1,8 +1,8 @@
 import { Response, Request } from "express";
 
-import { loginService, signUpService } from "./auth.service";
-import ResponseBodyBuilder from "../../utils/responseBodyBuilder";
 import { StatusCodes } from "http-status-codes";
+import ResponseBodyBuilder from "../utils/responseBodyBuilder";
+import { loginService, signUpService } from "../services";
 
 async function loginController(req: Request, res: Response, next) {
   try {

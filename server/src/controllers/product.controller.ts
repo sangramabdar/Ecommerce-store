@@ -1,7 +1,7 @@
 import { StatusCodes } from "http-status-codes";
-import ResponseBodyBuilder from "../../utils/responseBodyBuilder";
 import { Response, Request } from "express";
-import { getProductService, getProductsService } from "./product.service";
+import ResponseBodyBuilder from "../utils/responseBodyBuilder";
+import { getProductsService, getProductService } from "../services";
 
 async function getProductsController(req: Request, res: Response, next) {
   try {

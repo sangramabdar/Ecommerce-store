@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { loginSchema, signUpSchema } from "./auth.schema";
 import {
-  loginController,
   signUpController,
+  loginController,
   verifyTokenController,
-} from "./auth.controller";
-import { validateSchema } from "../../utils/zod";
-import { validateToken } from "../../utils/validation";
+} from "../controllers/auth.controller";
+import { validateToken } from "../utils/validation";
+import { validateSchema } from "../utils/zod";
+import { loginSchema, signUpSchema } from "../schemas";
 
 const authRouter = Router();
 
@@ -16,4 +16,4 @@ authRouter.post("/login", validateSchema(loginSchema), loginController);
 
 authRouter.get("/verify", validateToken, verifyTokenController);
 
-export default authRouter;
+export { authRouter };

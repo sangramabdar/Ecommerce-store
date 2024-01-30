@@ -1,23 +1,22 @@
-import Cart from "../../models/Cart";
-import { TCartSchema } from "./cart.schema";
+import { Cart } from "../models";
 
-async function addProductToCartById(cardId: string, cartItem: TCartSchema) {
-  const cartDoc = await Cart.findById(cardId);
+async function addProductToCartById(cardId: string, cartItem: any) {
+  const cart = await Cart.findById(cardId);
 
-  const oldCartItem = cartDoc.cartItems.find(item => {
+  const oldCartItem = cart.cartItems.find(item => {
     return item.productId.toString() === cartItem.productId;
   });
 
   if (oldCartItem) {
     oldCartItem.quantity = cartItem.quantity;
   } else {
-    cartDoc.cartItems.push(cartItem);
+    cart.cartItems.push(cartItem);
   }
 
-  await cartDoc.save();
+  await cart.save();
 }
 
-async function getCartItemsByCartId(cardId: string) {
+async function getCartProductsByCartId(cardId: string) {
   const cart = await (
     await Cart.findById(cardId)
   ).populate({
@@ -36,4 +35,4 @@ async function getCartItemsByCartId(cardId: string) {
   });
 }
 
-export { getCartItemsByCartId, addProductToCartById };
+export { getCartProductsByCartId, addProductToCartById };

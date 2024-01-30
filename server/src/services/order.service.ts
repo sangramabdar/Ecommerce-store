@@ -1,21 +1,21 @@
-import User from "../../models/User";
-import { NotFound } from "../../utils/exceptions";
-import { placeOrderForSpecificUser } from "./order.repository";
-import Cart from "../../models/Cart";
-import Order from "../../models/Order";
-import { TOrderSchema } from "./order.schema";
-import { getCartItemsByCartId } from "../cart/cart.repository";
+import { User, Cart, Order } from "../models";
+import {
+  getCartProductsByCartId,
+  placeOrderForSpecificUser,
+} from "../repositories";
+import { OrderSchema } from "../schemas";
+import { NotFound } from "../utils/exceptions";
 
 async function placeOrderService(req: any) {
   try {
     const userId = req.user._id;
-    const orderAddress = req.body as TOrderSchema;
+    const orderAddress = req.body as OrderSchema;
 
     const user = await User.findById(userId);
 
     if (!user.cartId) throw new NotFound("cart");
 
-    const cartItems = await getCartItemsByCartId(user.cartId.toString());
+    const cartItems = await getCartProductsByCartId(user.cartId.toString());
 
     if (!cartItems) throw new NotFound("cart");
 

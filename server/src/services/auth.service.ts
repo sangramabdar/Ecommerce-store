@@ -1,9 +1,9 @@
 import { hash, compare, genSalt } from "bcryptjs";
 import { Request } from "express";
-import { getUserByEmail, saveUser } from "./auth.repository";
-import { EmailExists, NotRegistered, BadRequest } from "../../utils/exceptions";
-import { generateAccessToken } from "../../utils/jwt";
-import { LoginSchema, SignUpSchema } from "./auth.schema";
+import { getUserByEmail, saveUser } from "../repositories";
+import { SignUpSchema, LoginSchema } from "../schemas";
+import { EmailExists, NotRegistered, BadRequest } from "../utils/exceptions";
+import { generateAccessToken } from "../utils/jwt";
 
 async function signUpService(req: Request) {
   try {
@@ -37,7 +37,7 @@ async function loginService(req: Request) {
     const isMatched = await compare(password, user.password);
 
     if (!isMatched) {
-      return new BadRequest("password is not matched");
+      throw new BadRequest("password is not matched");
     }
 
     const accessToken = await generateAccessToken(
