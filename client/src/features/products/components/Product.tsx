@@ -51,22 +51,29 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
 
   return (
     <div
-      className="flex flex-col justify-evenly items-center bg-white rounded-md h-[250px] shadow-lg"
+      className="flex flex-col sm:items-center justify-between 
+       rounded-2xl space-y-2 bg-secondary p-4"
       key={_id}
       onClick={handleProductPageNavigation}
     >
-      <img className="h-fit w-9 object-cover" src={image} />
-      <p className="text-center font-bold">{title}</p>
-      <p className="text-center font-bold">Price : ${price}</p>
-      <button
-        className="bg-violet-600 font-bold text-white rounded p-1"
-        onClick={e => {
-          e.stopPropagation();
-          handleAddToCartOrRemoveFromCart(product);
-        }}
-      >
-        {action === "add" ? "Add to cart" : "Remove from cart"}
-      </button>
+      <div className="flex flex-col space-y-2">
+        <img className="w-full h-[300px] object-fill rounded-2xl" src={image} />
+        <p className="text-lg font-bold">{title}</p>
+      </div>
+      <div className="flex flex-col w-full justify-start items-start gap-2">
+        <p className="text-center font-semibold text-gray-600">
+          Price : ${price}
+        </p>
+        <button
+          className="bg-tertiary font-bold text-white rounded p-1 px-2"
+          onClick={e => {
+            e.stopPropagation();
+            handleAddToCartOrRemoveFromCart(product);
+          }}
+        >
+          {action === "add" ? "Add to cart" : "Remove from cart"}
+        </button>
+      </div>
     </div>
   );
 }

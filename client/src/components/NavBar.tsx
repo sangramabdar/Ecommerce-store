@@ -10,7 +10,7 @@ import {
 } from "../features/authentication/store/authSlice";
 
 function SideNavigation({ open, onClick }: { open: boolean; onClick: any }) {
-  let classes = `absolute right-0 top-0 h-screen transition-all duration-200 bg-white w-[200px] ${
+  let classes = `block sm:hidden absolute right-0 top-0 h-screen transition-all duration-200 bg-white w-[200px] ${
     open ? "translate-x-0" : "translate-x-[200px]"
   }
   `;
@@ -122,8 +122,8 @@ function NavBar({ children }: any) {
   if (!user) {
     return (
       <>
-        <nav className="flex bg-slate-200 top-0 left-0 right-0 fixed justify-between h-12 items-center p-2 font-bold">
-          <div className="md:ml-5">E-COMMERCE STORE</div>
+        <nav className="flex bg-primary top-0 left-0 right-0 fixed justify-between h-12 items-center p-2 px-4 sm:px-8 font-bold max-w-7xl mx-auto">
+          <div className="">E-COMMERCE STORE</div>
           {open ? (
             <ImCross
               className="h-6 w-10 z-10 md:hidden"
@@ -140,13 +140,13 @@ function NavBar({ children }: any) {
             <Link to="/">Home</Link>
             <Link to="/products">Products</Link>
             <Link
-              className="bg-violet-600 p-1 px-2 rounded-md text-white"
+              className="bg-tertiary text-center p-1 px-2 rounded-md text-white"
               to="/login"
             >
               Login
             </Link>
             <Link
-              className="bg-violet-600 p-1 px-2 rounded-md text-white"
+              className="bg-tertiary text-center p-1 px-2 rounded-md text-white"
               to="/signup"
             >
               Sign Up
@@ -159,7 +159,7 @@ function NavBar({ children }: any) {
 
   return (
     <>
-      <nav className="flex bg-slate-200 top-0 left-0 right-0 fixed justify-between h-12 items-center p-2 font-bold">
+      <nav className="flex bg-primary top-0 left-0 right-0 fixed justify-between h-12 items-center p-2 font-bold max-w-7xl mx-auto px-4 sm:px-8">
         <div className="md:ml-5">E-COMMERCE STORE</div>
         {open ? (
           <ImCross

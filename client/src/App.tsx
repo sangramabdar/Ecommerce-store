@@ -36,29 +36,27 @@ function MainApplication() {
         <AppLoading />
       ) : (
         <BrowserRouter>
-          <div className="App bg-slate-100 px-4 pb-4 h-fit">
-            <NavBar />
-            <main className="mt-12">
-              <AnimatePresence mode="wait">
-                <Routes>
-                  <Route path="/" element={<ProductsPage />} />
-                  {/* <Route path="products" element={<ProductsPage />} /> */}
-                  <Route path="login" element={<LoginPage />} />
-                  <Route path="signup" element={<SignUpPage />} />
-                  <Route path="products/:id" element={<ProductPage />} />
-                  <Route element={<PrivateRoute />}>
-                    <Route path="orders" element={<OrderPage />} />
-                    <Route path="cart" element={<CartPage />} />
-                    <Route path="checkout" element={<CheckoutPage />} />
-                  </Route>
-                  <Route path="*" element={<ProductsPage />} />
-                </Routes>
-              </AnimatePresence>
-            </main>
-          </div>
+          <NavBar />
+          <main className="mt-12 bg-primary max-w-7xl mx-auto px-4 sm:px-8">
+            <AnimatePresence mode="wait">
+              <Routes>
+                <Route path="/" element={<ProductsPage />} />
+                {/* <Route path="products" element={<ProductsPage />} /> */}
+                <Route path="login" element={<LoginPage />} />
+                <Route path="signup" element={<SignUpPage />} />
+                <Route path="products/:id" element={<ProductPage />} />
+                <Route element={<PrivateRoute />}>
+                  <Route path="orders" element={<OrderPage />} />
+                  <Route path="cart" element={<CartPage />} />
+                  <Route path="checkout" element={<CheckoutPage />} />
+                </Route>
+                <Route path="*" element={<ProductsPage />} />
+              </Routes>
+            </AnimatePresence>
+          </main>
+          s
         </BrowserRouter>
       )}
-
       <ToastContainer />
     </>
   );
