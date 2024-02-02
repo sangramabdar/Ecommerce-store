@@ -3,12 +3,9 @@ import { useFormik } from "formik";
 import InputField from "./InputField";
 import { Link, useNavigate } from "react-router-dom";
 
-import { AuthSliceType } from "../store/authSlice";
-import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useState } from "react";
 import { toast } from "react-toastify";
 import { RequestStatus } from "../../../services/constants";
-import { RootState } from "../../../store/store";
 import {
   showErrorToast,
   showSuccessToast,
@@ -64,42 +61,45 @@ function SignUpForm() {
 
   return (
     <form
-      className="flex flex-col justify-center items-center mt-[100px] bg-white m-auto w-[300px] rounded-lg
+      className="flex flex-col mt-[100px] bg-white m-auto max-w-sm rounded-lg border
       "
       onSubmit={handleSubmit}
     >
-      <h1 className="font-bold m-5">Sign Up</h1>
-      <InputField
-        name="email"
-        error={errors.email}
-        touched={touched.email}
-        value={values.email}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        label="Email"
-        type="text"
-      />
-      <InputField
-        name="password"
-        error={errors.password}
-        touched={touched.password}
-        value={values.password}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        label="Password"
-        type="password"
-      />
-      <button
-        disabled={isDisabled}
-        className={cn(
-          "w-20 h-10 bg-violet-600 text-white rounded-md",
-          isDisabled && "opacity-30"
-        )}
-        type="submit"
-      >
-        Submit
-      </button>
-      <Link to="/login" className="m-5">
+      <h1 className="font-bold text-center m-5 text-xl">Sign Up</h1>
+      <div className="flex flex-col gap-4 justify-start px-4">
+        <InputField
+          name="email"
+          error={errors.email}
+          touched={touched.email}
+          value={values.email}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          label="Email"
+          type="text"
+        />
+        <InputField
+          name="password"
+          error={errors.password}
+          touched={touched.password}
+          value={values.password}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          label="Password"
+          type="password"
+        />
+        <button
+          disabled={isDisabled}
+          className={cn(
+            "bg-tertiary text-white rounded-md self-center px-4 py-2",
+            isDisabled && "opacity-30"
+          )}
+          type="submit"
+        >
+          Sign Up
+        </button>
+      </div>
+
+      <Link to="/login" className="m-5 text-center text-gray-600">
         have already an account ?
       </Link>
     </form>

@@ -71,7 +71,7 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
           <p className="text-center font-bold w-[200px]">{title}</p>
           <p className="text-center font-bold">Price : ${price}</p>
           <button
-            className="bg-violet-600 font-bold text-white rounded p-1"
+            className="bg-tertiary font-bold text-white rounded p-1"
             onClick={e => {
               e.stopPropagation();
               handleAddToCartOrRemoveFromCart(product);

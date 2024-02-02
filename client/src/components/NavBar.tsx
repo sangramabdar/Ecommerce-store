@@ -8,31 +8,32 @@ import {
   addUser,
   removeUser,
 } from "../features/authentication/store/authSlice";
+import cn from "../utils/cn";
 
 function SideNavigation({ open, onClick }: { open: boolean; onClick: any }) {
-  let classes = `block sm:hidden absolute right-0 top-0 h-screen transition-all duration-200 bg-white w-[200px] ${
-    open ? "translate-x-0" : "translate-x-[200px]"
-  }
-  `;
-
   return (
-    <div className={classes}>
-      <div className="flex flex-col justify-center items-center pt-12">
-        <Link className="m-2" to="/" onClick={onClick}>
+    <div
+      className={cn(
+        "block sm:hidden absolute right-0 top-0 h-screen transition-all duration-200 bg-gray-100/80 backdrop-blur-lg w-full",
+        open ? "translate-x-0" : "translate-x-[100%]"
+      )}
+    >
+      <div className="flex flex-col justify-between items-start gap-6 pt-12 pl-4 font-bold text-xl">
+        <Link to="/" onClick={onClick}>
           Home
         </Link>
-        <Link className="m-2" to="/products" onClick={onClick}>
+        <Link to="/products" onClick={onClick}>
           Products
         </Link>
         <Link
-          className="bg-violet-600 m-2 p-1 px-2 rounded-md text-white"
+          className="bg-tertiary p-2 px-4 rounded-md text-white"
           to="/login"
           onClick={onClick}
         >
           Login
         </Link>
         <Link
-          className="bg-violet-600 m-2 p-1 px-2 rounded-md text-white"
+          className="bg-tertiary p-2 px-4 rounded-md text-white"
           to="/signup"
           onClick={onClick}
         >
@@ -54,30 +55,31 @@ function LogOutSideNavigation({
   handleLogOut: MouseEventHandler<HTMLButtonElement>;
   onClick: any;
 }) {
-  let classes = `absolute right-0 top-0 h-screen transition-all duration-200 bg-white w-[200px] ${
-    open ? "translate-x-0" : "translate-x-[200px]"
-  }`;
-
   return (
-    <motion.div className={classes}>
-      <div className="flex flex-col justify-center items-center pt-12">
-        <Link className="m-2" to="/" onClick={onClick}>
+    <motion.div
+      className={cn(
+        "block sm:hidden absolute right-0 top-0 h-screen transition-all duration-200 bg-gray-100/80 backdrop-blur-lg w-full",
+        open ? "translate-x-0" : "translate-x-[100%]"
+      )}
+    >
+      <div className="flex flex-col justify-between items-start gap-6 pt-12 pl-4 font-bold text-xl">
+        <Link to="/" onClick={onClick}>
           Home
         </Link>
-        <Link className="m-2" to="/products" onClick={onClick}>
+        <Link to="/products" onClick={onClick}>
           Products
         </Link>
-        <Link className="m-2 flex" to="/cart" onClick={onClick}>
+        <Link className="flex" to="/cart" onClick={onClick}>
           <span>Cart</span>
           {cartItems.length > 0 && (
             <p className="font-bold">: {cartItems.length}</p>
           )}
         </Link>
-        <Link className="m-2" to="/orders" onClick={onClick}>
+        <Link to="/orders" onClick={onClick}>
           Orders
         </Link>
         <button
-          className="bg-violet-600 py-1 px-2 rounded-md text-white"
+          className="bg-tertiary p-2 px-4 rounded-md text-white"
           onClick={handleLogOut}
         >
           Log out
@@ -87,7 +89,7 @@ function LogOutSideNavigation({
   );
 }
 
-function NavBar({ children }: any) {
+function NavBar() {
   const user = useSelector<any, any>(state => state.auth.user);
   const { cartItems } = useSelector<any, any>(state => state.cart);
 
@@ -122,8 +124,8 @@ function NavBar({ children }: any) {
   if (!user) {
     return (
       <>
-        <nav className="flex bg-primary top-0 left-0 right-0 fixed justify-between h-12 items-center p-2 px-4 sm:px-8 font-bold max-w-7xl mx-auto">
-          <div className="">E-COMMERCE STORE</div>
+        <nav className="flex bg-primary top-0 left-0 right-0 fixed justify-between h-12 items-center p-4 py-8 px-4 sm:px-8 font-bold max-w-7xl mx-auto">
+          <div className="font-bold md:text-xl">E-COMMERCE STORE</div>
           {open ? (
             <ImCross
               className="h-6 w-10 z-10 md:hidden"
@@ -190,7 +192,7 @@ function NavBar({ children }: any) {
 
           <Link to="/orders">Orders</Link>
           <button
-            className="bg-violet-600 py-1 px-2 rounded-md text-white"
+            className="bg-tertiary py-1 px-2 rounded-md text-white"
             onClick={handleLogOut}
           >
             Log out

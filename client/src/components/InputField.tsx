@@ -22,10 +22,10 @@ function InputField({
   const isInvalid = error && touched;
 
   return (
-    <div className="flex flex-col h-20 max-w-[250px] mb-2">
+    <div className="flex flex-col max-w-[250px] mb-2">
       <span className="mb-1">{label}</span>
       <input
-        className="border-black border-solid border-2 rounded-md focus:outline-none pl-2"
+        className="border-2 rounded-md focus:outline-none"
         name={name}
         value={value}
         onChange={onChange}

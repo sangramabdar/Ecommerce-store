@@ -1,3 +1,5 @@
+import cn from "../../../utils/cn";
+
 interface InputFieldProps {
   name: string;
   value: string;
@@ -7,32 +9,31 @@ interface InputFieldProps {
   touched: boolean;
   label: string;
   type: string;
+  className?: string;
 }
 
 function InputField({
-  name,
   value,
   error,
-  onBlur,
-  onChange,
   touched,
   label,
-  type,
+  className,
+  ...props
 }: Partial<InputFieldProps>) {
   const isInvalid = error && touched;
 
   return (
-    <div className="flex flex-col h-20 max-w-[250px] mb-2">
-      <span className="mb-1">{label}</span>
+    <div className="flex flex-col mb-2">
+      <label className="block text-sm font-medium mb-2 ">{label}</label>
       <input
-        className="border-black border-solid border-2 rounded-md focus:outline-none pl-2"
-        name={name}
+        className={cn(
+          "py-3 px-4 block w-full border rounded-lg text-sm disabled:opacity-50 disabled:pointer-events-none focus:ring-1 focus:ring-tertiary focus:outline-none text-grey-600",
+          className
+        )}
         value={value}
-        onChange={onChange}
-        onBlur={onBlur}
-        type={type}
+        {...props}
       />
-      {isInvalid ? <span className="text-red-600">{error}</span> : null}
+      {isInvalid ? <span className="text-red-700">{error}</span> : null}
     </div>
   );
 }

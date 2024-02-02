@@ -61,14 +61,14 @@ function CartProduct({
           <img className="h-fit object-cover" src={image} alt="" />
         </div>
         <button
-          className="bg-violet-600 rounded-md w-7 font-bold text-white"
+          className="bg-tertiary rounded-md w-7 font-bold text-white"
           onClick={handleIncrement}
         >
           +
         </button>
         <p className="text-center ">{quantity}</p>
         <button
-          className="bg-violet-600 text-white font-bold rounded-md w-7"
+          className="bg-tertiary text-white font-bold rounded-md w-7"
           disabled={quantity === 0 ? true : false}
           onClick={handleDecrement}
         >
@@ -80,7 +80,7 @@ function CartProduct({
 
       <section className="flex w-full justify-end">
         <button
-          className="text-center p-1 rounded bg-violet-600 text-white"
+          className="text-center p-1 rounded bg-tertiary text-white"
           onClick={() => {
             handleRemoveProduct();
           }}

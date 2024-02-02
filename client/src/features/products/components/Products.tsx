@@ -1,16 +1,21 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  ProductSliceType,
-  ProductType,
-  RequestStatus,
-} from "../store/productSlice";
+import { ProductSliceType, RequestStatus } from "../store/productSlice";
 import Product from "./Product";
 import Loading from "../../../components/Loading";
 import { fetchProductsService, getProductsService } from "../services/products";
 import { RootState } from "../../../store/store";
+import AppLoading from "../../../components/AppLoading";
 
 function Products() {
+  const cards = Array.from({ length: 20 }).map((card, i) => {
+    return (
+      <div
+        key={i}
+        className="w-full relative animate-pulse h-56 shimmer rounded-md bg-secondary"
+      ></div>
+    );
+  });
   const dispatch = useDispatch<any>();
   const { data: products, status } = useSelector<RootState, ProductSliceType>(
     state => state.products
@@ -21,7 +26,7 @@ function Products() {
   }, []);
 
   if (status === RequestStatus.LOADING) {
-    return <Loading />;
+    return <AppLoading />;
   }
 
   if (status === RequestStatus.ERROR) {

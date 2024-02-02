@@ -1,44 +1,29 @@
-import { Provider, useSelector } from "react-redux";
+import { Provider } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { AnimatePresence } from "framer-motion";
 import { ToastContainer } from "react-toastify";
-import AppLoading from "./components/AppLoading";
 import NavBar from "./components/NavBar";
 import PrivateRoute from "./components/PrivateRoute";
-import useAuthentication from "./hooks/useAuthentication";
 import CartPage from "./pages/CartPage";
 import CheckoutPage from "./pages/CheckoutPage";
-import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import OrderPage from "./pages/OrderPage";
 import ProductPage from "./pages/ProductPage";
 import ProductsPage from "./pages/ProductsPage";
 import SignUpPage from "./pages/SignUpPage";
 import store from "./store/store";
+import Auth from "./components/Auth";
 
 function App() {
   return (
-    <Provider store={store}>
-      <MainApplication />
-    </Provider>
-  );
-}
-
-function MainApplication() {
-  useAuthentication();
-
-  const { isAuthenticating } = useSelector<any, any>(state => state.auth);
-
-  return (
     <>
-      {isAuthenticating ? (
-        <AppLoading />
-      ) : (
-        <BrowserRouter>
-          <NavBar />
-          <main className="mt-12 bg-primary max-w-7xl mx-auto px-4 sm:px-8">
-            <AnimatePresence mode="wait">
+      <Provider store={store}>
+        <Auth>
+          <BrowserRouter>
+            <NavBar />
+            <main className="mt-24bg-primary max-w-7xl mx-auto px-4 sm:px-8">
+              {/* <AnimatePresence mode="wait"> */}
               <Routes>
                 <Route path="/" element={<ProductsPage />} />
                 {/* <Route path="products" element={<ProductsPage />} /> */}
@@ -52,12 +37,12 @@ function MainApplication() {
                 </Route>
                 <Route path="*" element={<ProductsPage />} />
               </Routes>
-            </AnimatePresence>
-          </main>
-          s
-        </BrowserRouter>
-      )}
-      <ToastContainer />
+              {/* </AnimatePresence> */}
+            </main>
+          </BrowserRouter>
+        </Auth>
+        <ToastContainer />
+      </Provider>
     </>
   );
 }

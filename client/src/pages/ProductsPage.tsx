@@ -3,9 +3,9 @@ import Products from "../features/products/components/Products";
 
 function ProductsPage() {
   return (
-    <MountAndUnmountAnimation>
-      <Products />
-    </MountAndUnmountAnimation>
+    // <MountAndUnmountAnimation>
+    <Products />
+    // </MountAndUnmountAnimation>
   );
 }
 
