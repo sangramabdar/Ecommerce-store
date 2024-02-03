@@ -1,7 +1,6 @@
 import { Provider } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import { AnimatePresence } from "framer-motion";
 import { ToastContainer } from "react-toastify";
 import NavBar from "./components/NavBar";
 import PrivateRoute from "./components/PrivateRoute";
@@ -14,6 +13,10 @@ import ProductsPage from "./pages/ProductsPage";
 import SignUpPage from "./pages/SignUpPage";
 import store from "./store/store";
 import Auth from "./components/Auth";
+import React, { Suspense } from "react";
+import Loading from "./components/Loading";
+
+// const LoginPageLazy = React.lazy(() => import("./pages/LoginPage"));
 
 function App() {
   return (
