@@ -2,9 +2,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useMemo } from "react";
 import React from "react";
-import { addItemToCartService } from "../../cart/services/cart";
 import { ProductType } from "../store/productSlice";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
+import { addProductToCartThunk } from "../../cart/store/cartSlice";
 
 interface ProductProps {
   product: ProductType;
@@ -34,10 +34,10 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
 
     try {
       if (action === "add") {
-        await dispatch<any>(addItemToCartService(product, 1));
+        await dispatch<any>(addProductToCartThunk(product, 1));
         showSuccessToast("Added");
       } else {
-        await dispatch<any>(addItemToCartService(product, 0));
+        await dispatch<any>(addProductToCartThunk(product, 0));
         showSuccessToast("Removed");
       }
     } catch (error: any) {

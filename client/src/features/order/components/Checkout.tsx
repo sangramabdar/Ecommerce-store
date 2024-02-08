@@ -1,6 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { placeOrderService } from "../services/order";
 import * as yup from "yup";
 import OrderSummary from "./OrderSummary";
@@ -18,7 +17,7 @@ const deliveryInfoSchema = yup.object().shape({
 const initialDeliveryInfo = {
   address: "",
   city: "",
-  pincode: null,
+  pincode: "",
 };
 
 function Checkout() {
@@ -27,7 +26,6 @@ function Checkout() {
   );
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const handleOnSubmit = (deliveryInfo: any) => {
     showLoadingToast("Processing");

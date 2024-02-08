@@ -1,8 +1,12 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ProductSliceType, RequestStatus } from "../store/productSlice";
+import {
+  ProductSliceType,
+  RequestStatus,
+  fetchProductsThunk,
+  selectProducts,
+} from "../store/productSlice";
 import Product from "./Product";
-import { fetchProductsService } from "../services/products";
 import { RootState } from "../../../store/store";
 import AppLoading from "../../../components/AppLoading";
 
@@ -15,13 +19,14 @@ function Products() {
       ></div>
     );
   });
+
   const dispatch = useDispatch<any>();
-  const { data: products, status } = useSelector<RootState, ProductSliceType>(
-    state => state.products
-  );
+  const { data: products, status } = useSelector<RootState>(
+    selectProducts
+  ) as ProductSliceType;
 
   useEffect(() => {
-    dispatch(fetchProductsService());
+    dispatch(fetchProductsThunk());
   }, []);
 
   if (status === RequestStatus.LOADING) {

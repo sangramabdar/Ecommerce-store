@@ -2,19 +2,17 @@ import { useEffect, useMemo, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
-import Loading from "../../../components/Loading";
-
-import { fetchProductsService } from "../services/products";
 import React from "react";
 
-import { addItemToCartService } from "../../cart/services/cart";
 import { RootState } from "../../../store/store";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
 import {
   ProductType,
   ProductSliceType,
   RequestStatus,
+  fetchProductsThunk,
 } from "../store/productSlice";
+import { addProductToCartThunk } from "../../cart/store/cartSlice";
 
 interface ProductProps {
   product: ProductType;
@@ -44,10 +42,10 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
 
     if (action === "add") {
       showSuccessToast("Added");
-      dispatch<any>(addItemToCartService(product, 1));
+      dispatch<any>(addProductToCartThunk(product, 1));
     } else {
       showSuccessToast("Removed");
-      dispatch<any>(addItemToCartService(product, 0));
+      dispatch<any>(addProductToCartThunk(product, 0));
     }
   };
 
@@ -107,7 +105,7 @@ function ProductDescription() {
 
   useEffect(() => {
     setTimeout(() => {
-      dispatch<any>(fetchProductsService());
+      dispatch<any>(fetchProductsThunk());
     }, 2000);
   }, []);
 

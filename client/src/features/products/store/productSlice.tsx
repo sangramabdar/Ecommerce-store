@@ -1,6 +1,7 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { fetchProductsService } from "../services/products";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { getProductsService } from "../services/products";
 import { RequestStatus } from "../../../services/constants";
+import { RootState } from "../../../store/store";
 
 interface ProductType {
   _id: string;
@@ -15,11 +16,17 @@ interface ProductType {
   };
 }
 
-function convertPriceToRoundvalue(products: any[]) {
-  products.forEach((product: ProductType) => {
-    product.price = Math.round(product.price);
-  });
-}
+const fetchProductsThunk = createAsyncThunk(
+  "products/fetchProducts",
+  async (_, thunkApi) => {
+    const result = await getProductsService();
+
+    if (result.status === RequestStatus.ERROR) {
+      return thunkApi.rejectWithValue(result);
+    }
+    return result.data;
+  }
+);
 
 interface ProductSliceType {
   data: ProductType[];
@@ -34,7 +41,6 @@ const productSlice = createSlice({
   },
   reducers: {
     saveProducts(state, action: PayloadAction<ProductType[]>) {
-      convertPriceToRoundvalue(action.payload);
       state.data = action.payload;
     },
     setStatus(state, action: PayloadAction<RequestStatus>) {
@@ -42,16 +48,16 @@ const productSlice = createSlice({
     },
   },
   extraReducers: builder => {
-    builder.addCase(fetchProductsService.pending, (state, action) => {
+    builder.addCase(fetchProductsThunk.pending, (state, action) => {
       state.status = RequestStatus.LOADING;
     });
 
-    builder.addCase(fetchProductsService.fulfilled, (state, action) => {
+    builder.addCase(fetchProductsThunk.fulfilled, (state, action) => {
       state.data = action.payload;
       state.status = RequestStatus.SUCCESS;
     });
 
-    builder.addCase(fetchProductsService.rejected, (state, action) => {
+    builder.addCase(fetchProductsThunk.rejected, (state, action) => {
       state.status = RequestStatus.ERROR;
     });
   },
@@ -59,6 +65,10 @@ const productSlice = createSlice({
 
 let { saveProducts, setStatus } = productSlice.actions;
 
+const selectProducts = (state: RootState) => state.products;
+
 export { saveProducts, setStatus, RequestStatus };
 export type { ProductType, ProductSliceType };
 export default productSlice.reducer;
+export { fetchProductsThunk };
+export { selectProducts };

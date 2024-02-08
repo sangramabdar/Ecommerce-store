@@ -4,18 +4,15 @@ import { MouseEventHandler, useEffect, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { ImCross } from "react-icons/im";
 import { motion } from "framer-motion";
-import {
-  addUser,
-  removeUser,
-} from "../features/authentication/store/authSlice";
+import { removeUser } from "../features/authentication/store/authSlice";
 import cn from "../utils/cn";
-import { fetchCartItemsService } from "../features/cart/services/cart";
+import { fetchCartItemsThunk } from "../features/cart/store/cartSlice";
 
 function SideNavigation({ open, onClick }: { open: boolean; onClick: any }) {
   return (
     <div
       className={cn(
-        "block sm:hidden absolute right-0 top-0 h-screen transition-all duration-200 bg-gray-100/80 backdrop-blur-lg w-full",
+        "block md:hidden absolute right-0 top-0 h-screen transition-all duration-200 bg-gray-100/80 backdrop-blur-lg w-full",
         open ? "translate-x-0" : "translate-x-[100%]"
       )}
     >
@@ -101,7 +98,7 @@ function NavBar() {
 
   useEffect(() => {
     if (!user) return;
-    dispatch(fetchCartItemsService(null));
+    dispatch(fetchCartItemsThunk(null));
   }, [user]);
 
   const handleLogOut = () => {
@@ -122,8 +119,13 @@ function NavBar() {
   if (!user) {
     return (
       <>
-        <nav className="flex bg-primary top-0 left-0 right-0 fixed justify-between h-12 items-center p-4 py-8 px-4 sm:px-8 font-bold max-w-7xl mx-auto">
-          <div className="font-bold md:text-xl">E-COMMERCE STORE</div>
+        <nav
+          className="flex bg-primary
+         top-0 left-0 right-0 fixed justify-between h-12 items-center py-8 px-4 sm:px-8 font-bold max-w-7xl mx-auto"
+        >
+          <Link to="/" className="font-bold md:text-xl">
+            E-COMMERCE STORE
+          </Link>
           {open ? (
             <ImCross
               className="h-6 w-10 z-10 md:hidden"

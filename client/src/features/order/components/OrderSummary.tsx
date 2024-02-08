@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import OrderProduct from "./OrderProduct";
 
-function OrderSummary(props: any) {
+function OrderSummary() {
   const totalPrice = useSelector<any, any>(state => state.cart.totalPrice);
   const cartItems = useSelector<any, any>(state => state.cart.cartItems);
 
@@ -10,10 +10,10 @@ function OrderSummary(props: any) {
       <h1 className="font-bold text-lg flex flex-col justify-center items-center">
         Order Summary
       </h1>
-      {cartItems.map((item: any) => {
+      {cartItems.map((item: any, index: number) => {
         return (
           <OrderProduct
-            key={item.id}
+            key={index}
             product={item.product}
             quantity={item.quantity}
           />

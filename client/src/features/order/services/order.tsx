@@ -10,7 +10,6 @@ import { postRequest, getRequest } from "../../../services/requests";
 import { AppDispatch, RootState } from "../../../store/store";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
 import { handleTokenError } from "../../../utils/tokenError";
-import { emptyCart } from "../../cart/store/cartSlice";
 import { loadInitialOrders } from "../store/orderSlice";
 
 const ORDER_URL = BASE_URL + "/orders";
@@ -39,8 +38,7 @@ function placeOrderService(orderAddress: any) {
     }
 
     showSuccessToast("order placed");
-    dispatch(getOrdersService());
-    dispatch(emptyCart(""));
+    // dispatch(getOrdersService());
   };
 }
 
@@ -61,15 +59,11 @@ const fetchOrdersService = createAsyncThunk<any, any, { state: RootState }>(
   }
 );
 
-function getOrdersService() {
-  return async function (dispatch: AppDispatch, getState: () => RootState) {
-    const result = await getRequest(ORDER_URL, {
-      ...DEFAULT_HEADERS,
-      Authorization: "Bearer " + getState().auth.user.accessToken,
-    });
-
-    dispatch(loadInitialOrders(result.data));
-  };
+async function getOrdersService(headers: {} = {}) {
+  const result = await getRequest(ORDER_URL, {
+    ...headers,
+  });
+  return result;
 }
 
 export { getOrdersService, placeOrderService, fetchOrdersService };

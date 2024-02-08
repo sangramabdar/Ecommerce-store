@@ -1,4 +1,7 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { AppDispatch, RootState } from "../../../store/store";
+import { loginUserService } from "../services/auth";
+import { RequestStatus } from "../../../services/constants";
 
 interface AuthSliceType {
   user: any;
@@ -11,6 +14,18 @@ const initailSignedInUser: AuthSliceType = {
   isAuthenticated: false,
   isAuthenticating: true,
 };
+
+function loginUserThunk(user: any) {
+  return async (dispatch: AppDispatch, getState: () => RootState) => {
+    const result = await loginUserService(user);
+
+    if (result.status === RequestStatus.ERROR) {
+      throw result.error;
+    }
+
+    return result;
+  };
+}
 
 const authSlice = createSlice({
   name: "user",
@@ -30,7 +45,12 @@ const authSlice = createSlice({
   },
 });
 
+const selectAuth = (state: RootState) => state.auth;
+
 export const { addUser, removeUser } = authSlice.actions;
 export type { AuthSliceType };
 
 export default authSlice.reducer;
+
+export { selectAuth };
+export { loginUserThunk };

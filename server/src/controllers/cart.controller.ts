@@ -49,7 +49,6 @@ async function getCartItemsController(req: Request, res: Response, next) {
 
     res.status(StatusCodes.OK).json(responseBody);
   } catch (error) {
-    console.log(error);
     next(error);
   }
 }

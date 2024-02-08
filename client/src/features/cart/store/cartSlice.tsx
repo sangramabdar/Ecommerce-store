@@ -1,103 +1,83 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { fetchCartItemsService } from "../services/cart";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { addProductTocartSerivce, getCartItemsService } from "../services/cart";
 import { RequestStatus } from "../../../services/constants";
+import { AppDispatch, RootState } from "../../../store/store";
 
 interface CartSliceType {
   cartItems: any[];
   totalPrice: number;
   status: RequestStatus;
+  isFetched: boolean;
 }
 
 const initialCart: CartSliceType = {
   cartItems: [],
   totalPrice: 0,
   status: RequestStatus.LOADING,
+  isFetched: false,
 };
 
-function calculateTotalPrice(cartItems: any[]): number {
-  if (!cartItems) return 0;
-  return cartItems.reduce((sum, element) => sum + element.totalPrice, 0);
+const fetchCartItemsThunk = createAsyncThunk<any, any, { state: RootState }>(
+  "cart/fetchCart",
+  async (_, { getState, rejectWithValue }) => {
+    const result = await getCartItemsService({
+      Authorization: "Bearer " + getState().auth.user.accessToken,
+    });
+
+    if (result.status === RequestStatus.ERROR) {
+      return rejectWithValue(result.error);
+    }
+
+    return result.data;
+  }
+);
+
+function addProductToCartThunk(product: any, quantity: number) {
+  return async (dispatch: AppDispatch, getState: () => RootState) => {
+    const result = await addProductTocartSerivce(
+      {
+        productId: product._id,
+        quantity,
+      },
+      {
+        Authorization: "Bearer " + getState().auth.user.accessToken,
+      }
+    );
+
+    if (result.status === RequestStatus.ERROR) {
+      throw result.error;
+    }
+
+    await dispatch(fetchCartItemsThunk(null));
+  };
 }
 
 const cartSlice = createSlice({
   name: "cart",
   initialState: initialCart,
-  reducers: {
-    addToCart(state, action) {
-      let filteredProduct = state.cartItems.filter(
-        product => product.id === action.payload.product.id
-      );
-
-      if (filteredProduct.length > 0) {
-        //for same product
-        for (let product of state.cartItems) {
-          if (product.id === action.payload.product.id) {
-            if (action.payload.actionType === "increment") {
-              product.quantity++;
-            } else {
-              product.quantity--;
-            }
-
-            product.totalPrice = product.price * product.quantity;
-          }
-        }
-      } else {
-        //for new product
-
-        let newProduct = {
-          ...action.payload.product,
-          totalPrice: action.payload.product.price,
-          quantity: 1,
-        };
-
-        state.cartItems.push(newProduct);
-      }
-
-      // state.cartItems = action.payload;
-      state.totalPrice = calculateTotalPrice(state.cartItems);
-    },
-
-    loadInitialCartItems(state, action) {
-      state.cartItems = action.payload;
-      state.totalPrice = calculateTotalPrice(state.cartItems);
-    },
-
-    removeFromCart(state, action) {
-      const newCartItems = state.cartItems.filter(product => {
-        return product.id !== action.payload.id;
-      });
-
-      state.cartItems = newCartItems;
-      state.totalPrice = calculateTotalPrice(state.cartItems);
-    },
-
-    emptyCart(state, action) {
-      state.cartItems = [];
-      state.totalPrice = 0;
-    },
-  },
+  reducers: {},
   extraReducers: builder => {
-    builder.addCase(fetchCartItemsService.pending, (state, action) => {
+    builder.addCase(fetchCartItemsThunk.pending, (state, action) => {
       state.status = RequestStatus.LOADING;
     });
 
-    builder.addCase(fetchCartItemsService.fulfilled, (state, action) => {
+    builder.addCase(fetchCartItemsThunk.fulfilled, (state, action) => {
       state.cartItems = action.payload.cartItems;
       state.status = RequestStatus.SUCCESS;
       state.totalPrice = action.payload.totalPrice;
+      state.isFetched = true;
     });
 
-    builder.addCase(fetchCartItemsService.rejected, (state, action) => {
+    builder.addCase(fetchCartItemsThunk.rejected, (state, action) => {
       state.status = RequestStatus.ERROR;
       state.cartItems = [];
+      state.isFetched = false;
     });
   },
 });
 
-const { addToCart, removeFromCart, loadInitialCartItems, emptyCart } =
-  cartSlice.actions;
-
-export { addToCart, removeFromCart, emptyCart, loadInitialCartItems };
 export type { CartSliceType };
 
 export default cartSlice.reducer;
+
+export { fetchCartItemsThunk, addProductToCartThunk };

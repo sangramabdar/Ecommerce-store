@@ -21,7 +21,7 @@ function App() {
         <Auth>
           <BrowserRouter>
             <NavBar />
-            <main className="mt-24bg-primary max-w-7xl mx-auto px-4 sm:px-8">
+            <main className="bg-primary max-w-7xl mx-auto px-4 sm:px-8 mt-20">
               {/* <AnimatePresence mode="wait"> */}
               <Routes>
                 <Route path="/" element={<ProductsPage />} />

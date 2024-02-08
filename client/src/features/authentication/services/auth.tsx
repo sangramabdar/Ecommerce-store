@@ -1,4 +1,4 @@
-import { BASE_URL, DEFAULT_HEADERS } from "../../../services/constants";
+import { BASE_URL } from "../../../services/constants";
 import { postRequest } from "../../../services/requests";
 
 async function loginUserService(user: any) {

@@ -1,8 +1,8 @@
 import { useDispatch } from "react-redux";
 import React from "react";
-import { addItemToCartService } from "../services/cart";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
 import cn from "../../../utils/cn";
+import { addProductToCartThunk } from "../store/cartSlice";
 
 interface CartProductProps {
   cartProduct: {
@@ -30,8 +30,7 @@ function CartProduct({
 
   const handleRemoveProduct = async () => {
     try {
-      await dispatch<any>(addItemToCartService(cartProduct, 0));
-      console.log("toast");
+      await dispatch<any>(addProductToCartThunk(cartProduct, 0));
       showSuccessToast("Removed");
     } catch (error) {
       showErrorToast("something went wrong");
@@ -39,11 +38,11 @@ function CartProduct({
   };
 
   const handleIncrement = () => {
-    dispatch<any>(addItemToCartService(cartProduct, quantity + 1));
+    dispatch<any>(addProductToCartThunk(cartProduct, quantity + 1));
   };
 
   const handleDecrement = () => {
-    dispatch<any>(addItemToCartService(cartProduct, quantity - 1));
+    dispatch<any>(addProductToCartThunk(cartProduct, quantity - 1));
   };
 
   return (

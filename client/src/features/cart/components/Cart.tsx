@@ -1,20 +1,24 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import CartProduct from "./CartProduct";
-import { CartSliceType } from "../store/cartSlice";
+import { CartSliceType, fetchCartItemsThunk } from "../store/cartSlice";
 import { useEffect } from "react";
-import { fetchCartItemsService } from "../services/cart";
 import { RootState } from "../../../store/store";
+import { RequestStatus } from "../../../services/constants";
+import Loading from "../../../components/Loading";
 
 function Cart() {
-  const { cartItems, totalPrice } = useSelector<RootState, CartSliceType>(
-    state => state.cart
-  );
+  const { cartItems, totalPrice, status } = useSelector<
+    RootState,
+    CartSliceType
+  >(state => state.cart);
+
+  console.log({ cartItems, status });
 
   const dispatch = useDispatch<any>();
 
   useEffect(() => {
-    dispatch(fetchCartItemsService(null));
+    dispatch(fetchCartItemsThunk(null));
   }, []);
 
   const navigate = useNavigate();
@@ -23,7 +27,11 @@ function Cart() {
     navigate("/checkout");
   };
 
-  if (cartItems.length === 0) return <div>Empty</div>;
+  if (status === RequestStatus.LOADING) {
+    return <Loading />;
+  }
+
+  if (status === RequestStatus.ERROR) return <div>Empty</div>;
 
   return (
     <div className="flex flex-col gap-5">
