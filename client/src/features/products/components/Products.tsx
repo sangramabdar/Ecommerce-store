@@ -2,8 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ProductSliceType, RequestStatus } from "../store/productSlice";
 import Product from "./Product";
-import Loading from "../../../components/Loading";
-import { fetchProductsService, getProductsService } from "../services/products";
+import { fetchProductsService } from "../services/products";
 import { RootState } from "../../../store/store";
 import AppLoading from "../../../components/AppLoading";
 

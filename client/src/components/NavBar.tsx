@@ -9,6 +9,7 @@ import {
   removeUser,
 } from "../features/authentication/store/authSlice";
 import cn from "../utils/cn";
+import { fetchCartItemsService } from "../features/cart/services/cart";
 
 function SideNavigation({ open, onClick }: { open: boolean; onClick: any }) {
   return (
@@ -93,18 +94,15 @@ function NavBar() {
   const user = useSelector<any, any>(state => state.auth.user);
   const { cartItems } = useSelector<any, any>(state => state.cart);
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    if (!localStorage.getItem("user")) return;
-    if (user) return;
-
-    const authUser = JSON.parse(localStorage.getItem("user")!!);
-    dispatch(addUser(authUser));
-  }, []);
+    if (!user) return;
+    dispatch(fetchCartItemsService(null));
+  }, [user]);
 
   const handleLogOut = () => {
     localStorage.removeItem("user");

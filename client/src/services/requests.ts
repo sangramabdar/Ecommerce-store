@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { ApiResult, RequestStatus } from "./constants";
+import { ApiResult, DEFAULT_HEADERS, RequestStatus } from "./constants";
 
 async function postRequest(
   url: string,
@@ -8,7 +8,10 @@ async function postRequest(
 ): Promise<ApiResult> {
   try {
     const response = await axios.post(url, data, {
-      headers,
+      headers: {
+        ...DEFAULT_HEADERS,
+        ...headers,
+      },
     });
     return generateSuccessApiResult(response);
   } catch (error: any) {
@@ -19,7 +22,10 @@ async function postRequest(
 async function getRequest(url: string, headers: {} = {}): Promise<ApiResult> {
   try {
     const response = await axios.get(url, {
-      headers,
+      headers: {
+        ...DEFAULT_HEADERS,
+        ...headers,
+      },
     });
     return generateSuccessApiResult(response);
   } catch (error: any) {
@@ -34,7 +40,10 @@ async function putRequest(
 ): Promise<ApiResult> {
   try {
     const response = await axios.put(url, data, {
-      headers,
+      headers: {
+        ...DEFAULT_HEADERS,
+        ...headers,
+      },
     });
     return generateSuccessApiResult(response);
   } catch (error: any) {
@@ -48,8 +57,12 @@ async function deleteRequest(
 ): Promise<ApiResult> {
   try {
     const response = await axios.delete(url, {
-      headers,
+      headers: {
+        ...DEFAULT_HEADERS,
+        ...headers,
+      },
     });
+
     return generateSuccessApiResult(response);
   } catch (error: any) {
     return generateErrorApiResult(error);

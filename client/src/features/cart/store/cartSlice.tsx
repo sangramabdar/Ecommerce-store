@@ -1,13 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { fetchCartItemsService } from "../services/cart";
+import { RequestStatus } from "../../../services/constants";
 
 interface CartSliceType {
   cartItems: any[];
   totalPrice: number;
+  status: RequestStatus;
 }
 
 const initialCart: CartSliceType = {
   cartItems: [],
   totalPrice: 0,
+  status: RequestStatus.LOADING,
 };
 
 function calculateTotalPrice(cartItems: any[]): number {
@@ -71,6 +75,22 @@ const cartSlice = createSlice({
       state.cartItems = [];
       state.totalPrice = 0;
     },
+  },
+  extraReducers: builder => {
+    builder.addCase(fetchCartItemsService.pending, (state, action) => {
+      state.status = RequestStatus.LOADING;
+    });
+
+    builder.addCase(fetchCartItemsService.fulfilled, (state, action) => {
+      state.cartItems = action.payload.cartItems;
+      state.status = RequestStatus.SUCCESS;
+      state.totalPrice = action.payload.totalPrice;
+    });
+
+    builder.addCase(fetchCartItemsService.rejected, (state, action) => {
+      state.status = RequestStatus.ERROR;
+      state.cartItems = [];
+    });
   },
 });
 

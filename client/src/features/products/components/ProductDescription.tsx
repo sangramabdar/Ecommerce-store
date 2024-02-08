@@ -7,10 +7,7 @@ import Loading from "../../../components/Loading";
 import { fetchProductsService } from "../services/products";
 import React from "react";
 
-import {
-  addItemToCartService,
-  removeItemFromCartService,
-} from "../../cart/services/cart";
+import { addItemToCartService } from "../../cart/services/cart";
 import { RootState } from "../../../store/store";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
 import {
@@ -24,7 +21,7 @@ interface ProductProps {
 }
 
 function Product({ product }: React.PropsWithChildren<ProductProps>) {
-  const { category, description, _id, price, rating, title, image } = product;
+  const { description, _id, price, rating, title, image } = product;
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -47,10 +44,10 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
 
     if (action === "add") {
       showSuccessToast("Added");
-      dispatch<any>(addItemToCartService(product, ""));
+      dispatch<any>(addItemToCartService(product, 1));
     } else {
       showSuccessToast("Removed");
-      dispatch<any>(removeItemFromCartService(product));
+      dispatch<any>(addItemToCartService(product, 0));
     }
   };
 

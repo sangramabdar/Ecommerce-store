@@ -1,11 +1,8 @@
-import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import React from "react";
-import {
-  removeItemFromCartService,
-  addItemToCartService,
-} from "../services/cart";
-import { showSuccessToast } from "../../../utils/toast";
+import { addItemToCartService } from "../services/cart";
+import { showErrorToast, showSuccessToast } from "../../../utils/toast";
+import cn from "../../../utils/cn";
 
 interface CartProductProps {
   cartProduct: {
@@ -27,27 +24,26 @@ interface CartProductProps {
 function CartProduct({
   cartProduct,
 }: React.PropsWithChildren<CartProductProps>) {
-  const { image, title, price, quantity, totalPrice } = cartProduct;
-
-  useEffect(() => {
-    if (quantity > 0) return;
-    dispatch<any>(removeItemFromCartService(cartProduct));
-    showSuccessToast("Removed");
-  }, [quantity]);
+  const { image, title, price, quantity } = cartProduct;
 
   const dispatch = useDispatch();
 
-  const handleRemoveProduct = () => {
-    showSuccessToast("Removed");
-    dispatch<any>(removeItemFromCartService(cartProduct));
+  const handleRemoveProduct = async () => {
+    try {
+      await dispatch<any>(addItemToCartService(cartProduct, 0));
+      console.log("toast");
+      showSuccessToast("Removed");
+    } catch (error) {
+      showErrorToast("something went wrong");
+    }
   };
 
   const handleIncrement = () => {
-    dispatch<any>(addItemToCartService(cartProduct, "increment"));
+    dispatch<any>(addItemToCartService(cartProduct, quantity + 1));
   };
 
   const handleDecrement = () => {
-    dispatch<any>(addItemToCartService(cartProduct, "decrement"));
+    dispatch<any>(addItemToCartService(cartProduct, quantity - 1));
   };
 
   return (
@@ -69,21 +65,24 @@ function CartProduct({
         <p className="text-center ">{quantity}</p>
         <button
           className="bg-tertiary text-white font-bold rounded-md w-7"
-          disabled={quantity === 0 ? true : false}
           onClick={handleDecrement}
         >
           -
         </button>
         <p className="text-center w-44">{title}</p>
-        <p className="text-center">$ {totalPrice}</p>
+        <p className="text-center">$ {price * quantity}</p>
       </section>
 
       <section className="flex w-full justify-end">
         <button
-          className="text-center p-1 rounded bg-tertiary text-white"
+          className={cn(
+            "text-center p-1 rounded bg-tertiary text-white",
+            quantity === 0 && "opacity-50"
+          )}
           onClick={() => {
             handleRemoveProduct();
           }}
+          disabled={quantity === 0 ? true : false}
         >
           remove
         </button>

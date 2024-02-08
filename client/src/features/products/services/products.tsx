@@ -21,17 +21,17 @@ const fetchProductsService = createAsyncThunk(
   }
 );
 
-function getProductsService() {
-  return async function (dispatch: AppDispatch, getState: () => RootState) {
-    try {
-      dispatch(setStatus(RequestStatus.LOADING));
-      const result = await getRequest(PRODUCTS_URL);
-      dispatch(setStatus(RequestStatus.SUCCESS));
-      dispatch(saveProducts(result.data));
-    } catch (error) {
-      dispatch(setStatus(RequestStatus.ERROR));
-    }
-  };
-}
+// function getProductsService() {
+//   return async function (dispatch: AppDispatch, getState: () => RootState) {
+//     try {
+//       dispatch(setStatus(RequestStatus.LOADING));
+//       const result = await getRequest(PRODUCTS_URL);
+//       dispatch(setStatus(RequestStatus.SUCCESS));
+//       dispatch(saveProducts(result.data));
+//     } catch (error) {
+//       dispatch(setStatus(RequestStatus.ERROR));
+//     }
+//   };
+// }
 
-export { getProductsService, fetchProductsService };
+export { fetchProductsService };

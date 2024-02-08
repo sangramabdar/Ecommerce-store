@@ -1,5 +1,10 @@
 import { User, Product, Cart } from "../models";
-import { addProductToCartById, getCartProductsByCartId } from "../repositories";
+import {
+  addProductToCartById,
+  deleteProductFromCartById,
+  getCartProductsByCartId,
+  getCartTotalPrice,
+} from "../repositories";
 import { CartSchema } from "../schemas";
 import { NotFound } from "../utils/exceptions";
 
@@ -9,13 +14,13 @@ async function addCartItemsToCartService(req: any) {
     const cartItem = req.body as CartSchema;
 
     const user = await User.findById(_id);
-    const cartId = user.cartId.toString();
+    const cartId = user.cartId;
 
     //check if product is valid or not
     const product = await Product.findById(cartItem.productId);
     if (!product) throw new NotFound("prodduct");
 
-    ///created new cart
+    ///create new cart
     if (!cartId) {
       const cart = new Cart({
         userId: user._id,
@@ -30,9 +35,26 @@ async function addCartItemsToCartService(req: any) {
       //update carts
       await addProductToCartById(cartId.toString(), cartItem);
     }
-    const cartItems = await getCartProductsByCartId(cartId);
+  } catch (error) {
+    throw error;
+  }
+}
 
-    return cartItems;
+async function deleteProductFromCartService(req: any) {
+  try {
+    const _id = req.user._id;
+    const cartItem = req.body as CartSchema;
+
+    const user = await User.findById(_id);
+    const cartId = user.cartId;
+
+    //check if product is valid or not
+    const product = await Product.findById(cartItem.productId);
+    if (!product) throw new NotFound("prodduct");
+
+    if (!cartId) throw new NotFound("cart");
+
+    await deleteProductFromCartById(cartId.toString(), cartItem);
   } catch (error) {
     throw error;
   }
@@ -43,18 +65,24 @@ async function getCartItemsService(req: any) {
     const userId = req.user._id;
 
     const user = await User.findById(userId);
-    const cartId = user.cartId.toString();
+    const cartId = user.cartId;
 
     if (!cartId) throw new NotFound("cart");
 
-    const cartItems = await getCartProductsByCartId(cartId);
+    const cartItems = await getCartProductsByCartId(cartId.toString());
 
     if (!cartItems) throw new NotFound("cartItems");
 
-    return cartItems;
+    let totalPrice = await getCartTotalPrice(cartItems);
+
+    return { cartItems, totalPrice };
   } catch (error) {
     throw error;
   }
 }
 
-export { addCartItemsToCartService, getCartItemsService };
+export {
+  addCartItemsToCartService,
+  getCartItemsService,
+  deleteProductFromCartService,
+};

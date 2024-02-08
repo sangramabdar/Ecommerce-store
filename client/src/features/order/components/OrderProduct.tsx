@@ -1,16 +1,5 @@
-import { useDispatch } from "react-redux";
-import { removeItemFromCartService } from "../../cart/services/cart";
-import { showSuccessToast } from "../../../utils/toast";
-
-function OrderProduct(product: any) {
-  const { id, image, title, price, quantity } = product;
-
-  const dispatch = useDispatch();
-
-  const handleRemoveProduct = (id: number) => {
-    showSuccessToast("Removed");
-    dispatch<any>(removeItemFromCartService(product));
-  };
+function OrderProduct({ product, quantity }: any) {
+  const { image, title, price } = product;
 
   return (
     <div

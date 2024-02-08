@@ -19,7 +19,11 @@ function placeOrderService(orderAddress: any) {
   return async function (dispatch: AppDispatch, getState: () => RootState) {
     const result = await postRequest(
       ORDER_URL,
-      { orderAddress },
+      {
+        ...orderAddress,
+
+        pincode: 222000,
+      },
       {
         ...DEFAULT_HEADERS,
         Authorization: "Bearer " + getState().auth.user.accessToken,
@@ -64,7 +68,7 @@ function getOrdersService() {
       Authorization: "Bearer " + getState().auth.user.accessToken,
     });
 
-    dispatch(loadInitialOrders(result.data.orders));
+    dispatch(loadInitialOrders(result.data));
   };
 }
 

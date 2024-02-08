@@ -26,7 +26,7 @@ class DataBaseConnectionError extends CustomError {
 }
 
 class NotFound extends CustomError {
-  private static message: string = " not found";
+  private static message: string = "not found";
   constructor(entity: string) {
     super(`${entity} ${NotFound.message}`, StatusCodes.NOT_FOUND);
   }

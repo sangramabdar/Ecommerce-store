@@ -23,10 +23,17 @@ function Cart() {
     navigate("/checkout");
   };
 
+  if (cartItems.length === 0) return <div>Empty</div>;
+
   return (
     <div className="flex flex-col gap-5">
-      {cartItems.map((item: any) => {
-        return <CartProduct key={item.id} cartProduct={item} />;
+      {cartItems.map((item: any, index) => {
+        return (
+          <CartProduct
+            key={index}
+            cartProduct={{ ...item.product, quantity: item.quantity }}
+          />
+        );
       })}
 
       {cartItems.length ? (

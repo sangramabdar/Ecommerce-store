@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { placeOrderService } from "../services/order";
 import * as yup from "yup";
 import OrderSummary from "./OrderSummary";
@@ -29,11 +29,6 @@ function Checkout() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (totalPrice > 0) return;
-    navigate("/products");
-  }, [totalPrice]);
-
   const handleOnSubmit = (deliveryInfo: any) => {
     showLoadingToast("Processing");
     dispatch<any>(placeOrderService(deliveryInfo));
@@ -45,6 +40,10 @@ function Checkout() {
       onSubmit: handleOnSubmit,
       initialValues: initialDeliveryInfo,
     });
+
+  if (totalPrice === 0) {
+    return <Navigate to={"/cart"} />;
+  }
 
   return (
     <form

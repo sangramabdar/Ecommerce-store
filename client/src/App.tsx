@@ -13,10 +13,6 @@ import ProductsPage from "./pages/ProductsPage";
 import SignUpPage from "./pages/SignUpPage";
 import store from "./store/store";
 import Auth from "./components/Auth";
-import React, { Suspense } from "react";
-import Loading from "./components/Loading";
-
-// const LoginPageLazy = React.lazy(() => import("./pages/LoginPage"));
 
 function App() {
   return (

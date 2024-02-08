@@ -25,7 +25,7 @@ function useAuthentication() {
         return;
       }
 
-      dispatch(addUser(user));
+      dispatch(addUser(result.data));
     }
 
     verifyUser();

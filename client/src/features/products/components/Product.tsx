@@ -2,11 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useMemo } from "react";
 import React from "react";
-import Image from "../../../assets/prodcuct.png";
-import {
-  addItemToCartService,
-  removeItemFromCartService,
-} from "../../cart/services/cart";
+import { addItemToCartService } from "../../cart/services/cart";
 import { ProductType } from "../store/productSlice";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
 
@@ -15,19 +11,19 @@ interface ProductProps {
 }
 
 function Product({ product }: React.PropsWithChildren<ProductProps>) {
-  const { category, description, _id, price, rating, title, image } = product;
+  const { _id, price, title, image } = product;
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector<any, any>(state => state.auth);
 
   const cartItem = useSelector<any, any>(state =>
-    state.cart.cartItems.find((product: any) => product._id == _id)
+    state.cart.cartItems.find((item: any) => item.product._id == _id)
   );
 
   const action = useMemo(() => (cartItem ? "remove" : "add"), [cartItem]);
 
-  const handleAddToCartOrRemoveFromCart = (product: any) => {
+  const handleAddToCartOrRemoveFromCart = async (product: any) => {
     if (!user) {
       showErrorToast("Plz login first");
       setTimeout(() => {
@@ -36,12 +32,16 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
       return;
     }
 
-    if (action === "add") {
-      showSuccessToast("Added");
-      dispatch<any>(addItemToCartService(product, ""));
-    } else {
-      showSuccessToast("Removed");
-      dispatch<any>(removeItemFromCartService(product));
+    try {
+      if (action === "add") {
+        await dispatch<any>(addItemToCartService(product, 1));
+        showSuccessToast("Added");
+      } else {
+        await dispatch<any>(addItemToCartService(product, 0));
+        showSuccessToast("Removed");
+      }
+    } catch (error: any) {
+      showErrorToast("Something went wrong");
     }
   };
 
