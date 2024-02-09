@@ -24,14 +24,14 @@ function SideNavigation({ open, onClick }: { open: boolean; onClick: any }) {
           Products
         </Link>
         <Link
-          className="bg-tertiary p-2 px-4 rounded-md text-white"
+          className="bg-accent p-2 px-4 rounded-md text-white"
           to="/login"
           onClick={onClick}
         >
           Login
         </Link>
         <Link
-          className="bg-tertiary p-2 px-4 rounded-md text-white"
+          className="bg-accent p-2 px-4 rounded-md text-white"
           to="/signup"
           onClick={onClick}
         >
@@ -77,7 +77,7 @@ function LogOutSideNavigation({
           Orders
         </Link>
         <button
-          className="bg-tertiary p-2 px-4 rounded-md text-white"
+          className="bg-accent p-2 px-4 rounded-md text-white"
           onClick={handleLogOut}
         >
           Log out
@@ -87,7 +87,7 @@ function LogOutSideNavigation({
   );
 }
 
-function NavBar() {
+function Header() {
   const user = useSelector<any, any>(state => state.auth.user);
   const { cartItems } = useSelector<any, any>(state => state.cart);
 
@@ -118,11 +118,8 @@ function NavBar() {
 
   if (!user) {
     return (
-      <>
-        <nav
-          className="flex bg-primary
-         top-0 left-0 right-0 fixed justify-between h-12 items-center py-8 px-4 sm:px-8 font-bold max-w-7xl mx-auto"
-        >
+      <header className="bg-secondary top-0 left-0 right-0 fixed border-b-2">
+        <nav className="flex max-w-7xl mx-auto px-4 sm:px-8 justify-between items-center h-20">
           <Link to="/" className="font-bold md:text-xl">
             E-COMMERCE STORE
           </Link>
@@ -138,30 +135,30 @@ function NavBar() {
             />
           )}
           <SideNavigation open={open} onClick={handleLinkClick} />
-          <div className="hidden md:flex justify-evenly w-[300px] items-center">
+          <div className="hidden md:flex justify-evenly gap-4 items-center font-bold">
             <Link to="/">Home</Link>
-            <Link to="/products">Products</Link>
+            <Link to="products">Products</Link>
             <Link
-              className="bg-tertiary text-center p-1 px-2 rounded-md text-white"
-              to="/login"
+              className="bg-accent text-center p-1 px-2 rounded-md text-white"
+              to="login"
             >
               Login
             </Link>
             <Link
-              className="bg-tertiary text-center p-1 px-2 rounded-md text-white"
-              to="/signup"
+              className="bg-accent text-center p-1 px-2 rounded-md text-white"
+              to="signup"
             >
               Sign Up
             </Link>
           </div>
         </nav>
-      </>
+      </header>
     );
   }
 
   return (
-    <>
-      <nav className="flex bg-primary top-0 left-0 right-0 fixed justify-between h-12 items-center p-2 font-bold max-w-7xl mx-auto px-4 sm:px-8">
+    <header className="bg-secondary top-0 left-0 right-0 fixed border-b-2">
+      <nav className="flex max-w-7xl mx-auto px-4 sm:px-8 justify-between items-center h-20">
         <div className="md:ml-5">E-COMMERCE STORE</div>
         {open ? (
           <ImCross
@@ -192,15 +189,15 @@ function NavBar() {
 
           <Link to="/orders">Orders</Link>
           <button
-            className="bg-tertiary py-1 px-2 rounded-md text-white"
+            className="bg-accent py-1 px-2 rounded-md text-white"
             onClick={handleLogOut}
           >
             Log out
           </button>
         </div>
       </nav>
-    </>
+    </header>
   );
 }
 
-export default NavBar;
+export default Header;

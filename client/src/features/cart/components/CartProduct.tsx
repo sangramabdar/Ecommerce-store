@@ -56,14 +56,14 @@ function CartProduct({
           <img className="h-fit object-cover" src={image} alt="" />
         </div>
         <button
-          className="bg-tertiary rounded-md w-7 font-bold text-white"
+          className="bg-accent rounded-md w-7 font-bold text-white"
           onClick={handleIncrement}
         >
           +
         </button>
         <p className="text-center ">{quantity}</p>
         <button
-          className="bg-tertiary text-white font-bold rounded-md w-7"
+          className="bg-accent text-white font-bold rounded-md w-7"
           onClick={handleDecrement}
         >
           -
@@ -75,7 +75,7 @@ function CartProduct({
       <section className="flex w-full justify-end">
         <button
           className={cn(
-            "text-center p-1 rounded bg-tertiary text-white",
+            "text-center p-1 rounded bg-accent text-white",
             quantity === 0 && "opacity-50"
           )}
           onClick={() => {

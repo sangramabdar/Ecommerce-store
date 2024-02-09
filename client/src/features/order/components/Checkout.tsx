@@ -98,7 +98,7 @@ function Checkout() {
       </div>
       <button
         type="submit"
-        className=" bg-tertiary mb-2 p-1 text-white rounded-md mt-4"
+        className=" bg-accent mb-2 p-1 text-white rounded-md mt-4"
       >
         Place Order
       </button>

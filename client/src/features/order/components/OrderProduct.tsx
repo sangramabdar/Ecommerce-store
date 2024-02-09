@@ -15,7 +15,7 @@ function OrderProduct({ product, quantity }: any) {
       <p className="text-center w-44">{title}</p>
       <p className="text-center w-10">${price}</p>
       {/* <button
-        className="text-center p-1 rounded bg-tertiary text-white"
+        className="text-center p-1 rounded bg-accent text-white"
         onClick={() => {
           handleRemoveProduct(id);
         }}

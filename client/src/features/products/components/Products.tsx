@@ -5,10 +5,12 @@ import {
   RequestStatus,
   fetchProductsThunk,
   selectProducts,
+  setStatus,
 } from "../store/productSlice";
 import Product from "./Product";
 import { RootState } from "../../../store/store";
 import AppLoading from "../../../components/AppLoading";
+import { Navigate } from "react-router-dom";
 
 function Products() {
   const cards = Array.from({ length: 20 }).map((card, i) => {
@@ -21,12 +23,16 @@ function Products() {
   });
 
   const dispatch = useDispatch<any>();
+
   const { data: products, status } = useSelector<RootState>(
     selectProducts
   ) as ProductSliceType;
 
   useEffect(() => {
     dispatch(fetchProductsThunk());
+    return () => {
+      dispatch(setStatus(RequestStatus.LOADING));
+    };
   }, []);
 
   if (status === RequestStatus.LOADING) {
@@ -34,7 +40,7 @@ function Products() {
   }
 
   if (status === RequestStatus.ERROR) {
-    return <div>something went wrong</div>;
+    return <Navigate to="/not-found" />;
   }
 
   return (

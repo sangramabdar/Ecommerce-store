@@ -1,6 +1,6 @@
-import cn from "../../../utils/cn";
+import cn from "../../utils/cn";
 
-interface InputFieldProps {
+interface InputProps {
   name: string;
   value: string;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
@@ -12,14 +12,13 @@ interface InputFieldProps {
   className?: string;
 }
 
-function InputField({
-  value,
+function Input({
   error,
   touched,
   label,
   className,
   ...props
-}: Partial<InputFieldProps>) {
+}: Partial<InputProps>) {
   const isInvalid = error && touched;
 
   return (
@@ -27,10 +26,9 @@ function InputField({
       <label className="block text-sm font-medium mb-2 ">{label}</label>
       <input
         className={cn(
-          "py-3 px-4 block w-full border rounded-lg text-sm disabled:opacity-50 disabled:pointer-events-none focus:ring-1 focus:ring-tertiary focus:outline-none text-grey-600",
+          "py-3 px-4 block w-full border rounded-lg text-sm disabled:opacity-50 disabled:pointer-events-none focus:ring-1 focus:ring-accent focus:outline-none text-grey-600",
           className
         )}
-        value={value}
         {...props}
       />
       {isInvalid ? <span className="text-red-700">{error}</span> : null}
@@ -38,4 +36,4 @@ function InputField({
   );
 }
 
-export default InputField;
+export default Input;

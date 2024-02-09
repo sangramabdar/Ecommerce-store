@@ -1,9 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
-
-import React from "react";
-
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { RootState } from "../../../store/store";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
 import {
@@ -66,7 +63,7 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
           <p className="text-center font-bold w-[200px]">{title}</p>
           <p className="text-center font-bold">Price : ${price}</p>
           <button
-            className="bg-tertiary font-bold text-white rounded p-1"
+            className="bg-accent font-bold text-white rounded p-1"
             onClick={e => {
               e.stopPropagation();
               handleAddToCartOrRemoveFromCart(product);
@@ -115,7 +112,7 @@ function ProductDescription() {
     );
 
   if (status === RequestStatus.ERROR) {
-    return <div>something went wrong</div>;
+    return <Navigate to={"/not-found"} />;
   }
 
   return <Product product={product} />;

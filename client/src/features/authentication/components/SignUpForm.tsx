@@ -1,6 +1,5 @@
 import * as yup from "yup";
 import { useFormik } from "formik";
-import InputField from "./InputField";
 import { Link, useNavigate } from "react-router-dom";
 
 import { useState } from "react";
@@ -13,6 +12,8 @@ import {
 } from "../../../utils/toast";
 import { signUpUserService } from "../services/auth";
 import cn from "../../../utils/cn";
+import Input from "../../../components/ui/Input";
+import Button from "../../../components/ui/Button";
 
 const userSchema = yup.object().shape({
   email: yup.string().required("Required").email("email must be valid"),
@@ -37,7 +38,7 @@ function SignUpForm() {
 
     if (result.status === RequestStatus.ERROR) {
       showErrorToast("Registered already");
-      navigate("/login");
+      // navigate("/login");
       return;
     }
 
@@ -61,13 +62,13 @@ function SignUpForm() {
 
   return (
     <form
-      className="flex flex-col mt-[100px] bg-white m-auto max-w-sm rounded-lg border
+      className="flex flex-col mt-[100px] bg-secondary m-auto max-w-sm rounded-lg border
       "
       onSubmit={handleSubmit}
     >
       <h1 className="font-bold text-center m-5 text-xl">Sign Up</h1>
       <div className="flex flex-col gap-4 justify-start px-4">
-        <InputField
+        <Input
           name="email"
           error={errors.email}
           touched={touched.email}
@@ -77,7 +78,7 @@ function SignUpForm() {
           label="Email"
           type="text"
         />
-        <InputField
+        <Input
           name="password"
           error={errors.password}
           touched={touched.password}
@@ -87,16 +88,9 @@ function SignUpForm() {
           label="Password"
           type="password"
         />
-        <button
-          disabled={isDisabled}
-          className={cn(
-            "bg-tertiary text-white rounded-md self-center px-4 py-2",
-            isDisabled && "opacity-30"
-          )}
-          type="submit"
-        >
+        <Button disabled={isDisabled} type="submit">
           Sign Up
-        </button>
+        </Button>
       </div>
 
       <Link to="/login" className="m-5 text-center text-gray-600">

@@ -1,12 +1,7 @@
-import MountAndUnmountAnimation from "../../components/MountAndUnmountAnimation";
 import Products from "../../features/products/components/Products";
 
 function ProductsPage() {
-  return (
-    // <MountAndUnmountAnimation>
-    <Products />
-    // </MountAndUnmountAnimation>
-  );
+  return <Products />;
 }
 
 export default ProductsPage;

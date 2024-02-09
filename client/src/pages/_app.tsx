@@ -1,17 +1,14 @@
 import { Outlet } from "react-router-dom";
-import NavBar from "../components/NavBar";
+import Header from "../components/Header";
 
 function RootPage() {
   return (
-    <>
-      <NavBar />
-      <main className="max-w-7xl mx-auto mt-20 px-4 sm:px-8">
+    <div className="">
+      <Header />
+      <main className="max-w-7xl mx-auto m-28 px-4 sm:px-8 bg-primary">
         <Outlet />
       </main>
-      <footer className="max-w-7xl mx-auto mt-20 px-4 sm:px-8">
-        <div>Footer</div>
-      </footer>
-    </>
+    </div>
   );
 }
 

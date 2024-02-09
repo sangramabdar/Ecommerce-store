@@ -50,7 +50,7 @@ function Cart() {
       {cartItems.length ? (
         <div className="flex justify-end">
           <button
-            className="bg-tertiary text-white rounded-md p-2"
+            className="bg-accent text-white rounded-md p-2"
             onClick={handleCheckout}
           >
             Proceed to checkout

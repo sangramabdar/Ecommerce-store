@@ -6,7 +6,7 @@ function PlaceHolder({
   return (
     <div
       className={cn(
-        " bg-slate-200 animate-pulse  relative shimmer rounded-md h-screen w-screen m-4",
+        " animate-pulse relative shimmer rounded-md h-screen w-screen p-8 bg-slate-200",
         className
       )}
     ></div>
