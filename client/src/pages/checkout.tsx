@@ -1,4 +1,3 @@
-import MountAndUnmountAnimation from "../components/MountAndUnmountAnimation";
 import Checkout from "../features/order/components/Checkout";
 
 function CheckoutPage() {

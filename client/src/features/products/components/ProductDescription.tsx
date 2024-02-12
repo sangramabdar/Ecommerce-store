@@ -51,7 +51,7 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
   };
 
   return (
-    <div className="bg-white my-[80px] rounded-md shadow-lg w-full p-3 md:max-w-[500px] md:mx-auto">
+    <div className="bg-primary my-[80px] rounded-md shadow-lg w-full p-4 md:max-w-[500px] md:mx-auto">
       <div
         className="flex flex-col p-3 space-y-2 justify-center items-center md:flex-row md:justify-evenly "
         key={_id}
@@ -60,8 +60,12 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
         <img className="w-40" src={image} />
 
         <section className="flex flex-col justify-evenly items-center space-y-5">
-          <p className="text-center font-bold w-[200px]">{title}</p>
-          <p className="text-center font-bold">Price : ${price}</p>
+          <p className="text-center font-bold leading-6 w-[200px] text-gray-900">
+            {title}
+          </p>
+          <p className="text-center text-gray-600 font-semibold">
+            Price : ${price}
+          </p>
           <button
             className="bg-accent font-bold text-white rounded p-1"
             onClick={e => {
@@ -74,8 +78,12 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
         </section>
       </div>
       <div className="p-5">
-        <span className="font-bold text-xl">Description :</span>
-        <section className="p-1">{description}</section>
+        <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
+          Description :
+        </h3>
+        <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">
+          {description}
+        </p>
       </div>
     </div>
   );

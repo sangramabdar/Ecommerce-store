@@ -9,6 +9,9 @@ module.exports = {
         secondary: "rgb(248,248,250)",
         accent: "#416442",
       },
+      textColor: {
+        primary: "1A202C",
+      },
     },
   },
   plugins: [],

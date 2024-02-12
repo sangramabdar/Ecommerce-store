@@ -7,6 +7,7 @@ import { useFormik } from "formik";
 import CheckoutInputField from "./CheckOutInputField";
 import { RootState } from "../../../store/store";
 import { showLoadingToast } from "../../../utils/toast";
+import Button from "../../../components/ui/Button";
 
 const deliveryInfoSchema = yup.object().shape({
   address: yup.string().required("Required"),
@@ -45,14 +46,14 @@ function Checkout() {
 
   return (
     <form
-      className="bg-white rounded-md shadow-lg p-5s sm:w-[80%] mx-auto flex flex-col justify-center items-center max-w-[600px]"
+      className="bg-white rounded-md shadow-lg p-4 space-y-8 sm:w-[80%] mx-auto flex flex-col justify-center items-center max-w-[600px]"
       onSubmit={handleSubmit}
     >
       <div
         className="flex flex-col items-center
        space-y-6"
       >
-        <section className="flex flex-col justify-center items-center w-full h-full">
+        <section className="flex flex-col justify-center items-center">
           <h1 className="font-bold text-lg flex">Delivery Address</h1>
           <div
             className="flex flex-col items-start space-y-3
@@ -96,12 +97,7 @@ function Checkout() {
         </section>
         <OrderSummary />
       </div>
-      <button
-        type="submit"
-        className=" bg-accent mb-2 p-1 text-white rounded-md mt-4"
-      >
-        Place Order
-      </button>
+      <Button type="submit">Place Order</Button>
     </form>
   );
 }

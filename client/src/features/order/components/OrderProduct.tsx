@@ -3,25 +3,17 @@ function OrderProduct({ product, quantity }: any) {
 
   return (
     <div
-      className="flex justify-between
-     p-2 items-center rounded-md space-x-6
+      className="flex flex-col sm:flex-row
+     p-2 items-center rounded-md space-x-6 gap-2
       "
     >
-      <div className="w-10">
-        <img className="h-fit w-12 object-cover" src={image} alt="" />
-      </div>
-
-      <p className="text-center ">{quantity}</p>
-      <p className="text-center w-44">{title}</p>
-      <p className="text-center w-10">${price}</p>
-      {/* <button
-        className="text-center p-1 rounded bg-accent text-white"
-        onClick={() => {
-          handleRemoveProduct(id);
-        }}
-      >
-        remove
-      </button> */}
+      <img className="h-fit w-12 object-cover" src={image} alt="" />
+      <p className="text-center font-semibold">
+        quantity
+        <span className="block">{quantity}</span>
+      </p>
+      <p className="">{title}</p>
+      <p className="text-center">${price}</p>
     </div>
   );
 }

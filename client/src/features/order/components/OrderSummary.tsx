@@ -6,7 +6,7 @@ function OrderSummary() {
   const cartItems = useSelector<any, any>(state => state.cart.cartItems);
 
   return (
-    <section>
+    <section className="px-4">
       <h1 className="font-bold text-lg flex flex-col justify-center items-center">
         Order Summary
       </h1>
@@ -19,7 +19,7 @@ function OrderSummary() {
           />
         );
       })}
-      <span className="mt-2 ml-2s">Total Price : ${totalPrice}</span>
+      <span className="mt-4">Total Price : ${totalPrice}</span>
     </section>
   );
 }

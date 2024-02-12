@@ -34,7 +34,6 @@ export function LoginForm() {
       localStorage.setItem("user", JSON.stringify(result.data));
 
       await dispatch(addUser(result.data));
-
       showSuccessToast("Logged In");
       setIsDisabled(false);
       navigate("/");
@@ -47,7 +46,6 @@ export function LoginForm() {
 
   const handleOnSubmit = (loginInfo: any) => {
     setIsDisabled(true);
-    showLoadingToast("Processing");
     handleLoginUser(loginInfo);
   };
 
@@ -57,6 +55,48 @@ export function LoginForm() {
       initialValues: initialLoginInfo,
       onSubmit: handleOnSubmit,
     });
+
+  return (
+    <div className="flex min-h-full flex-1 flex-col justify-center py-12">
+      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-primary">
+          Login
+        </h2>
+      </div>
+
+      <form
+        className="flex flex-col w-full sm:mx-auto sm:w-full sm:max-w-sm mt-10
+      "
+        onSubmit={handleSubmit}
+      >
+        <div className="flex flex-col gap-4 justify-start px-4">
+          <Input
+            name="email"
+            error={errors.email}
+            touched={touched.email}
+            value={values.email}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            label="Email"
+            type="text"
+          />
+          <Input
+            name="password"
+            error={errors.password}
+            touched={touched.password}
+            value={values.password}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            label="Password"
+            type="password"
+          />
+          <Button disabled={isDisabled} type="submit" className="w-full">
+            Login
+          </Button>
+        </div>
+      </form>
+    </div>
+  );
 
   return (
     <form

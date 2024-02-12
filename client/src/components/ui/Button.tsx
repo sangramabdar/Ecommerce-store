@@ -16,7 +16,7 @@ function Button({
   return (
     <button
       className={cn(
-        "bg-accent text-white rounded-md self-center px-4 py-2 font-bold",
+        "bg-accent text-white rounded-md self-center font-semibold px-2 py-2",
         disabled && "opacity-30",
         className
       )}

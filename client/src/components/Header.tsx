@@ -119,8 +119,8 @@ function Header() {
   if (!user) {
     return (
       <header className="bg-secondary top-0 left-0 right-0 fixed border-b-2">
-        <nav className="flex max-w-7xl mx-auto px-4 sm:px-8 justify-between items-center h-20">
-          <Link to="/" className="font-bold md:text-xl">
+        <nav className="flex max-w-7xl mx-auto p-4 px-4 sm:px-8 justify-between items-center">
+          <Link to="/" className="font-bold text-base md:text-xl">
             E-COMMERCE STORE
           </Link>
           {open ? (
@@ -158,8 +158,10 @@ function Header() {
 
   return (
     <header className="bg-secondary top-0 left-0 right-0 fixed border-b-2">
-      <nav className="flex max-w-7xl mx-auto px-4 sm:px-8 justify-between items-center h-20">
-        <div className="md:ml-5">E-COMMERCE STORE</div>
+      <nav className="flex max-w-7xl mx-auto px-4 sm:px-8 justify-between items-center p-4">
+        <Link to="/" className="font-bold text-base md:text-xl">
+          E-COMMERCE STORE
+        </Link>
         {open ? (
           <ImCross
             className="md:hidden h-6 w-10 z-10"

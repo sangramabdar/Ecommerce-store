@@ -61,42 +61,49 @@ function SignUpForm() {
     });
 
   return (
-    <form
-      className="flex flex-col mt-[100px] bg-secondary m-auto max-w-sm rounded-lg border
-      "
-      onSubmit={handleSubmit}
-    >
-      <h1 className="font-bold text-center m-5 text-xl">Sign Up</h1>
-      <div className="flex flex-col gap-4 justify-start px-4">
-        <Input
-          name="email"
-          error={errors.email}
-          touched={touched.email}
-          value={values.email}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          label="Email"
-          type="text"
-        />
-        <Input
-          name="password"
-          error={errors.password}
-          touched={touched.password}
-          value={values.password}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          label="Password"
-          type="password"
-        />
-        <Button disabled={isDisabled} type="submit">
-          Sign Up
-        </Button>
+    <div className="flex min-h-full flex-1 flex-col justify-center py-12">
+      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-primary">
+          Sign up
+        </h2>
       </div>
 
-      <Link to="/login" className="m-5 text-center text-gray-600">
-        have already an account ?
-      </Link>
-    </form>
+      <form
+        className="flex flex-col w-full sm:mx-auto sm:w-full sm:max-w-sm mt-10
+      "
+        onSubmit={handleSubmit}
+      >
+        <div className="flex flex-col gap-4 justify-start px-4">
+          <Input
+            name="email"
+            error={errors.email}
+            touched={touched.email}
+            value={values.email}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            label="Email"
+            type="text"
+          />
+          <Input
+            name="password"
+            error={errors.password}
+            touched={touched.password}
+            value={values.password}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            label="Password"
+            type="password"
+          />
+          <Button disabled={isDisabled} type="submit" className="w-full">
+            Sign Up
+          </Button>
+        </div>
+
+        <Link to="/login" className="m-5 text-center text-gray-600">
+          have already an account ?
+        </Link>
+      </form>
+    </div>
   );
 }
 
