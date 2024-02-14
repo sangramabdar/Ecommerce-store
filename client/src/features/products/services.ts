@@ -1,5 +1,5 @@
-import { BASE_URL } from "../../../services/constants";
-import { getRequest } from "../../../services/requests";
+import { BASE_URL } from "../../services/constants";
+import { getRequest } from "../../services/requests";
 
 const PRODUCTS_URL = BASE_URL + "/products";
 

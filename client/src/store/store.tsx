@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-import productReducer from "../features/products/store/productSlice";
+import productReducer from "../features/products/productSlice";
 import cartReducer from "../features/cart/store/cartSlice";
-import signedInUserReducer from "../features/authentication/store/authSlice";
+import signedInUserReducer from "../features/authentication/authSlice";
 import orderReducer from "../features/order/store/orderSlice";
 
 import logger from "redux-logger";
@@ -13,7 +13,7 @@ const store = configureStore({
     auth: signedInUserReducer,
     order: orderReducer,
   },
-  // middleware: getDefaultMiddleware => getDefaultMiddleware().concat(logger),
+  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(logger),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

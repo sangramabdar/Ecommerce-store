@@ -1,7 +1,8 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AppDispatch, RootState } from "../../../store/store";
-import { loginUserService } from "../services/auth";
-import { RequestStatus } from "../../../services/constants";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { AppDispatch, RootState } from "../../store/store";
+import { loginUserService, signUpUserService } from "./services";
+import { RequestStatus } from "../../services/constants";
+import { LoginSchema, SignUpSchema } from "./schema";
 
 interface AuthSliceType {
   user: any;
@@ -15,9 +16,21 @@ const initailSignedInUser: AuthSliceType = {
   isAuthenticating: true,
 };
 
-function loginUserThunk(user: any) {
+function loginUserThunk(user: LoginSchema) {
   return async (dispatch: AppDispatch, getState: () => RootState) => {
     const result = await loginUserService(user);
+
+    if (result.status === RequestStatus.ERROR) {
+      throw result.error;
+    }
+
+    return result;
+  };
+}
+
+function signUpUserThunk(user: SignUpSchema) {
+  return async (dispatch: AppDispatch, getState: () => RootState) => {
+    const result = await signUpUserService(user);
 
     if (result.status === RequestStatus.ERROR) {
       throw result.error;
@@ -53,4 +66,4 @@ export type { AuthSliceType };
 export default authSlice.reducer;
 
 export { selectAuth };
-export { loginUserThunk };
+export { loginUserThunk, signUpUserThunk };

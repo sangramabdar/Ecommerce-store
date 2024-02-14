@@ -8,7 +8,7 @@ import {
   ProductSliceType,
   RequestStatus,
   fetchProductsThunk,
-} from "../store/productSlice";
+} from "../productSlice";
 import { addProductToCartThunk } from "../../cart/store/cartSlice";
 
 interface ProductProps {

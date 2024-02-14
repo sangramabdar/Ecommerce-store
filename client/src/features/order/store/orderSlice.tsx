@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AppDispatch, RootState } from "../../../store/store";
 import { getOrdersService } from "../services/order";
 import { DEFAULT_HEADERS, RequestStatus } from "../../../services/constants";
-import { fetchProductsThunk } from "../../products/store/productSlice";
+import { fetchProductsThunk } from "../../products/productSlice";
 import { wait } from "../../../utils/wait";
 
 interface OrderSliceType {

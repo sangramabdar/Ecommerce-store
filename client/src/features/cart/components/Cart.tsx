@@ -6,14 +6,13 @@ import { useEffect } from "react";
 import { RootState } from "../../../store/store";
 import { RequestStatus } from "../../../services/constants";
 import Loading from "../../../components/Loading";
+import Skeleton from "../../../components/ui/Skeleton";
 
 function Cart() {
-  const { cartItems, totalPrice, status } = useSelector<
+  const { cartItems, totalPrice, status, isFetched } = useSelector<
     RootState,
     CartSliceType
   >(state => state.cart);
-
-  console.log({ cartItems, status });
 
   const dispatch = useDispatch<any>();
 

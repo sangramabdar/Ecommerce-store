@@ -4,7 +4,7 @@ import { MouseEventHandler, useEffect, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { ImCross } from "react-icons/im";
 import { motion } from "framer-motion";
-import { removeUser } from "../features/authentication/store/authSlice";
+import { removeUser } from "../features/authentication/authSlice";
 import cn from "../utils/cn";
 import { fetchCartItemsThunk } from "../features/cart/store/cartSlice";
 

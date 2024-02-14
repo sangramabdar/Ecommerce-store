@@ -26,23 +26,23 @@ function CartProduct({
 }: React.PropsWithChildren<CartProductProps>) {
   const { image, title, price, quantity } = cartProduct;
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
 
   const handleRemoveProduct = async () => {
     try {
-      await dispatch<any>(addProductToCartThunk(cartProduct, 0));
+      await dispatch(addProductToCartThunk(cartProduct, 0));
       showSuccessToast("Removed");
     } catch (error) {
       showErrorToast("something went wrong");
     }
   };
 
-  const handleIncrement = () => {
-    dispatch<any>(addProductToCartThunk(cartProduct, quantity + 1));
+  const handleIncrement = async () => {
+    await dispatch(addProductToCartThunk(cartProduct, quantity + 1));
   };
 
-  const handleDecrement = () => {
-    dispatch<any>(addProductToCartThunk(cartProduct, quantity - 1));
+  const handleDecrement = async () => {
+    await dispatch(addProductToCartThunk(cartProduct, quantity - 1));
   };
 
   return (

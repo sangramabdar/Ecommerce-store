@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useMemo } from "react";
 import React from "react";
-import { ProductType } from "../store/productSlice";
+import { ProductType } from "../productSlice";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
 import { addProductToCartThunk } from "../../cart/store/cartSlice";
 

@@ -1,23 +1,14 @@
 import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { addUser, loginUserThunk } from "../store/authSlice";
+import { addUser, loginUserThunk } from "../authSlice";
 import { useState } from "react";
-import {
-  showErrorToast,
-  showSuccessToast,
-  showLoadingToast,
-} from "../../../utils/toast";
+import { showErrorToast, showSuccessToast } from "../../../utils/toast";
 import Input from "../../../components/ui/Input";
-import * as yup from "yup";
 import Button from "../../../components/ui/Button";
+import { LoginSchema, loginSchema } from "../schema";
 
-export const loginSchema = yup.object().shape({
-  email: yup.string().required("Required").email("email must be valid"),
-  password: yup.string().required("Required"),
-});
-
-export const initialLoginInfo = {
+const initialLoginInfo = {
   email: "",
   password: "",
 };
@@ -27,9 +18,21 @@ export function LoginForm() {
   const [isDisabled, setIsDisabled] = useState(false);
   const navigate = useNavigate();
 
-  const handleLoginUser = async (user: any) => {
+  const handleOnSubmit = (loginInfo: LoginSchema) => {
+    setIsDisabled(true);
+    handleLoginUser(loginInfo);
+  };
+
+  const { errors, touched, values, handleChange, handleBlur, handleSubmit } =
+    useFormik<any>({
+      validationSchema: loginSchema,
+      initialValues: initialLoginInfo,
+      onSubmit: handleOnSubmit,
+    });
+
+  const handleLoginUser = async (loginInfo: LoginSchema) => {
     try {
-      const result = await dispatch(loginUserThunk(user));
+      const result = await dispatch(loginUserThunk(loginInfo));
 
       localStorage.setItem("user", JSON.stringify(result.data));
 
@@ -44,20 +47,8 @@ export function LoginForm() {
     }
   };
 
-  const handleOnSubmit = (loginInfo: any) => {
-    setIsDisabled(true);
-    handleLoginUser(loginInfo);
-  };
-
-  const { errors, touched, values, handleChange, handleBlur, handleSubmit } =
-    useFormik({
-      validationSchema: loginSchema,
-      initialValues: initialLoginInfo,
-      onSubmit: handleOnSubmit,
-    });
-
   return (
-    <div className="flex min-h-full flex-1 flex-col justify-center py-12">
+    <div className="flex min-h-full flex-1 flex-col justify-center items-center py-12">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-primary">
           Login
@@ -65,15 +56,14 @@ export function LoginForm() {
       </div>
 
       <form
-        className="flex flex-col w-full sm:mx-auto sm:w-full sm:max-w-sm mt-10
-      "
+        className="flex flex-col w-full sm:mx-auto sm:w-full sm:max-w-sm mt-10"
         onSubmit={handleSubmit}
       >
-        <div className="flex flex-col gap-4 justify-start px-4">
+        <div className="flex flex-col gap-4 justify-start">
           <Input
             name="email"
-            error={errors.email}
-            touched={touched.email}
+            error={errors.email as string}
+            touched={touched.email as boolean}
             value={values.email}
             onChange={handleChange}
             onBlur={handleBlur}
@@ -82,8 +72,8 @@ export function LoginForm() {
           />
           <Input
             name="password"
-            error={errors.password}
-            touched={touched.password}
+            error={errors.password as string}
+            touched={touched.password as boolean}
             value={values.password}
             onChange={handleChange}
             onBlur={handleBlur}
@@ -95,42 +85,12 @@ export function LoginForm() {
           </Button>
         </div>
       </form>
-    </div>
-  );
-
-  return (
-    <form
-      className="flex flex-col mt-[100px] bg-secondary m-auto max-w-sm rounded-lg border
-      "
-      onSubmit={handleSubmit}
-    >
-      <h1 className="font-bold text-center m-5 text-xl">Login</h1>
-      <div className="flex flex-col gap-4 justify-start px-4">
-        <Input
-          name="email"
-          error={errors.email}
-          touched={touched.email}
-          value={values.email}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          label="Email"
-          type="email"
-        />
-        <Input
-          name="password"
-          error={errors.password}
-          touched={touched.password}
-          value={values.password}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          label="Password"
-          type="password"
-        />
-        <Button disabled={isDisabled}>Login</Button>
+      <div className="m-5">
+        <span> don't have an account ? </span>
+        <Link to="/signup" className="text-center text-gray-600">
+          create an account
+        </Link>
       </div>
-      <Link to="/signup" className="m-5 text-center text-gray-600">
-        Don't have an account ?
-      </Link>
-    </form>
+    </div>
   );
 }
