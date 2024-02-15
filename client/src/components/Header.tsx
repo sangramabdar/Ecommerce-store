@@ -4,9 +4,9 @@ import { MouseEventHandler, useEffect, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { ImCross } from "react-icons/im";
 import { motion } from "framer-motion";
-import { removeUser } from "../features/authentication/authSlice";
+import { removeUser } from "../features/authentication/auth.slice";
 import cn from "../utils/cn";
-import { fetchCartItemsThunk } from "../features/cart/store/cartSlice";
+import { fetchCartItemsThunk } from "../features/cart/cart.slice";
 
 function SideNavigation({ open, onClick }: { open: boolean; onClick: any }) {
   return (

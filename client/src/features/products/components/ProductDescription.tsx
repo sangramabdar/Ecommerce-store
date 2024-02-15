@@ -8,8 +8,9 @@ import {
   ProductSliceType,
   RequestStatus,
   fetchProductsThunk,
-} from "../productSlice";
-import { addProductToCartThunk } from "../../cart/store/cartSlice";
+} from "../product.slice";
+import { addProductToCartThunk } from "../../cart/cart.slice";
+import Skeleton from "../../../components/ui/Skeleton";
 
 interface ProductProps {
   product: ProductType;
@@ -47,7 +48,7 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
   };
 
   const handleProductPageNavigation = () => {
-    navigate(`/products/${_id}`);
+    navigate(`/products/${title}`);
   };
 
   return (
@@ -90,22 +91,29 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
 }
 
 function ProductDescription() {
-  const { id } = useParams();
+  const { title } = useParams();
+
   const { data, status } = useSelector<RootState, ProductSliceType>(
     state => state.products
   );
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [product, setProduct] = useState({} as ProductType);
 
   useEffect(() => {
-    if (status === RequestStatus.LOADING) return;
-    if (status === RequestStatus.ERROR) return;
-    let product = data.find(
-      (element: any) => element._id === id
-    ) as ProductType;
+    if (status === RequestStatus.SUCCESS) {
+      let product = data.find(
+        (product: any) => product.title === title
+      ) as ProductType;
 
-    setProduct(product);
+      if (!product) {
+        navigate("/not-found");
+        return;
+      }
+
+      setProduct(product);
+    }
   }, [status]);
 
   useEffect(() => {
@@ -116,7 +124,7 @@ function ProductDescription() {
 
   if (status === RequestStatus.LOADING)
     return (
-      <div className="my-[80px] rounded-md shadow-lg w-full p-3 h-[500px] md:max-w-[500px] md:mx-auto shimmer relative"></div>
+      <Skeleton className="my-[80px] rounded-md shadow-lg w-full p-3 h-[500px] md:max-w-[500px] md:mx-auto shimmer relative"></Skeleton>
     );
 
   if (status === RequestStatus.ERROR) {

@@ -2,9 +2,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useMemo } from "react";
 import React from "react";
-import { ProductType } from "../productSlice";
+import { ProductType } from "../product.slice";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
-import { addProductToCartThunk } from "../../cart/store/cartSlice";
+import { addProductToCartThunk } from "../../cart/cart.slice";
 
 interface ProductProps {
   product: ProductType;
@@ -15,6 +15,7 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const { user } = useSelector<any, any>(state => state.auth);
 
   const cartItem = useSelector<any, any>(state =>
@@ -46,7 +47,9 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
   };
 
   const handleProductPageNavigation = () => {
-    navigate(`/products/${_id}`);
+    navigate({
+      pathname: `/products/${title}`,
+    });
   };
 
   return (

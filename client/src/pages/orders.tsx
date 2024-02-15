@@ -1,4 +1,3 @@
-import MountAndUnmountAnimation from "../components/MountAndUnmountAnimation";
 import OrderTable from "../features/order/components/OrderTable";
 
 function OrderPage() {

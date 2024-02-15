@@ -6,7 +6,7 @@ import {
   fetchProductsThunk,
   selectProducts,
   setStatus,
-} from "../productSlice";
+} from "../product.slice";
 import Product from "./Product";
 import { RootState } from "../../../store/store";
 import AppLoading from "../../../components/AppLoading";

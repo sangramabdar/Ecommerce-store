@@ -1,5 +1,5 @@
-import { BASE_URL } from "../../../services/constants";
-import { getRequest, postRequest } from "../../../services/requests";
+import { BASE_URL } from "../../services/constants";
+import { getRequest, postRequest } from "../../services/requests";
 
 const CART_URL = BASE_URL + "/carts";
 

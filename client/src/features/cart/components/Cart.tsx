@@ -1,12 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import CartProduct from "./CartProduct";
-import { CartSliceType, fetchCartItemsThunk } from "../store/cartSlice";
+import { CartSliceType, fetchCartItemsThunk } from "../cart.slice";
 import { useEffect } from "react";
 import { RootState } from "../../../store/store";
 import { RequestStatus } from "../../../services/constants";
 import Loading from "../../../components/Loading";
-import Skeleton from "../../../components/ui/Skeleton";
 
 function Cart() {
   const { cartItems, totalPrice, status, isFetched } = useSelector<

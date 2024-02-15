@@ -3,7 +3,7 @@ import Loading from "../../../components/Loading";
 import OrderRow from "./OrderRow";
 import { useEffect } from "react";
 import { RootState } from "../../../store/store";
-import { OrderSliceType, fetchOrdersThunk } from "../store/orderSlice";
+import { OrderSliceType, fetchOrdersThunk } from "../order.slice";
 import { RequestStatus } from "../../../services/constants";
 
 function OrderTable() {

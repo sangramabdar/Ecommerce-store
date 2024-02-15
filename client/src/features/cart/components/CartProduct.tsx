@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import React from "react";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
 import cn from "../../../utils/cn";
-import { addProductToCartThunk } from "../store/cartSlice";
+import { addProductToCartThunk } from "../cart.slice";
 
 interface CartProductProps {
   cartProduct: {

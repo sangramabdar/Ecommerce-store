@@ -1,12 +1,12 @@
 import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { addUser, loginUserThunk } from "../authSlice";
+import { addUser, loginUserThunk } from "../auth.slice";
 import { useState } from "react";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
 import Input from "../../../components/ui/Input";
 import Button from "../../../components/ui/Button";
-import { LoginSchema, loginSchema } from "../schema";
+import { LoginSchema, loginSchema } from "../auth.schema";
 
 const initialLoginInfo = {
   email: "",

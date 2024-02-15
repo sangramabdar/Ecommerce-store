@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom";
-import { placeOrderService } from "../services/order";
+import { placeOrderService } from "../order.service";
 import * as yup from "yup";
 import OrderSummary from "./OrderSummary";
 import { useFormik } from "formik";

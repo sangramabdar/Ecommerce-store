@@ -1,7 +1,7 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RequestStatus } from "../../services/constants";
 import { RootState } from "../../store/store";
-import { getProductsService } from "./services";
+import { getProductsService } from "./product.service";
 
 interface ProductType {
   _id: string;
@@ -24,6 +24,7 @@ const fetchProductsThunk = createAsyncThunk(
     if (result.status === RequestStatus.ERROR) {
       return thunkApi.rejectWithValue(result);
     }
+
     return result.data;
   }
 );

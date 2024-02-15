@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getRequest } from "../services/requests";
 import { BASE_URL, RequestStatus } from "../services/constants";
-import { removeUser, addUser } from "../features/authentication/authSlice";
+import { removeUser, addUser } from "../features/authentication/auth.slice";
 
 function useAuthentication() {
   const dispatch = useDispatch();

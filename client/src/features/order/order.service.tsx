@@ -5,12 +5,12 @@ import {
   BASE_URL,
   DEFAULT_HEADERS,
   RequestStatus,
-} from "../../../services/constants";
-import { postRequest, getRequest } from "../../../services/requests";
-import { AppDispatch, RootState } from "../../../store/store";
-import { showErrorToast, showSuccessToast } from "../../../utils/toast";
-import { handleTokenError } from "../../../utils/tokenError";
-import { loadInitialOrders } from "../store/orderSlice";
+} from "../../services/constants";
+import { postRequest, getRequest } from "../../services/requests";
+import { AppDispatch, RootState } from "../../store/store";
+import { showErrorToast, showSuccessToast } from "../../utils/toast";
+import { handleTokenError } from "../../utils/tokenError";
+import { loadInitialOrders } from "./order.slice";
 
 const ORDER_URL = BASE_URL + "/orders";
 

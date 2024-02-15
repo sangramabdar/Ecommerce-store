@@ -6,8 +6,8 @@ import { showErrorToast, showSuccessToast } from "../../../utils/toast";
 import Input from "../../../components/ui/Input";
 import Button from "../../../components/ui/Button";
 import { useDispatch } from "react-redux";
-import { signUpUserThunk } from "../authSlice";
-import { SignUpSchema, signUpSchema } from "../schema";
+import { signUpUserThunk } from "../auth.slice";
+import { SignUpSchema, signUpSchema } from "../auth.schema";
 
 const initialUserInfo = {
   email: "",

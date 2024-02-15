@@ -8,21 +8,19 @@ import CartPage from "./cart";
 import CheckoutPage from "./checkout";
 import LoginPage from "./login";
 import OrderPage from "./orders";
-import ProductsPage from "./products";
-import ProductPage from "./products/[productId]";
+import ProductPage from "./products/[product-title]";
 import SignUpPage from "./signup";
-import HomePage from "./index";
 import RootPage from "./_app";
-import NotFoundPage from "./404";
+import NotFoundPage from "./not-found";
+import HomePage from ".";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootPage />}>
       <Route path="/" element={<HomePage />} />
-      <Route path="/products" element={<ProductsPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignUpPage />} />
-      <Route path="/products/:id" element={<ProductPage />} />
+      <Route path="/products/:title" element={<ProductPage />} />
       <Route element={<PrivateRoute />}>
         <Route path="/orders" element={<OrderPage />} />
         <Route path="/cart" element={<CartPage />} />
