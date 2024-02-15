@@ -2,12 +2,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { placeOrderService } from "../order.service";
 import * as yup from "yup";
-import OrderSummary from "./OrderSummary";
+import OrderSummary from "./order-summary";
 import { useFormik } from "formik";
-import CheckoutInputField from "./CheckOutInputField";
-import { RootState } from "../../../store/store";
+import CheckoutInputField from "./check-outInput-field";
+import { RootState } from "../../../store";
 import { showLoadingToast } from "../../../utils/toast";
-import Button from "../../../components/ui/Button";
+import Button from "../../../components/ui/button";
 
 const deliveryInfoSchema = yup.object().shape({
   address: yup.string().required("Required"),

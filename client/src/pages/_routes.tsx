@@ -3,12 +3,13 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
-import PrivateRoute from "../components/PrivateRoute";
+
+import PrivateRoute from "../components/private-route";
 import CartPage from "./cart";
 import CheckoutPage from "./checkout";
 import LoginPage from "./login";
 import OrderPage from "./orders";
-import ProductPage from "./products/[product-title]";
+import ProductPage from "./products/[productTitle]";
 import SignUpPage from "./signup";
 import RootPage from "./_app";
 import NotFoundPage from "./not-found";
@@ -20,7 +21,7 @@ const router = createBrowserRouter(
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignUpPage />} />
-      <Route path="/products/:title" element={<ProductPage />} />
+      <Route path="/products/:productTitle" element={<ProductPage />} />
       <Route element={<PrivateRoute />}>
         <Route path="/orders" element={<OrderPage />} />
         <Route path="/cart" element={<CartPage />} />

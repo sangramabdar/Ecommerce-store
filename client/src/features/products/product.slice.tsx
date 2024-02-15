@@ -1,6 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RequestStatus } from "../../services/constants";
-import { RootState } from "../../store/store";
+import { RootState } from "../../store";
 import { getProductsService } from "./product.service";
 
 interface ProductType {

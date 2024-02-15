@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import OrderProduct from "./OrderProduct";
+import OrderProduct from "./order-product";
 
 function OrderSummary() {
   const totalPrice = useSelector<any, any>(state => state.cart.totalPrice);

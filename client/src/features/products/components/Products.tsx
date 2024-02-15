@@ -7,10 +7,10 @@ import {
   selectProducts,
   setStatus,
 } from "../product.slice";
-import Product from "./Product";
-import { RootState } from "../../../store/store";
-import AppLoading from "../../../components/AppLoading";
+import { RootState } from "../../../store";
+import AppLoading from "../../../components/app-loading";
 import { Navigate } from "react-router-dom";
+import Product from "./product";
 
 function Products() {
   const cards = Array.from({ length: 20 }).map((card, i) => {

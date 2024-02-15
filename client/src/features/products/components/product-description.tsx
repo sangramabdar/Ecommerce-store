@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
-import { RootState } from "../../../store/store";
+import { RootState } from "../../../store";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
 import {
   ProductType,
@@ -10,7 +10,7 @@ import {
   fetchProductsThunk,
 } from "../product.slice";
 import { addProductToCartThunk } from "../../cart/cart.slice";
-import Skeleton from "../../../components/ui/Skeleton";
+import Skeleton from "../../../components/ui/skeleton";
 
 interface ProductProps {
   product: ProductType;
@@ -24,12 +24,12 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
   const { user } = useSelector<any, any>(state => state.auth);
 
   const cartItem = useSelector<any, any>(state =>
-    state.cart.cartItems.find((product: any) => product._id == _id)
+    state.cart.cartItems.find((cartItem: any) => cartItem.product._id == _id)
   );
 
   const action = useMemo(() => (cartItem ? "remove" : "add"), [cartItem]);
 
-  const handleAddToCartOrRemoveFromCart = (product: any) => {
+  const handleAddToCartOrRemoveFromCart = async (product: any) => {
     if (!user) {
       showErrorToast("Plz login first");
       setTimeout(() => {
@@ -39,12 +39,13 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
     }
 
     if (action === "add") {
+      await dispatch<any>(addProductToCartThunk(product, 1));
       showSuccessToast("Added");
-      dispatch<any>(addProductToCartThunk(product, 1));
-    } else {
-      showSuccessToast("Removed");
-      dispatch<any>(addProductToCartThunk(product, 0));
+      return;
     }
+
+    await dispatch<any>(addProductToCartThunk(product, 0));
+    showSuccessToast("Removed");
   };
 
   const handleProductPageNavigation = () => {
@@ -91,47 +92,31 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
 }
 
 function ProductDescription() {
-  const { title } = useParams();
+  const { productTitle } = useParams();
 
   const { data, status } = useSelector<RootState, ProductSliceType>(
     state => state.products
   );
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
-  const [product, setProduct] = useState({} as ProductType);
-
-  useEffect(() => {
-    if (status === RequestStatus.SUCCESS) {
-      let product = data.find(
-        (product: any) => product.title === title
-      ) as ProductType;
-
-      if (!product) {
-        navigate("/not-found");
-        return;
-      }
-
-      setProduct(product);
-    }
-  }, [status]);
+  const oldProduct = data.find(product => product.title === productTitle);
 
   useEffect(() => {
-    setTimeout(() => {
-      dispatch<any>(fetchProductsThunk());
-    }, 2000);
-  }, []);
+    if (oldProduct) return;
+
+    dispatch<any>(fetchProductsThunk());
+  }, [oldProduct]);
+
+  if (oldProduct) {
+    return <Product product={oldProduct} />;
+  }
 
   if (status === RequestStatus.LOADING)
     return (
       <Skeleton className="my-[80px] rounded-md shadow-lg w-full p-3 h-[500px] md:max-w-[500px] md:mx-auto shimmer relative"></Skeleton>
     );
 
-  if (status === RequestStatus.ERROR) {
-    return <Navigate to={"/not-found"} />;
-  }
-
-  return <Product product={product} />;
+  return <Navigate to={"/not-found"} />;
 }
 
 export default ProductDescription;

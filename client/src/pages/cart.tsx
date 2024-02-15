@@ -1,4 +1,4 @@
-import Cart from "../features/cart/components/Cart";
+import Cart from "../features/cart/components/cart";
 
 function CartPage() {
   return (

@@ -7,9 +7,9 @@ import {
   RequestStatus,
 } from "../../services/constants";
 import { postRequest, getRequest } from "../../services/requests";
-import { AppDispatch, RootState } from "../../store/store";
+import { AppDispatch, RootState } from "../../store";
 import { showErrorToast, showSuccessToast } from "../../utils/toast";
-import { handleTokenError } from "../../utils/tokenError";
+import { handleTokenError } from "../../utils/token-error";
 import { loadInitialOrders } from "./order.slice";
 
 const ORDER_URL = BASE_URL + "/orders";

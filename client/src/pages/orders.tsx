@@ -1,4 +1,4 @@
-import OrderTable from "../features/order/components/OrderTable";
+import OrderTable from "../features/order/components/order-table";
 
 function OrderPage() {
   return (

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AppDispatch, RootState } from "../../store/store";
+import { AppDispatch, RootState } from "../../store";
 import { loginUserService, signUpUserService } from "./auth.service";
 import { RequestStatus } from "../../services/constants";
 import { LoginSchema, SignUpSchema } from "./auth.schema";

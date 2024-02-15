@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
-import useAuthentication from "../hooks/useAuthentication";
+import useAuthentication from "../hooks/use-authentication";
 import React from "react";
-import Skeleton from "./ui/Skeleton";
+import Skeleton from "./ui/skeleton";
 
 function Auth({ children }: React.PropsWithChildren<{}>) {
   useAuthentication();

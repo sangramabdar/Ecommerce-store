@@ -1,8 +1,8 @@
 import { useSelector, useDispatch } from "react-redux";
-import Loading from "../../../components/Loading";
-import OrderRow from "./OrderRow";
+import Loading from "../../../components/loading";
+import OrderRow from "./order-row";
 import { useEffect } from "react";
-import { RootState } from "../../../store/store";
+import { RootState } from "../../../store";
 import { OrderSliceType, fetchOrdersThunk } from "../order.slice";
 import { RequestStatus } from "../../../services/constants";
 

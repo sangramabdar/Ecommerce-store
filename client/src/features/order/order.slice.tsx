@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { AppDispatch, RootState } from "../../store/store";
+import { AppDispatch, RootState } from "../../store";
 import { getOrdersService } from "./order.service";
 import { DEFAULT_HEADERS, RequestStatus } from "../../services/constants";
 import { fetchProductsThunk } from "../products/product.slice";

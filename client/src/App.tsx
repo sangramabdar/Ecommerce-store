@@ -3,8 +3,8 @@ import { RouterProvider } from "react-router-dom";
 import "./App.css";
 import { ToastContainer } from "react-toastify";
 
-import store from "./store/store";
-import Auth from "./components/Auth";
+import store from "./store";
+import Auth from "./components/auth";
 import { router } from "./pages/_routes";
 
 function App() {
