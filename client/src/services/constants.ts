@@ -18,7 +18,22 @@ const DEFAULT_HEADERS = {
 
 // const BASE_URL = "https://ecommerce-store-o9dl.vercel.app/api";
 
+const axiosBaseQuery =
+  () =>
+  async ({ service }: { service: () => Promise<ApiResult> }) => {
+    try {
+      const result = (await service()) as ApiResult;
+
+      if (result.status === RequestStatus.ERROR) throw result.error;
+      return { data: result.data };
+    } catch (error) {
+      return {
+        error,
+      };
+    }
+  };
+
 const BASE_URL = "http://localhost:8080/api";
 
-export { RequestStatus, BASE_URL, DEFAULT_HEADERS };
+export { RequestStatus, BASE_URL, DEFAULT_HEADERS, axiosBaseQuery };
 export type { ApiResult };

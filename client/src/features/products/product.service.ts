@@ -8,4 +8,9 @@ async function getProductsService() {
   return result;
 }
 
-export { getProductsService };
+async function getProductService(id: string) {
+  const result = await getRequest(PRODUCTS_URL + "/" + id);
+  return result;
+}
+
+export { getProductsService, getProductService };

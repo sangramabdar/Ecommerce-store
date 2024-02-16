@@ -1,7 +1,9 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { RequestStatus } from "../../services/constants";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { RequestStatus, axiosBaseQuery } from "../../services/constants";
 import { RootState } from "../../store";
-import { getProductsService } from "./product.service";
+import { getProductService, getProductsService } from "./product.service";
+import { wait } from "../../utils/wait";
 
 interface ProductType {
   _id: string;
@@ -21,6 +23,23 @@ const fetchProductsThunk = createAsyncThunk(
   async (_, thunkApi) => {
     const result = await getProductsService();
 
+    await wait(2000);
+
+    if (result.status === RequestStatus.ERROR) {
+      return thunkApi.rejectWithValue(result.error);
+    }
+
+    return result.data;
+  }
+);
+
+const fetchProductThunk = createAsyncThunk(
+  "products/fetchProduct",
+  async ({ id }: { id: string }, thunkApi) => {
+    const result = await getProductService(id);
+
+    await wait(2000);
+
     if (result.status === RequestStatus.ERROR) {
       return thunkApi.rejectWithValue(result);
     }
@@ -29,9 +48,31 @@ const fetchProductsThunk = createAsyncThunk(
   }
 );
 
+const productsApi = createApi({
+  reducerPath: "productsApi",
+  baseQuery: axiosBaseQuery(),
+  endpoints: builder => ({
+    getProducts: builder.query<ProductType[], void>({
+      query: () => ({
+        service: getProductsService,
+      }),
+    }),
+
+    getProduct: builder.query<ProductType, string>({
+      query: (id: string) => ({
+        service: () => getProductService(id),
+      }),
+    }),
+  }),
+});
+
+export const { useGetProductsQuery, useGetProductQuery } = productsApi;
+
 interface ProductSliceType {
   data: ProductType[];
+  products: {};
   status: RequestStatus;
+  refetch: boolean;
 }
 
 const productSlice = createSlice({
@@ -39,6 +80,8 @@ const productSlice = createSlice({
   initialState: {
     data: [] as ProductType[],
     status: RequestStatus.LOADING,
+    refetch: true,
+    products: {},
   },
   reducers: {
     saveProducts(state, action: PayloadAction<ProductType[]>) {
@@ -46,6 +89,9 @@ const productSlice = createSlice({
     },
     setStatus(state, action: PayloadAction<RequestStatus>) {
       state.status = action.payload;
+    },
+    setRefetch(state, action) {
+      state.refetch = action.payload;
     },
   },
   extraReducers: builder => {
@@ -56,20 +102,52 @@ const productSlice = createSlice({
     builder.addCase(fetchProductsThunk.fulfilled, (state, action) => {
       state.data = action.payload;
       state.status = RequestStatus.SUCCESS;
+      state.refetch = false;
     });
 
     builder.addCase(fetchProductsThunk.rejected, (state, action) => {
       state.status = RequestStatus.ERROR;
     });
+
+    builder.addCase(fetchProductThunk.pending, (state, action) => {
+      state.status = RequestStatus.LOADING;
+    });
+
+    builder.addCase(fetchProductThunk.rejected, (state, action) => {
+      state.status = RequestStatus.ERROR;
+    });
+
+    builder.addCase(fetchProductThunk.fulfilled, (state, action) => {
+      // const product = state.data.find(
+      //   product => product._id === action.payload._id
+      // );
+
+      // console.log(product);
+
+      // if (!product) {
+      //   state.data.push(action.payload);
+      // }
+
+      let id = action.payload._id as string;
+      let products: any = {};
+      products[id] = action.payload;
+
+      state.products = {
+        ...state.products,
+        ...products,
+      };
+
+      state.status = RequestStatus.SUCCESS;
+    });
   },
 });
 
-let { saveProducts, setStatus } = productSlice.actions;
+let { saveProducts, setStatus, setRefetch } = productSlice.actions;
 
 const selectProducts = (state: RootState) => state.products;
 
 export { saveProducts, setStatus, RequestStatus };
 export type { ProductType, ProductSliceType };
 export default productSlice.reducer;
-export { fetchProductsThunk };
-export { selectProducts };
+export { fetchProductsThunk, fetchProductThunk };
+export { selectProducts, productsApi };

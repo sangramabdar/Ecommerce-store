@@ -6,8 +6,13 @@ import { useEffect } from "react";
 import { RootState } from "../../../store";
 import { RequestStatus } from "../../../services/constants";
 import Loading from "../../../components/loading";
+import { useGetProductsQuery } from "../../products/product.slice";
 
 function Cart() {
+  const { error, data: products, isLoading } = useGetProductsQuery();
+
+  console.log("cart", products);
+
   const { cartItems, totalPrice, status, isFetched } = useSelector<
     RootState,
     CartSliceType

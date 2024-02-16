@@ -10,8 +10,6 @@ async function getProductById(id: string) {
     _id: id,
   });
 
-  console.log(product);
-
   if (!product) return null;
 
   return product;

@@ -3,7 +3,7 @@ import useAuthentication from "../hooks/use-authentication";
 import React from "react";
 import Skeleton from "./ui/skeleton";
 
-function Auth({ children }: React.PropsWithChildren<{}>) {
+function Auth({ children }: { children: React.ReactNode }) {
   useAuthentication();
 
   const { isAuthenticating } = useSelector<any, any>(state => state.auth);
@@ -15,7 +15,7 @@ function Auth({ children }: React.PropsWithChildren<{}>) {
       </div>
     );
 
-  return children;
+  return <>{children}</>;
 }
 
 export default Auth;

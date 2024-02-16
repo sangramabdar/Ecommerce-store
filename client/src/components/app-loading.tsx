@@ -1,10 +1,12 @@
+import Skeleton from "./ui/skeleton";
+
 function AppLoading() {
   const cards = Array.from({ length: 20 }).map((card, i) => {
     return (
-      <div
+      <Skeleton
         key={i}
-        className="w-full relative animate-pulse h-56 shimmer rounded-md bg-secondary"
-      ></div>
+        className="w-full relative animate-pulse h-56 rounded-md"
+      ></Skeleton>
     );
   });
 

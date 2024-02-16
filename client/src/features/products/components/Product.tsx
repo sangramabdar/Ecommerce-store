@@ -49,6 +49,7 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
   const handleProductPageNavigation = () => {
     navigate({
       pathname: `/products/${title}`,
+      search: `?id=${_id}`,
     });
   };
 

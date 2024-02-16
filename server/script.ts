@@ -3,14 +3,22 @@ import { Product } from "./src/models";
 import { faker } from "@faker-js/faker";
 
 async function loadProductsToDB() {
-  const products = await (
-    await fetch("https://fakestoreapi.com/products")
-  ).json();
+  try {
+    const products = await (
+      await fetch("https://fakestoreapi.com/products")
+    ).json();
 
-  products.map(async product => {
-    delete product.id;
-    await Product.create(product);
-  });
+    const promises = products.map(product => {
+      delete product.id;
+      const price = Math.round(product.price);
+      product.price = price;
+      return Product.create(product);
+    });
+
+    await Promise.all(promises);
+  } catch (error) {
+    console.log(error.message);
+  }
 }
 
 async function addProduct(product) {
@@ -56,6 +64,5 @@ function createDummyProduct() {
 }
 
 mongoose.connect("mongodb://localhost:27017/ecommerce-store").then(async () => {
-  const product = createDummyProduct();
-  addProduct(product);
+  loadProductsToDB();
 });

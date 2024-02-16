@@ -56,7 +56,7 @@ function LogOutSideNavigation({
   return (
     <motion.div
       className={cn(
-        "block sm:hidden absolute right-0 top-0 h-screen transition-all duration-200 bg-gray-100/80 backdrop-blur-lg w-full",
+        "block mds:hidden absolute right-0 top-0 h-screen transition-all duration-200 bg-gray-100/80 backdrop-blur-lg w-full",
         open ? "translate-x-0" : "translate-x-[100%]"
       )}
     >
@@ -136,8 +136,6 @@ function Header() {
           )}
           <SideNavigation open={open} onClick={handleLinkClick} />
           <div className="hidden md:flex justify-evenly gap-4 items-center font-bold">
-            <Link to="/">Home</Link>
-            <Link to="products">Products</Link>
             <Link
               className="bg-accent text-center p-1 px-2 rounded-md text-white"
               to="login"
@@ -180,8 +178,6 @@ function Header() {
           onClick={handleLinkClick}
         />
         <div className="hidden md:flex justify-evenly gap-3 items-center">
-          <Link to="/">Home</Link>
-          <Link to="/products">Products</Link>
           <Link className="flex " to="/cart">
             Cart
             {cartItems.length > 0 && (
@@ -189,7 +185,6 @@ function Header() {
             )}
           </Link>
 
-          <Link to="/orders">Orders</Link>
           <button
             className="bg-accent py-1 px-2 rounded-md text-white"
             onClick={handleLogOut}

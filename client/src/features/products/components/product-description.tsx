@@ -1,6 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import {
+  Navigate,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { RootState } from "../../../store";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
 import {
@@ -8,6 +13,8 @@ import {
   ProductSliceType,
   RequestStatus,
   fetchProductsThunk,
+  fetchProductThunk,
+  useGetProductQuery,
 } from "../product.slice";
 import { addProductToCartThunk } from "../../cart/cart.slice";
 import Skeleton from "../../../components/ui/skeleton";
@@ -92,31 +99,22 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
 }
 
 function ProductDescription() {
-  const { productTitle } = useParams();
+  const [searchParams] = useSearchParams();
 
-  const { data, status } = useSelector<RootState, ProductSliceType>(
-    state => state.products
-  );
-  const dispatch = useDispatch();
+  const id = searchParams.get("id") || "";
 
-  const oldProduct = data.find(product => product.title === productTitle);
+  const { error, data: product, isLoading } = useGetProductQuery(id);
 
-  useEffect(() => {
-    if (oldProduct) return;
-
-    dispatch<any>(fetchProductsThunk());
-  }, [oldProduct]);
-
-  if (oldProduct) {
-    return <Product product={oldProduct} />;
-  }
-
-  if (status === RequestStatus.LOADING)
+  if (isLoading)
     return (
       <Skeleton className="my-[80px] rounded-md shadow-lg w-full p-3 h-[500px] md:max-w-[500px] md:mx-auto shimmer relative"></Skeleton>
     );
 
-  return <Navigate to={"/not-found"} />;
+  if (error) {
+    return <Navigate to={"/not-found"} />;
+  }
+
+  return <Product product={product!!} />;
 }
 
 export default ProductDescription;
