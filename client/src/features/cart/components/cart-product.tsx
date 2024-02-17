@@ -1,11 +1,10 @@
-import { useDispatch, useSelector } from "react-redux";
 import React from "react";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
 import cn from "../../../utils/cn";
-import { addProductToCartThunk } from "../cart.slice";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { addProductTocartSerivce, getCartItemsService } from "../cart.service";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { addProductTocartSerivce } from "../cart.service";
 import { useAuthContext } from "../../../components/auth";
+import Button from "../../../components/ui/button";
 
 interface CartProductProps {
   cartProduct: {
@@ -29,22 +28,11 @@ function CartProduct({
 }: React.PropsWithChildren<CartProductProps>) {
   const { image, title, price, quantity } = cartProduct;
 
-  const dispatch = useDispatch<any>();
-
   const { user }: any = useAuthContext();
 
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["cart"],
-    queryFn: () => {
-      return getCartItemsService({
-        Authorization: "Bearer " + user.accessToken,
-      });
-    },
-    enabled: !!user?.accessToken,
-    retry: false,
-  });
+  const queryClient = useQueryClient();
 
-  const mutation = useMutation({
+  const removeProductMutation = useMutation({
     mutationFn: ({ product, quantity }: any) =>
       addProductTocartSerivce(
         { productId: product._id, quantity },
@@ -54,11 +42,22 @@ function CartProduct({
       ),
   });
 
-  const queryClient = useQueryClient();
+  const updateProductMutation = useMutation({
+    mutationFn: ({ product, quantity }: any) =>
+      addProductTocartSerivce(
+        { productId: product._id, quantity },
+        {
+          Authorization: "Bearer " + user.accessToken,
+        }
+      ),
+  });
 
   const handleRemoveProduct = async () => {
     try {
-      await mutation.mutateAsync({ product: cartProduct, quantity: 0 });
+      await removeProductMutation.mutateAsync({
+        product: cartProduct,
+        quantity: 0,
+      });
       await queryClient.invalidateQueries({ queryKey: ["cart"] });
       showSuccessToast("Removed");
     } catch (error) {
@@ -67,11 +66,27 @@ function CartProduct({
   };
 
   const handleIncrement = async () => {
-    await dispatch(addProductToCartThunk(cartProduct, quantity + 1));
+    try {
+      await updateProductMutation.mutateAsync({
+        product: cartProduct,
+        quantity: quantity + 1,
+      });
+      await queryClient.invalidateQueries({ queryKey: ["cart"] });
+    } catch (error) {
+      showErrorToast("something went wrong");
+    }
   };
 
   const handleDecrement = async () => {
-    await dispatch(addProductToCartThunk(cartProduct, quantity - 1));
+    try {
+      await updateProductMutation.mutateAsync({
+        product: cartProduct,
+        quantity: quantity - 1,
+      });
+      await queryClient.invalidateQueries({ queryKey: ["cart"] });
+    } catch (error) {
+      showErrorToast("something went wrong");
+    }
   };
 
   return (
@@ -84,36 +99,44 @@ function CartProduct({
         <div className="w-10">
           <img className="h-fit object-cover" src={image} alt="" />
         </div>
-        <button
-          className="bg-accent rounded-md w-7 font-bold text-white"
+        <Button
+          className={cn(
+            "bg-accent rounded-md w-7 font-bold text-white",
+            updateProductMutation.isPending && "opacity-50"
+          )}
           onClick={handleIncrement}
+          disabled={updateProductMutation.isPending}
         >
           +
-        </button>
+        </Button>
         <p className="text-center ">{quantity}</p>
-        <button
-          className="bg-accent text-white font-bold rounded-md w-7"
+        <Button
+          className={cn(
+            "bg-accent rounded-md w-7 font-bold text-white",
+            updateProductMutation.isPending && "opacity-50"
+          )}
           onClick={handleDecrement}
+          disabled={updateProductMutation.isPending}
         >
           -
-        </button>
+        </Button>
         <p className="text-center w-44">{title}</p>
         <p className="text-center">$ {price * quantity}</p>
       </section>
 
       <section className="flex w-full justify-end">
-        <button
+        <Button
           className={cn(
             "text-center p-1 rounded bg-accent text-white",
-            mutation.isPending && "opacity-50"
+            removeProductMutation.isPending && "opacity-50"
           )}
           onClick={() => {
             handleRemoveProduct();
           }}
-          disabled={mutation.isPending}
+          disabled={removeProductMutation.isPending}
         >
           remove
-        </button>
+        </Button>
       </section>
     </div>
   );

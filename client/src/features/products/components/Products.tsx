@@ -1,4 +1,3 @@
-import { ProductType, useGetProductsQuery } from "../product.slice";
 import AppLoading from "../../../components/app-loading";
 import { Navigate } from "react-router-dom";
 import Product from "./product";
@@ -10,7 +9,7 @@ function Products() {
     data: products,
     error,
     isLoading,
-  } = useQuery<ProductType[]>({
+  } = useQuery<any[]>({
     queryKey: ["products"],
     queryFn: getProductsService,
   });
@@ -27,7 +26,7 @@ function Products() {
     <div>
       <h1 className="font-bold mb-5">Products</h1>
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {products?.map((product: ProductType) => {
+        {products?.map((product: any) => {
           return <Product key={product._id} product={product} />;
         })}
       </div>

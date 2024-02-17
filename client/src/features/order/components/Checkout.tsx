@@ -1,11 +1,7 @@
-import { useSelector, useDispatch } from "react-redux";
-import { Navigate } from "react-router-dom";
-import { placeOrderService } from "../order.service";
 import * as yup from "yup";
 import OrderSummary from "./order-summary";
 import { useFormik } from "formik";
 import CheckoutInputField from "./check-outInput-field";
-import { RootState } from "../../../store";
 import { showLoadingToast } from "../../../utils/toast";
 import Button from "../../../components/ui/button";
 
@@ -22,15 +18,8 @@ const initialDeliveryInfo = {
 };
 
 function Checkout() {
-  const totalPrice = useSelector<RootState, number>(
-    state => state.cart.totalPrice
-  );
-
-  const dispatch = useDispatch();
-
   const handleOnSubmit = (deliveryInfo: any) => {
     showLoadingToast("Processing");
-    dispatch<any>(placeOrderService(deliveryInfo));
   };
 
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
@@ -40,9 +29,9 @@ function Checkout() {
       initialValues: initialDeliveryInfo,
     });
 
-  if (totalPrice === 0) {
-    return <Navigate to={"/cart"} />;
-  }
+  // if (totalPrice === 0) {
+  //   return <Navigate to={"/cart"} />;
+  // }
 
   return (
     <form

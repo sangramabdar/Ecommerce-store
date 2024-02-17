@@ -1,20 +1,13 @@
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useMemo } from "react";
 import React from "react";
-import { ProductType } from "../product.slice";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
-import { addProductToCartThunk } from "../../cart/cart.slice";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  addProductTocartSerivce,
-  getCartItemsService,
-} from "../../cart/cart.service";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { addProductTocartSerivce } from "../../cart/cart.service";
 import cn from "../../../utils/cn";
 import { useAuthContext } from "../../../components/auth";
 
 interface ProductProps {
-  product: ProductType;
+  product: any;
 }
 
 function Product({ product }: React.PropsWithChildren<ProductProps>) {
@@ -51,7 +44,7 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
       await mutateAsync({ productId: product._id, quantity: 1 });
       queryClient.invalidateQueries({ queryKey: ["cart"] });
       showSuccessToast("Added");
-    } catch (error) {
+    } catch (error: any) {
       showErrorToast("Something went wrong");
     }
   };

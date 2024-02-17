@@ -3,10 +3,18 @@ import Skeleton from "./ui/skeleton";
 function AppLoading() {
   const cards = Array.from({ length: 20 }).map((card, i) => {
     return (
-      <Skeleton
+      <div
         key={i}
-        className="w-full relative animate-pulse h-56 rounded-md"
-      ></Skeleton>
+        className="flex flex-col sm:items-center justify-between 
+       rounded-2xl space-y-4 bg-secondary p-4"
+      >
+        <Skeleton className="w-full h-52" />
+        <Skeleton className="h-16" />
+        <div className="flex flex-col  w-full gap-4">
+          <Skeleton className="h-6 w-16" />
+          <Skeleton className="h-6 w-16" />
+        </div>
+      </div>
     );
   });
 

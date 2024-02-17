@@ -5,8 +5,6 @@ import { startTransition, useState } from "react";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
 import Input from "../../../components/ui/Input";
 import Button from "../../../components/ui/button";
-import { useDispatch } from "react-redux";
-import { signUpUserThunk } from "../auth.slice";
 import { SignUpSchema, signUpSchema } from "../auth.schema";
 import { signUpUserService } from "../auth.service";
 
@@ -17,7 +15,7 @@ const initialUserInfo = {
 
 function SignUpForm() {
   const [isDisabled, setIsDisabled] = useState(false);
-  const dispatch = useDispatch<any>();
+
   const navigate = useNavigate();
 
   const handleSignUpUser = async (signUpInfo: SignUpSchema) => {

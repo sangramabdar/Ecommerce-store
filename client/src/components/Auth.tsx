@@ -1,9 +1,7 @@
-import { useSelector } from "react-redux";
 import React, { useContext, useEffect, useState } from "react";
 import Skeleton from "./ui/skeleton";
 import { BASE_URL, RequestStatus } from "../services/constants";
 import { getRequest } from "../services/requests";
-import { wait } from "../utils/wait";
 
 const AuthContext = React.createContext({
   user: null,

@@ -1,9 +1,7 @@
-const wait = (time: number) => {
+async function wait(duration: number) {
   return new Promise(res => {
-    setTimeout(() => {
-      res("");
-    }, time);
+    setTimeout(() => res("resolved"), duration);
   });
-};
+}
 
-export { wait };
+export default wait;

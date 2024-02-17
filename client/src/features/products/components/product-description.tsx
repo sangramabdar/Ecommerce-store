@@ -1,29 +1,35 @@
-import { useMemo } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
-import { ProductType } from "../product.slice";
-import { addProductToCartThunk } from "../../cart/cart.slice";
 import Skeleton from "../../../components/ui/skeleton";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getProductService } from "../product.service";
+import { useAuthContext } from "../../../components/auth";
+import { addProductTocartSerivce } from "../../cart/cart.service";
+import Button from "../../../components/ui/button";
 
 interface ProductProps {
-  product: ProductType;
+  product: any;
 }
 
 function Product({ product }: React.PropsWithChildren<ProductProps>) {
   const { description, _id, price, rating, title, image } = product;
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user } = useSelector<any, any>(state => state.auth);
+  const { user }: any = useAuthContext();
+  const queryClient = useQueryClient();
 
-  const cartItem = useSelector<any, any>(state =>
-    state.cart.cartItems.find((cartItem: any) => cartItem.product._id == _id)
-  );
-
-  const action = useMemo(() => (cartItem ? "remove" : "add"), [cartItem]);
+  const addProductMutation = useMutation({
+    mutationFn: ({ productId, quantity }: any) =>
+      addProductTocartSerivce(
+        {
+          productId,
+          quantity,
+        },
+        {
+          Authorization: "Bearer " + user?.accessToken,
+        }
+      ),
+  });
 
   const handleAddToCartOrRemoveFromCart = async (product: any) => {
     if (!user) {
@@ -34,14 +40,17 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
       return;
     }
 
-    if (action === "add") {
-      await dispatch<any>(addProductToCartThunk(product, 1));
-      showSuccessToast("Added");
-      return;
-    }
+    try {
+      await addProductMutation.mutateAsync({
+        productId: product._id,
+        quantity: 1,
+      });
 
-    await dispatch<any>(addProductToCartThunk(product, 0));
-    showSuccessToast("Removed");
+      await queryClient.invalidateQueries({ queryKey: ["cart"] });
+      showSuccessToast("Added");
+    } catch (error) {
+      showErrorToast("Something went wrong");
+    }
   };
 
   const handleProductPageNavigation = () => {
@@ -64,15 +73,16 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
           <p className="text-center text-gray-600 font-semibold">
             Price : ${price}
           </p>
-          <button
+          <Button
             className="bg-accent font-bold text-white rounded p-1"
             onClick={e => {
               e.stopPropagation();
               handleAddToCartOrRemoveFromCart(product);
             }}
+            disabled={addProductMutation.isPending}
           >
-            {action === "add" ? "Add to cart" : "Remove from cart"}
-          </button>
+            Add to cart
+          </Button>
         </section>
       </div>
       <div className="p-5">
@@ -104,14 +114,27 @@ function ProductDescription() {
 
   if (isLoading)
     return (
-      <Skeleton className="my-[80px] rounded-md shadow-lg w-full p-3 h-[500px] md:max-w-[500px] md:mx-auto shimmer relative"></Skeleton>
+      <div className="my-[80px] rounded-md  w-full p-4 md:max-w-[500px] md:mx-auto">
+        <div className="flex justify-start gap-10">
+          <Skeleton className="w-40 h-52" />
+          <div className="flex flex-col gap-4">
+            <Skeleton className="w-40 h-10" />
+            <Skeleton className="w-40 h-10" />
+            <Skeleton className="w-40 h-10" />
+          </div>
+        </div>
+        <div className="flex flex-col mt-10 gap-4">
+          <Skeleton className="h-10 w-32"></Skeleton>
+          <Skeleton className="h-52"></Skeleton>
+        </div>
+      </div>
     );
 
   if (error) {
     return <Navigate to={"/not-found"} />;
   }
 
-  return <Product product={product!!} />;
+  return <Product product={product} />;
 }
 
 export default ProductDescription;

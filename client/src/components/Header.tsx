@@ -1,6 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { MouseEventHandler, useState } from "react";
+import { MouseEventHandler } from "react";
 import { motion } from "framer-motion";
 import cn from "../utils/cn";
 import { useQuery } from "@tanstack/react-query";

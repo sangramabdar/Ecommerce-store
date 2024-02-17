@@ -1,23 +1,9 @@
-import { useSelector, useDispatch } from "react-redux";
 import Loading from "../../../components/loading";
-import OrderRow from "./order-row";
-import { useEffect } from "react";
-import { RootState } from "../../../store";
-import { OrderSliceType, fetchOrdersThunk } from "../order.slice";
+
 import { RequestStatus } from "../../../services/constants";
 
 function OrderTable() {
-  const { orders, status } = useSelector<RootState, OrderSliceType>(
-    state => state.order
-  );
-
-  console.log({ orders, status });
-
-  const dispatch = useDispatch<any>();
-
-  useEffect(() => {
-    dispatch(fetchOrdersThunk(null));
-  }, []);
+  return <h1>Order Table</h1>;
 
   if (status === RequestStatus.LOADING) return <Loading />;
 
