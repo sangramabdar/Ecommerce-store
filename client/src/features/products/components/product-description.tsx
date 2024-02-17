@@ -1,23 +1,12 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  Navigate,
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from "react-router-dom";
-import { RootState } from "../../../store";
+import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
-import {
-  ProductType,
-  ProductSliceType,
-  RequestStatus,
-  fetchProductsThunk,
-  fetchProductThunk,
-  useGetProductQuery,
-} from "../product.slice";
+import { ProductType } from "../product.slice";
 import { addProductToCartThunk } from "../../cart/cart.slice";
 import Skeleton from "../../../components/ui/skeleton";
+import { useQuery } from "@tanstack/react-query";
+import { getProductService } from "../product.service";
 
 interface ProductProps {
   product: ProductType;
@@ -103,7 +92,15 @@ function ProductDescription() {
 
   const id = searchParams.get("id") || "";
 
-  const { error, data: product, isLoading } = useGetProductQuery(id);
+  const {
+    data: product,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: ["products", id],
+    queryFn: () => getProductService(id),
+    staleTime: 3000,
+  });
 
   if (isLoading)
     return (

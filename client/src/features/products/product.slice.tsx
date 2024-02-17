@@ -51,11 +51,13 @@ const fetchProductThunk = createAsyncThunk(
 const productsApi = createApi({
   reducerPath: "productsApi",
   baseQuery: axiosBaseQuery(),
+  tagTypes: ["products"],
   endpoints: builder => ({
     getProducts: builder.query<ProductType[], void>({
       query: () => ({
         service: getProductsService,
       }),
+      keepUnusedDataFor: 0,
     }),
 
     getProduct: builder.query<ProductType, string>({

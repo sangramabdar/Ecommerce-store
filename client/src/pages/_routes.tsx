@@ -23,9 +23,9 @@ const router = createBrowserRouter(
       <Route path="/signup" element={<SignUpPage />} />
       <Route path="/products/:productTitle" element={<ProductPage />} />
       <Route element={<PrivateRoute />}>
-        <Route path="/orders" element={<OrderPage />} />
+        {/* <Route path="/orders" element={<OrderPage />} /> */}
         <Route path="/cart" element={<CartPage />} />
-        <Route path="/checkout" element={<CheckoutPage />} />
+        {/* <Route path="/checkout" element={<CheckoutPage />} /> */}
       </Route>
       <Route path="not-found" element={<NotFoundPage />} />
       <Route path="*" element={<NotFoundPage />} />

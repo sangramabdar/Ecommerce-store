@@ -1,8 +1,11 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import React from "react";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
 import cn from "../../../utils/cn";
 import { addProductToCartThunk } from "../cart.slice";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { addProductTocartSerivce, getCartItemsService } from "../cart.service";
+import { useAuthContext } from "../../../components/auth";
 
 interface CartProductProps {
   cartProduct: {
@@ -28,9 +31,35 @@ function CartProduct({
 
   const dispatch = useDispatch<any>();
 
+  const { user }: any = useAuthContext();
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["cart"],
+    queryFn: () => {
+      return getCartItemsService({
+        Authorization: "Bearer " + user.accessToken,
+      });
+    },
+    enabled: !!user?.accessToken,
+    retry: false,
+  });
+
+  const mutation = useMutation({
+    mutationFn: ({ product, quantity }: any) =>
+      addProductTocartSerivce(
+        { productId: product._id, quantity },
+        {
+          Authorization: "Bearer " + user.accessToken,
+        }
+      ),
+  });
+
+  const queryClient = useQueryClient();
+
   const handleRemoveProduct = async () => {
     try {
-      await dispatch(addProductToCartThunk(cartProduct, 0));
+      await mutation.mutateAsync({ product: cartProduct, quantity: 0 });
+      await queryClient.invalidateQueries({ queryKey: ["cart"] });
       showSuccessToast("Removed");
     } catch (error) {
       showErrorToast("something went wrong");
@@ -76,12 +105,12 @@ function CartProduct({
         <button
           className={cn(
             "text-center p-1 rounded bg-accent text-white",
-            quantity === 0 && "opacity-50"
+            mutation.isPending && "opacity-50"
           )}
           onClick={() => {
             handleRemoveProduct();
           }}
-          disabled={quantity === 0 ? true : false}
+          disabled={mutation.isPending}
         >
           remove
         </button>

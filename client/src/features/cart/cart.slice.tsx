@@ -20,15 +20,15 @@ const initialCart: CartSliceType = {
 const fetchCartItemsThunk = createAsyncThunk<any, any, { state: RootState }>(
   "cart/fetchCart",
   async (_, { getState, rejectWithValue }) => {
-    const result = await getCartItemsService({
-      Authorization: "Bearer " + getState().auth.user.accessToken,
-    });
+    try {
+      const data = await getCartItemsService({
+        Authorization: "Bearer " + getState().auth.user.accessToken,
+      });
 
-    if (result.status === RequestStatus.ERROR) {
-      return rejectWithValue(result.error);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error);
     }
-
-    return result.data;
   }
 );
 

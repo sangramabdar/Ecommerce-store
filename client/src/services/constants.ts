@@ -23,8 +23,6 @@ const axiosBaseQuery =
   async ({ service }: { service: () => Promise<ApiResult> }) => {
     try {
       const result = (await service()) as ApiResult;
-
-      if (result.status === RequestStatus.ERROR) throw result.error;
       return { data: result.data };
     } catch (error) {
       return {

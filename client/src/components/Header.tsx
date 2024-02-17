@@ -1,12 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { MouseEventHandler, useEffect, useState } from "react";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { ImCross } from "react-icons/im";
+import { useSelector } from "react-redux";
+import { MouseEventHandler, useState } from "react";
 import { motion } from "framer-motion";
-import { removeUser } from "../features/authentication/auth.slice";
 import cn from "../utils/cn";
-import { fetchCartItemsThunk } from "../features/cart/cart.slice";
+import { useQuery } from "@tanstack/react-query";
+import { getCartItemsService } from "../features/cart/cart.service";
+
+import { FaShoppingCart } from "react-icons/fa";
+import { useAuthContext } from "./auth";
 
 function SideNavigation({ open, onClick }: { open: boolean; onClick: any }) {
   return (
@@ -17,12 +18,6 @@ function SideNavigation({ open, onClick }: { open: boolean; onClick: any }) {
       )}
     >
       <div className="flex flex-col justify-between items-start gap-6 pt-12 pl-4 font-bold text-xl">
-        <Link to="/" onClick={onClick}>
-          Home
-        </Link>
-        <Link to="/products" onClick={onClick}>
-          Products
-        </Link>
         <Link
           className="bg-accent p-2 px-4 rounded-md text-white"
           to="/login"
@@ -61,21 +56,13 @@ function LogOutSideNavigation({
       )}
     >
       <div className="flex flex-col justify-between items-start gap-6 pt-12 pl-4 font-bold text-xl">
-        <Link to="/" onClick={onClick}>
-          Home
-        </Link>
-        <Link to="/products" onClick={onClick}>
-          Products
-        </Link>
         <Link className="flex" to="/cart" onClick={onClick}>
           <span>Cart</span>
           {cartItems.length > 0 && (
             <p className="font-bold">: {cartItems.length}</p>
           )}
         </Link>
-        <Link to="/orders" onClick={onClick}>
-          Orders
-        </Link>
+
         <button
           className="bg-accent p-2 px-4 rounded-md text-white"
           onClick={handleLogOut}
@@ -88,32 +75,15 @@ function LogOutSideNavigation({
 }
 
 function Header() {
-  const user = useSelector<any, any>(state => state.auth.user);
-  const { cartItems } = useSelector<any, any>(state => state.cart);
+  const { user, removeUser } = useAuthContext();
 
-  const dispatch = useDispatch<any>();
   const navigate = useNavigate();
-
-  const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    if (!user) return;
-    dispatch(fetchCartItemsThunk(null));
-  }, [user]);
 
   const handleLogOut = () => {
     localStorage.removeItem("user");
-    dispatch(removeUser());
+    removeUser();
     navigate("/");
     location.reload();
-  };
-
-  const handleSideNavbarClick = () => {
-    setOpen(!open);
-  };
-
-  const handleLinkClick = () => {
-    setOpen(!open);
   };
 
   if (!user) {
@@ -123,19 +93,8 @@ function Header() {
           <Link to="/" className="font-bold text-base md:text-xl">
             E-COMMERCE STORE
           </Link>
-          {open ? (
-            <ImCross
-              className="h-6 w-10 z-10 md:hidden"
-              onClick={handleSideNavbarClick}
-            />
-          ) : (
-            <GiHamburgerMenu
-              className="h-6 w-10 z-10 md:hidden"
-              onClick={handleSideNavbarClick}
-            />
-          )}
-          <SideNavigation open={open} onClick={handleLinkClick} />
-          <div className="hidden md:flex justify-evenly gap-4 items-center font-bold">
+
+          <div className="flex justify-evenly gap-4 items-center font-bold">
             <Link
               className="bg-accent text-center p-1 px-2 rounded-md text-white"
               to="login"
@@ -160,31 +119,9 @@ function Header() {
         <Link to="/" className="font-bold text-base md:text-xl">
           E-COMMERCE STORE
         </Link>
-        {open ? (
-          <ImCross
-            className="md:hidden h-6 w-10 z-10"
-            onClick={handleSideNavbarClick}
-          />
-        ) : (
-          <GiHamburgerMenu
-            className="md:hidden h-8 w-10 z-10"
-            onClick={handleSideNavbarClick}
-          />
-        )}
-        <LogOutSideNavigation
-          open={open}
-          cartItems={cartItems}
-          handleLogOut={handleLogOut}
-          onClick={handleLinkClick}
-        />
-        <div className="hidden md:flex justify-evenly gap-3 items-center">
-          <Link className="flex " to="/cart">
-            Cart
-            {cartItems.length > 0 && (
-              <p className="font-bold">: {cartItems.length}</p>
-            )}
-          </Link>
 
+        <div className="flex justify-evenly gap-3 items-center">
+          <CartIcon />
           <button
             className="bg-accent py-1 px-2 rounded-md text-white"
             onClick={handleLogOut}
@@ -194,6 +131,42 @@ function Header() {
         </div>
       </nav>
     </header>
+  );
+}
+
+function CartIcon() {
+  const { user }: any = useAuthContext();
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["cart"],
+    queryFn: () => {
+      return getCartItemsService({
+        Authorization: "Bearer " + user.accessToken,
+      });
+    },
+    enabled: !!user?.accessToken,
+    retry: false,
+  });
+
+  if (error) {
+    return (
+      <Link to={"/cart"}>
+        <div className="relative">
+          <FaShoppingCart className="w-8 h-8" />
+        </div>
+      </Link>
+    );
+  }
+
+  return (
+    <Link to={"/cart"}>
+      <div className="relative">
+        <FaShoppingCart className="w-8 h-8" />
+        <p className="absolute top-[-14px] flex justify-center items-center bg-secondary w-6 h-6 p-1 rounded-full right-[-10px]">
+          {isLoading || data?.cartItems?.length}
+        </p>
+      </div>
+    </Link>
   );
 }
 

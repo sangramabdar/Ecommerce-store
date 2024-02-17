@@ -5,6 +5,13 @@ import React from "react";
 import { ProductType } from "../product.slice";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
 import { addProductToCartThunk } from "../../cart/cart.slice";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  addProductTocartSerivce,
+  getCartItemsService,
+} from "../../cart/cart.service";
+import cn from "../../../utils/cn";
+import { useAuthContext } from "../../../components/auth";
 
 interface ProductProps {
   product: ProductType;
@@ -13,16 +20,23 @@ interface ProductProps {
 function Product({ product }: React.PropsWithChildren<ProductProps>) {
   const { _id, price, title, image } = product;
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
-  const { user } = useSelector<any, any>(state => state.auth);
+  const { user }: any = useAuthContext();
 
-  const cartItem = useSelector<any, any>(state =>
-    state.cart.cartItems.find((item: any) => item.product._id == _id)
-  );
-
-  const action = useMemo(() => (cartItem ? "remove" : "add"), [cartItem]);
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: ({ productId, quantity }: any) =>
+      addProductTocartSerivce(
+        {
+          productId,
+          quantity,
+        },
+        {
+          Authorization: "Bearer " + user?.accessToken,
+        }
+      ),
+  });
 
   const handleAddToCartOrRemoveFromCart = async (product: any) => {
     if (!user) {
@@ -34,14 +48,10 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
     }
 
     try {
-      if (action === "add") {
-        await dispatch<any>(addProductToCartThunk(product, 1));
-        showSuccessToast("Added");
-      } else {
-        await dispatch<any>(addProductToCartThunk(product, 0));
-        showSuccessToast("Removed");
-      }
-    } catch (error: any) {
+      await mutateAsync({ productId: product._id, quantity: 1 });
+      queryClient.invalidateQueries({ queryKey: ["cart"] });
+      showSuccessToast("Added");
+    } catch (error) {
       showErrorToast("Something went wrong");
     }
   };
@@ -69,13 +79,17 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
           Price : ${price}
         </p>
         <button
-          className="bg-accent font-bold text-white rounded p-1 px-2"
+          className={cn(
+            "bg-accent font-bold text-white rounded p-1 px-2",
+            isPending && "opacity-50"
+          )}
+          disabled={isPending}
           onClick={e => {
             e.stopPropagation();
             handleAddToCartOrRemoveFromCart(product);
           }}
         >
-          {action === "add" ? "Add to cart" : "Remove from cart"}
+          Add to cart
         </button>
       </div>
     </div>

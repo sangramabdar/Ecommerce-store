@@ -8,6 +8,7 @@ import Button from "../../../components/ui/button";
 import { useDispatch } from "react-redux";
 import { signUpUserThunk } from "../auth.slice";
 import { SignUpSchema, signUpSchema } from "../auth.schema";
+import { signUpUserService } from "../auth.service";
 
 const initialUserInfo = {
   email: "",
@@ -21,8 +22,7 @@ function SignUpForm() {
 
   const handleSignUpUser = async (signUpInfo: SignUpSchema) => {
     try {
-      await dispatch(signUpUserThunk(signUpInfo));
-
+      await signUpUserService(signUpInfo);
       showSuccessToast("Registered");
       setIsDisabled(false);
     } catch (error) {

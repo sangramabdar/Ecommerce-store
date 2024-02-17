@@ -1,12 +1,13 @@
 import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { addUser, loginUserThunk } from "../auth.slice";
 import { useState } from "react";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
 import Input from "../../../components/ui/Input";
 import Button from "../../../components/ui/button";
 import { LoginSchema, loginSchema } from "../auth.schema";
+import { loginUserService } from "../auth.service";
+import { useAuthContext } from "../../../components/auth";
 
 const initialLoginInfo = {
   email: "",
@@ -14,7 +15,6 @@ const initialLoginInfo = {
 };
 
 export function LoginForm() {
-  const dispatch = useDispatch<any>();
   const [isDisabled, setIsDisabled] = useState(false);
   const navigate = useNavigate();
 
@@ -22,6 +22,8 @@ export function LoginForm() {
     setIsDisabled(true);
     handleLoginUser(loginInfo);
   };
+
+  const { addUser } = useAuthContext();
 
   const { errors, touched, values, handleChange, handleBlur, handleSubmit } =
     useFormik<any>({
@@ -32,14 +34,15 @@ export function LoginForm() {
 
   const handleLoginUser = async (loginInfo: LoginSchema) => {
     try {
-      const result = await dispatch(loginUserThunk(loginInfo));
+      const result = await loginUserService(loginInfo);
 
       localStorage.setItem("user", JSON.stringify(result.data));
+      addUser(result.data);
 
-      await dispatch(addUser(result.data));
       showSuccessToast("Logged In");
       setIsDisabled(false);
       navigate("/");
+      location.reload();
     } catch (error) {
       showErrorToast("Invalid email or password");
       setIsDisabled(false);

@@ -2,13 +2,18 @@ import { ProductType, useGetProductsQuery } from "../product.slice";
 import AppLoading from "../../../components/app-loading";
 import { Navigate } from "react-router-dom";
 import Product from "./product";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../store";
+import { useQuery } from "@tanstack/react-query";
+import { getProductsService } from "../product.service";
 
 function Products() {
-  const { error, data: products, isLoading } = useGetProductsQuery();
-
-  const state = useSelector<RootState>(state => state.productsApi);
+  const {
+    data: products,
+    error,
+    isLoading,
+  } = useQuery<ProductType[]>({
+    queryKey: ["products"],
+    queryFn: getProductsService,
+  });
 
   if (isLoading) {
     return <AppLoading />;
@@ -22,7 +27,7 @@ function Products() {
     <div>
       <h1 className="font-bold mb-5">Products</h1>
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {products?.map(product => {
+        {products?.map((product: ProductType) => {
           return <Product key={product._id} product={product} />;
         })}
       </div>
