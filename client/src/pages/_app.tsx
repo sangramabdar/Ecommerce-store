@@ -5,7 +5,7 @@ function RootPage() {
   return (
     <>
       <Header />
-      <main className="max-w-7xl mx-auto m-28 px-4 sm:px-8 bg-primary">
+      <main className="max-w-7xl mx-auto m-28 bg-primary px-4 md:px-8">
         <Outlet />
       </main>
     </>

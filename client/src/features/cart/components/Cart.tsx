@@ -29,7 +29,8 @@ function Cart() {
     return <Loading />;
   }
 
-  if (error) return <div>Empty</div>;
+  if (error)
+    return <h2 className="text-4xl text-center font-bold">Cart is empty</h2>;
 
   return (
     <div className="flex flex-col gap-5">

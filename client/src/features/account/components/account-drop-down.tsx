@@ -1,7 +1,7 @@
 import { MdAccountCircle } from "react-icons/md";
 
 import { Menu, Transition } from "@headlessui/react";
-import { Fragment, useRef } from "react";
+import { Fragment } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import cn from "../../../utils/cn";
 import Button from "../../../components/ui/button";
@@ -11,8 +11,6 @@ function AccountDropDown() {
   const { removeUser } = useAuthContext();
 
   const navigate = useNavigate();
-
-  const ref = useRef();
 
   const handleLogOut = () => {
     localStorage.removeItem("user");
@@ -88,7 +86,7 @@ function AccountDropDown() {
                 <Button
                   onClick={handleLogOut}
                   className={cn(
-                    "group flex w-fit items-center justify-center rounded-md px-4 py-2 text-sm font-semibold",
+                    "group flex w-fit items-center justify-center rounded-md px-4 py-2 text-sm ",
                     active && "bg-accent text-white"
                   )}
                 >

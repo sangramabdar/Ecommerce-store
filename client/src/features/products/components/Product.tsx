@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addProductTocartSerivce } from "../../cart/cart.service";
 import cn from "../../../utils/cn";
 import { useAuthContext } from "../../../components/auth";
+import Button from "../../../components/ui/button";
 
 interface ProductProps {
   product: any;
@@ -71,11 +72,8 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
         <p className="text-center font-semibold text-gray-600">
           Price : ${price}
         </p>
-        <button
-          className={cn(
-            "bg-accent font-bold text-white rounded p-1 px-2",
-            isPending && "opacity-50"
-          )}
+        <Button
+          className={cn("self-start", isPending && "opacity-50")}
           disabled={isPending}
           onClick={e => {
             e.stopPropagation();
@@ -83,7 +81,7 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
           }}
         >
           Add to cart
-        </button>
+        </Button>
       </div>
     </div>
   );

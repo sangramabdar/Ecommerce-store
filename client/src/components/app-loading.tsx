@@ -6,7 +6,7 @@ function AppLoading() {
       <div
         key={i}
         className="flex flex-col sm:items-center justify-between 
-       rounded-2xl space-y-4 bg-secondary p-4"
+       rounded-xl space-y-4 bg-secondary p-4"
       >
         <Skeleton className="w-full h-52" />
         <Skeleton className="h-16" />

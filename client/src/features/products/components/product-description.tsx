@@ -58,7 +58,7 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
   };
 
   return (
-    <div className="bg-primary my-[80px] rounded-md shadow-lg w-full p-4 md:max-w-[500px] md:mx-auto">
+    <div className="bg-secondary my-[80px] rounded-md w-full p-4 md:max-w-[500px] md:mx-auto">
       <div
         className="flex flex-col p-3 space-y-2 justify-center items-center md:flex-row md:justify-evenly "
         key={_id}
@@ -74,7 +74,6 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
             Price : ${price}
           </p>
           <Button
-            className="bg-accent font-bold text-white rounded p-1"
             onClick={e => {
               e.stopPropagation();
               handleAddToCartOrRemoveFromCart(product);
@@ -114,7 +113,7 @@ function ProductDescription() {
 
   if (isLoading)
     return (
-      <div className="my-[80px] rounded-md  w-full p-4 md:max-w-[500px] md:mx-auto">
+      <div className="my-[80px] rounded-md w-full p-4 md:max-w-[500px] md:mx-auto bg-secondary">
         <div className="flex justify-start gap-10">
           <Skeleton className="w-40 h-52" />
           <div className="flex flex-col gap-4">

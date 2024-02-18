@@ -91,45 +91,48 @@ function CartProduct({
 
   return (
     <div
-      className="bg-white flex flex-col
-    p-2 items-center rounded-md shadow-lg h-fit md:w-[70%] md:flex-row md:mx-auto
+      className="bg-secondary flex flex-col
+     rounded-md shadow-sm h-fit max-w-4xl md:flex-row p-4 gap-4
       "
     >
-      <section className="flex justify-between items-center w-full  md:min-w-[400px]">
-        <div className="w-10">
-          <img className="h-fit object-cover" src={image} alt="" />
-        </div>
-        <Button
-          className={cn(
-            "bg-accent rounded-md w-7 font-bold text-white",
-            updateProductMutation.isPending && "opacity-50"
-          )}
-          onClick={handleIncrement}
-          disabled={updateProductMutation.isPending}
-        >
-          +
-        </Button>
-        <p className="text-center ">{quantity}</p>
-        <Button
-          className={cn(
-            "bg-accent rounded-md w-7 font-bold text-white",
-            updateProductMutation.isPending && "opacity-50"
-          )}
-          onClick={handleDecrement}
-          disabled={updateProductMutation.isPending}
-        >
-          -
-        </Button>
-        <p className="text-center w-44">{title}</p>
-        <p className="text-center">$ {price * quantity}</p>
-      </section>
+      <div className="flex flex-col md:flex-row justify-between md:items-center w-full gap-4">
+        <img className="object-fill w-24 h-24 md:w-32" src={image} alt="" />
 
-      <section className="flex w-full justify-end">
+        <div className="flex flex-col gap-4">
+          <h2 className="text-lg md:text-xl text-gray-900">{title}</h2>
+          <p className="text-lg md:text-xl text-gray-600">
+            $ {price * quantity}
+          </p>
+        </div>
+
+        <div className="flex gap-2 md:justify-center items-center">
+          <Button
+            className={cn(
+              "bg-accent rounded-md font-bold text-white",
+              updateProductMutation.isPending && "opacity-50"
+            )}
+            onClick={handleIncrement}
+            disabled={updateProductMutation.isPending}
+          >
+            +
+          </Button>
+          <p className="text-center ">{quantity}</p>
+          <Button
+            className={cn(
+              "bg-accent rounded-md  font-bold text-white",
+              updateProductMutation.isPending && "opacity-50"
+            )}
+            onClick={handleDecrement}
+            disabled={updateProductMutation.isPending}
+          >
+            -
+          </Button>
+        </div>
+      </div>
+
+      <div className="flex w-full justify-end">
         <Button
-          className={cn(
-            "text-center p-1 rounded bg-accent text-white",
-            removeProductMutation.isPending && "opacity-50"
-          )}
+          className={cn(removeProductMutation.isPending && "opacity-50")}
           onClick={() => {
             handleRemoveProduct();
           }}
@@ -137,7 +140,7 @@ function CartProduct({
         >
           remove
         </Button>
-      </section>
+      </div>
     </div>
   );
 }
