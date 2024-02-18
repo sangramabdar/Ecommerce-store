@@ -1,11 +1,9 @@
 import { Link } from "react-router-dom";
 
-import { useQuery } from "@tanstack/react-query";
-import { getCartItemsService } from "../features/cart/cart.service";
-
-import { FaShoppingCart } from "react-icons/fa";
 import { useAuthContext } from "./auth";
 import AccountDropDown from "../features/account/components/account-drop-down";
+import CartIcon from "../features/cart/components/cart-icon";
+import Button from "./ui/button";
 
 function Header() {
   const { user } = useAuthContext();
@@ -19,17 +17,11 @@ function Header() {
           </Link>
 
           <div className="flex justify-evenly gap-4 items-center font-bold">
-            <Link
-              className="bg-accent text-center p-1 px-2 rounded-md text-white"
-              to="login"
-            >
-              Login
+            <Link to="login">
+              <Button>Login</Button>
             </Link>
-            <Link
-              className="bg-accent text-center p-1 px-2 rounded-md text-white"
-              to="signup"
-            >
-              Sign Up
+            <Link to="signup">
+              <Button>Sign up</Button>
             </Link>
           </div>
         </nav>
@@ -50,42 +42,6 @@ function Header() {
         </div>
       </nav>
     </header>
-  );
-}
-
-function CartIcon() {
-  const { user }: any = useAuthContext();
-
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["cart"],
-    queryFn: () => {
-      return getCartItemsService({
-        Authorization: "Bearer " + user.accessToken,
-      });
-    },
-    enabled: !!user?.accessToken,
-    retry: false,
-  });
-
-  if (error) {
-    return (
-      <Link to={"/cart"}>
-        <div className="relative">
-          <FaShoppingCart className="w-6 h-6" />
-        </div>
-      </Link>
-    );
-  }
-
-  return (
-    <Link to={"/cart"}>
-      <div className="relative">
-        <FaShoppingCart className="w-6 h-6" />
-        <p className="absolute top-[-10px] flex justify-center items-center bg-secondary w-4 h-4 p-1 rounded-full right-[-10px]">
-          {isLoading || data?.cartItems?.length}
-        </p>
-      </div>
-    </Link>
   );
 }
 

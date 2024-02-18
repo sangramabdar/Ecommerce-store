@@ -1,7 +1,7 @@
 import { MdAccountCircle } from "react-icons/md";
 
 import { Menu, Transition } from "@headlessui/react";
-import { Fragment } from "react";
+import { Fragment, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import cn from "../../../utils/cn";
 import Button from "../../../components/ui/button";
@@ -12,6 +12,8 @@ function AccountDropDown() {
 
   const navigate = useNavigate();
 
+  const ref = useRef();
+
   const handleLogOut = () => {
     localStorage.removeItem("user");
     removeUser();
@@ -21,7 +23,7 @@ function AccountDropDown() {
 
   return (
     <Menu as="div" className="relative flex">
-      <Menu.Button className="focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 ">
+      <Menu.Button className="focus:outline-none focus-visible:ring-10 focus-visible:ring-white/75 ">
         <MdAccountCircle className="w-8 h-8" />
       </Menu.Button>
       <Transition
@@ -38,7 +40,7 @@ function AccountDropDown() {
             <Menu.Item>
               {({ active }) => (
                 <Link
-                  to={"/acoount/profile"}
+                  to={"/account/profile"}
                   className={cn(
                     "group flex w-full items-center rounded-md px-2 py-2 text-sm font-semibold",
                     active ? "bg-accent text-white" : "text-gray-900"

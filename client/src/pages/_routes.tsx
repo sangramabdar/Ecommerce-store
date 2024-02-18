@@ -1,4 +1,5 @@
 import {
+  Navigate,
   Route,
   createBrowserRouter,
   createRoutesFromElements,
@@ -8,12 +9,14 @@ import PrivateRoute from "../components/private-route";
 import CartPage from "./cart";
 import CheckoutPage from "./checkout";
 import LoginPage from "./login";
-import OrderPage from "./orders";
 import ProductPage from "./products/[productTitle]";
 import SignUpPage from "./signup";
 import RootPage from "./_app";
 import NotFoundPage from "./not-found";
 import HomePage from ".";
+import AccountPage from "./account";
+import ProfilePage from "./account/profile";
+import OrdersPage from "./account/orders";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -23,7 +26,11 @@ const router = createBrowserRouter(
       <Route path="/signup" element={<SignUpPage />} />
       <Route path="/products/:productTitle" element={<ProductPage />} />
       <Route element={<PrivateRoute />}>
-        {/* <Route path="/orders" element={<OrderPage />} /> */}
+        <Route path="/account" element={<AccountPage />}>
+          <Route path="" element={<Navigate to="profile" />} />
+          <Route path="profile" element={<ProfilePage />} />
+          <Route path="orders" element={<OrdersPage />} />
+        </Route>
         <Route path="/cart" element={<CartPage />} />
         {/* <Route path="/checkout" element={<CheckoutPage />} /> */}
       </Route>
