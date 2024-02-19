@@ -18,8 +18,6 @@ function CartIcon() {
     retry: false,
   });
 
-  console.log(data?.cartItems.length);
-
   if (error) {
     return (
       <Link to={"/cart"}>

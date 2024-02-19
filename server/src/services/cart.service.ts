@@ -67,7 +67,9 @@ async function getCartItemsService(req: any) {
     const user = await User.findById(userId);
     const cartId = user.cartId;
 
-    if (!cartId) throw new NotFound("cart");
+    const cart = await Cart.findById(cartId);
+
+    if (!cart) throw new NotFound("cart");
 
     const cartItems = await getCartProductsByCartId(cartId.toString());
 
@@ -75,7 +77,7 @@ async function getCartItemsService(req: any) {
 
     let totalPrice = await getCartTotalPrice(cartItems);
 
-    return { cartItems, totalPrice };
+    return { cartItems, totalPrice, isPaid: cart.isPaid };
   } catch (error) {
     throw error;
   }

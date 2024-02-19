@@ -2,6 +2,7 @@ import { Fragment, useEffect, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { IoCheckmarkOutline } from "react-icons/io5";
 import { HiChevronUpDown } from "react-icons/hi2";
+import cn from "../../../utils/cn";
 
 const PAYMENT_MODES = [
   { name: "Cash", mode: "CASH" },
@@ -10,8 +11,10 @@ const PAYMENT_MODES = [
 
 export default function PaymentOptions({
   onChangePaymentOption,
+  disabled = false,
 }: {
   onChangePaymentOption: Function;
+  disabled?: boolean;
 }) {
   const [selected, setSelected] = useState(PAYMENT_MODES[0]);
 
@@ -23,9 +26,14 @@ export default function PaymentOptions({
     <section className="mt-10">
       <h2 className="font-bold text-lg flex">Payment Mode</h2>
       <div className="sm:w-72 mt-2">
-        <Listbox value={selected} onChange={setSelected}>
+        <Listbox value={selected} onChange={setSelected} disabled={disabled}>
           <div className="relative mt-1">
-            <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm border focus:outline-none focus-visible:border-accent">
+            <Listbox.Button
+              className={cn(
+                "relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-sm border focus:outline-none focus-visible:border-accent",
+                disabled && "opacity-50"
+              )}
+            >
               <span className="block truncate">{selected.name}</span>
               <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                 <HiChevronUpDown

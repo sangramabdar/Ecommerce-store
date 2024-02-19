@@ -15,6 +15,7 @@ import {
   productRouter,
   orderRouter,
   rootRouter,
+  paymentRouter,
 } from "../routes";
 
 const app: Application = express();
@@ -36,6 +37,8 @@ app.use("/api/auth", authRouter);
 app.use("/api/carts", cartRouter);
 app.use("/api/orders", orderRouter);
 app.use("/api/products", productRouter);
+app.use("/api/payments", paymentRouter);
+
 app.use("*", invalidPathHandler);
 
 //error middlewares

@@ -32,6 +32,10 @@ const cartSchema = new mongoose.Schema(
       type: mongoose.SchemaTypes.ObjectId,
       ref: "Coupon",
     },
+    isPaid: {
+      type: mongoose.SchemaTypes.Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

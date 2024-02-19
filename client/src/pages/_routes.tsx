@@ -17,6 +17,8 @@ import HomePage from ".";
 import AccountPage from "./account";
 import ProfilePage from "./account/profile";
 import OrdersPage from "./account/orders";
+import PaymentPage from "./payment";
+import SuccessPage from "./success";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -33,6 +35,8 @@ const router = createBrowserRouter(
         </Route>
         <Route path="/cart" element={<CartPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/payment/:orderId" element={<PaymentPage />} />
+        <Route path="/success" element={<SuccessPage />} />
       </Route>
       <Route path="not-found" element={<NotFoundPage />} />
       <Route path="*" element={<NotFoundPage />} />

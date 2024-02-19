@@ -12,6 +12,7 @@ orderRouter.post(
   validateSchema(orderAddressSchema),
   placeOrderController
 );
+
 orderRouter.get("/", validateToken, getOrdersController);
 
 export { orderRouter };

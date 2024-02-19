@@ -99,6 +99,7 @@ function generateErrorApiResult(error: any) {
   //error sent by server
   result.statusCode = error.response.status;
   result.error = error.response.data.error.message;
+
   return result;
 }
 
