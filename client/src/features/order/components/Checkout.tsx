@@ -1,9 +1,13 @@
 import * as yup from "yup";
 import OrderSummary from "./order-summary";
 import { useFormik } from "formik";
-import CheckoutInputField from "./check-outInput-field";
 import { showLoadingToast } from "../../../utils/toast";
 import Button from "../../../components/ui/button";
+import Input from "../../../components/ui/Input";
+import { Navigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
+import PaymentOptions from "./payment-options";
+import { useRef, useState } from "react";
 
 const deliveryInfoSchema = yup.object().shape({
   address: yup.string().required("Required"),
@@ -18,9 +22,18 @@ const initialDeliveryInfo = {
 };
 
 function Checkout() {
+  const queryClient = useQueryClient();
+
+  const cart = queryClient.getQueryData(["cart"]);
+
   const handleOnSubmit = (deliveryInfo: any) => {
-    showLoadingToast("Processing");
+    // showLoadingToast("Processing");
+    queryClient.setQueryData(["order-address"], {
+      ...deliveryInfo,
+    });
   };
+
+  const [paymentOption, setPaymentOption] = useState<any>(null);
 
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
@@ -29,26 +42,23 @@ function Checkout() {
       initialValues: initialDeliveryInfo,
     });
 
-  // if (totalPrice === 0) {
-  //   return <Navigate to={"/cart"} />;
-  // }
+  if (!cart) {
+    return <Navigate to={"/cart"} />;
+  }
 
   return (
     <form
-      className="bg-white rounded-md shadow-lg p-4 space-y-8 sm:w-[80%] mx-auto flex flex-col justify-center items-center max-w-[600px]"
+      className="bg-white rounded-md shadow-sm border p-4 space-y-8 mx-auto flex flex-col"
       onSubmit={handleSubmit}
     >
-      <div
-        className="flex flex-col items-center
-       space-y-6"
-      >
-        <section className="flex flex-col justify-center items-center">
-          <h1 className="font-bold text-lg flex">Delivery Address</h1>
+      <div className="flex flex-col">
+        <section className="flex flex-col space-y-2">
+          <h2 className="font-bold text-lg flex">Shipping Address</h2>
           <div
             className="flex flex-col items-start space-y-3
     "
           >
-            <CheckoutInputField
+            <Input
               name="address"
               value={values.address}
               error={errors.address}
@@ -58,7 +68,7 @@ function Checkout() {
               label="Address"
               touched={touched.address}
             />
-            <CheckoutInputField
+            <Input
               name="city"
               value={values.city}
               error={errors.city}
@@ -68,7 +78,7 @@ function Checkout() {
               label="City"
               touched={touched.city}
             />
-            <CheckoutInputField
+            <Input
               name="pincode"
               value={values.pincode}
               error={
@@ -85,7 +95,13 @@ function Checkout() {
           </div>
         </section>
         <OrderSummary />
+        <PaymentOptions
+          onChangePaymentOption={(payment: any) => {
+            setPaymentOption(payment);
+          }}
+        />
       </div>
+      {paymentOption?.mode}
       <Button type="submit">Place Order</Button>
     </form>
   );

@@ -60,7 +60,7 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
   return (
     <div
       className="flex flex-col sm:items-center justify-between 
-       rounded-2xl space-y-2 bg-secondary p-4"
+       rounded-2xl space-y-2 bg-secondary p-4 border"
       key={_id}
       onClick={handleProductPageNavigation}
     >

@@ -92,7 +92,7 @@ function CartProduct({
   return (
     <div
       className="bg-secondary flex flex-col
-     rounded-md shadow-sm h-fit max-w-4xl md:flex-row p-4 gap-4
+     rounded-md shadow-sm h-fit max-w-4xl md:flex-row p-4 gap-4 border
       "
     >
       <div className="flex flex-col md:flex-row justify-between md:items-center w-full gap-4">

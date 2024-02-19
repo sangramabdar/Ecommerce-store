@@ -58,7 +58,7 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
   };
 
   return (
-    <div className="bg-secondary my-[80px] rounded-md w-full p-4 md:max-w-[500px] md:mx-auto">
+    <div className="bg-secondary my-[80px] rounded-md w-full p-4 md:max-w-[500px] md:mx-auto border">
       <div
         className="flex flex-col p-3 space-y-2 justify-center items-center md:flex-row md:justify-evenly "
         key={_id}

@@ -1,25 +1,40 @@
+import { useQuery } from "@tanstack/react-query";
+import { getCartItemsService } from "../../cart/cart.service";
 import OrderProduct from "./order-product";
+import { useAuthContext } from "../../../components/auth";
 
 function OrderSummary() {
-  return <h1>Order summary</h1>;
+  const { user }: any = useAuthContext();
 
-  // return (
-  //   <section className="px-4">
-  //     <h1 className="font-bold text-lg flex flex-col justify-center items-center">
-  //       Order Summary
-  //     </h1>
-  //     {cartItems.map((item: any, index: number) => {
-  //       return (
-  //         <OrderProduct
-  //           key={index}
-  //           product={item.product}
-  //           quantity={item.quantity}
-  //         />
-  //       );
-  //     })}
-  //     <span className="mt-4">Total Price : ${totalPrice}</span>
-  //   </section>
-  // );
+  const { data } = useQuery({
+    queryKey: ["cart"],
+    queryFn: () => {
+      return getCartItemsService({
+        Authorization: "Bearer " + user.accessToken,
+      });
+    },
+    enabled: !!user?.accessToken,
+    retry: false,
+  });
+
+  return (
+    <section className="mt-10">
+      <h2 className="font-bold text-lg flex">Order Summary</h2>
+      <div>
+        {data.cartItems.map((item: any, index: number) => {
+          return (
+            <OrderProduct
+              key={index}
+              product={item.product}
+              quantity={item.quantity}
+            />
+          );
+        })}
+      </div>
+
+      <span className="mt-4">Total Price : ${data.totalPrice}</span>
+    </section>
+  );
 }
 
 export default OrderSummary;
