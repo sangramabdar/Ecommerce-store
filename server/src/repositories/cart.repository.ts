@@ -1,34 +1,34 @@
 import { Cart } from "../models";
 
-async function addProductToCartById(cardId: string, cartItem: any) {
+async function addProductToCartById(cardId: string, cartProduct: any) {
   const cart = await Cart.findById(cardId);
 
-  const oldCartItem = cart.cartItems.find(item => {
-    return item.productId.toString() === cartItem.productId;
+  const oldCartProduct = cart.cartProducts.find(_cartProduct => {
+    return _cartProduct.productId.toString() === cartProduct.productId;
   });
 
-  if (oldCartItem) {
-    if (cartItem.quantity === 0) {
-      cart.cartItems.pull({ productId: cartItem.productId });
+  if (oldCartProduct) {
+    if (cartProduct.quantity === 0) {
+      cart.cartProducts.pull({ productId: cartProduct.productId });
     } else {
-      oldCartItem.quantity = cartItem.quantity;
+      oldCartProduct.quantity = cartProduct.quantity;
     }
   } else {
-    cart.cartItems.push(cartItem);
+    cart.cartProducts.push(cartProduct);
   }
 
   await cart.save();
 }
 
-async function deleteProductFromCartById(cardId: string, cartItem: any) {
+async function deleteProductFromCartById(cardId: string, cartProduct: any) {
   const cart = await Cart.findById(cardId);
 
-  const oldCartItem = cart.cartItems.find(item => {
-    return item.productId.toString() === cartItem.productId;
+  const oldCartProduct = cart.cartProducts.find(_cartProduct => {
+    return _cartProduct.productId.toString() === cartProduct.productId;
   });
 
-  if (oldCartItem) {
-    cart.cartItems.pull({ productId: cartItem.productId });
+  if (oldCartProduct) {
+    cart.cartProducts.pull({ productId: cartProduct.productId });
   }
 
   await cart.save();
@@ -38,24 +38,24 @@ async function getCartProductsByCartId(cardId: string) {
   const cart = await (
     await Cart.findById(cardId)
   ).populate({
-    path: "cartItems.productId",
+    path: "cartProducts.productId",
   });
 
   if (!cart) return null;
 
-  if (!cart.cartItems.length) return null;
+  if (!cart.cartProducts.length) return null;
 
-  return cart.cartItems.map(cartItem => {
+  return cart.cartProducts.map(cartProduct => {
     return {
-      product: cartItem.productId,
-      quantity: cartItem.quantity,
+      product: cartProduct.productId,
+      quantity: cartProduct.quantity,
     };
   });
 }
 
-async function getCartTotalPrice(cartItems: any[]) {
-  return cartItems.reduce((c, cartItem) => {
-    return cartItem.quantity * cartItem.product.price + c;
+async function getCartTotalPrice(cartProducts: any[]) {
+  return cartProducts.reduce((accumlator, cartProduct) => {
+    return cartProduct.quantity * cartProduct.product.price + accumlator;
   }, 0);
 }
 

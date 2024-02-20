@@ -7,13 +7,16 @@ async function loginUserService(user: any) {
 
   if (result.status === RequestStatus.ERROR) throw result.error;
 
-  return result;
+  return result.data;
 }
 
 async function signUpUserService(user: any) {
   const SIGNUP_URL = BASE_URL + "/auth/signup";
   const result = await postRequest(SIGNUP_URL, user);
-  return result;
+
+  if (result.status === RequestStatus.ERROR) throw result.error;
+
+  return result.data;
 }
 
 export { loginUserService, signUpUserService };

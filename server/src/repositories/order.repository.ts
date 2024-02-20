@@ -7,9 +7,9 @@ async function placeOrderForSpecificUser(
   paymentMode: string,
   totalPrice: number
 ) {
-  const orderProducts = cartProducts.map(cartItem => ({
-    product: { ...cartItem.product._doc },
-    quantity: cartItem.quantity,
+  const orderProducts = cartProducts.map(cartProduct => ({
+    product: { ...cartProduct.product._doc },
+    quantity: cartProduct.quantity,
   }));
 
   const order = new Order({

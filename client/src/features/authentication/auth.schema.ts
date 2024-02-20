@@ -1,20 +1,17 @@
-import * as yup from "yup";
+import { z } from "zod";
 
-export const loginSchema = yup.object().shape({
-  email: yup.string().required("Required").email("email must be valid"),
-  password: yup.string().required("Required"),
+export const signUpSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(6, "password must be 8 and 20 characters"),
 });
 
-export const signUpSchema = yup.object().shape({
-  email: yup.string().required("Required").email("email must be valid"),
-  password: yup
-    .string()
-    .required("Required")
-    .min(6, "password must be 8 and 20 characters"),
+export const loginSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(6, "password must be 8 and 20 characters"),
 });
 
-type LoginSchema = yup.InferType<typeof loginSchema>;
+type SignUpSchema = z.infer<typeof signUpSchema>;
 
-type SignUpSchema = yup.InferType<typeof signUpSchema>;
+type LoginSchema = z.infer<typeof loginSchema>;
 
 export type { LoginSchema, SignUpSchema };

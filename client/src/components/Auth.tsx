@@ -32,6 +32,7 @@ function Auth({ children }: { children: React.ReactNode }) {
   };
 
   const addUser = (user: any) => {
+    localStorage.setItem("user", JSON.stringify(user));
     setAuth(prev => {
       return {
         ...prev,

@@ -1,56 +1,55 @@
-import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+
+import { startTransition, useContext, useState } from "react";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
 import Input from "../../../components/ui/Input";
 import Button from "../../../components/ui/button";
-import { LoginSchema, loginSchema } from "../auth.schema";
+import { loginSchema, LoginSchema } from "../auth.schema";
 import { loginUserService } from "../auth.service";
+
+import { SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuthContext } from "../../../components/auth";
 
-const initialLoginInfo = {
-  email: "",
-  password: "",
-};
-
-export function LoginForm() {
+function LoginForm() {
   const [isDisabled, setIsDisabled] = useState(false);
   const navigate = useNavigate();
-
-  const handleOnSubmit = (loginInfo: LoginSchema) => {
-    setIsDisabled(true);
-    handleLoginUser(loginInfo);
-  };
-
   const { addUser } = useAuthContext();
 
-  const { errors, touched, values, handleChange, handleBlur, handleSubmit } =
-    useFormik<any>({
-      validationSchema: loginSchema,
-      initialValues: initialLoginInfo,
-      onSubmit: handleOnSubmit,
-    });
+  const {
+    register,
+    handleSubmit: handleSubmitZod,
+    formState: { errors },
+  } = useForm<LoginSchema>({
+    resolver: zodResolver(loginSchema),
+  });
 
   const handleLoginUser = async (loginInfo: LoginSchema) => {
     try {
-      const result = await loginUserService(loginInfo);
+      const data = await loginUserService(loginInfo);
 
-      localStorage.setItem("user", JSON.stringify(result.data));
-      addUser(result.data);
-
-      showSuccessToast("Logged In");
+      showSuccessToast("logged in");
       setIsDisabled(false);
-      navigate("/");
-      location.reload();
+
+      addUser(data);
+      startTransition(() => {
+        navigate("/");
+      });
     } catch (error) {
-      showErrorToast("Invalid email or password");
-      setIsDisabled(false);
-      return;
+      showErrorToast("registered already");
+      startTransition(() => {
+        navigate("/login");
+      });
     }
   };
 
+  const onSubmit: SubmitHandler<LoginSchema> = data => {
+    setIsDisabled(true);
+    handleLoginUser(data);
+  };
+
   return (
-    <div className="flex min-h-full flex-1 flex-col justify-center items-center py-12">
+    <div className="flex min-h-full flex-1 flex-col justify-center py-12">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-primary">
           Login
@@ -58,41 +57,34 @@ export function LoginForm() {
       </div>
 
       <form
-        className="flex flex-col w-full sm:mx-auto sm:w-full sm:max-w-sm mt-10"
-        onSubmit={handleSubmit}
+        className="flex flex-col w-full sm:mx-auto sm:w-full sm:max-w-sm mt-10
+      "
+        onSubmit={handleSubmitZod(onSubmit)}
       >
-        <div className="flex flex-col gap-4 justify-start">
+        <div className="flex flex-col gap-4 justify-start px-4">
           <Input
-            name="email"
-            error={errors.email as string}
-            touched={touched.email as boolean}
-            value={values.email}
-            onChange={handleChange}
-            onBlur={handleBlur}
+            error={errors.email?.message}
             label="Email"
             type="text"
+            {...register("email")}
           />
           <Input
-            name="password"
-            error={errors.password as string}
-            touched={touched.password as boolean}
-            value={values.password}
-            onChange={handleChange}
-            onBlur={handleBlur}
+            error={errors.password?.message}
             label="Password"
-            type="password"
+            type="text"
+            {...register("password")}
           />
           <Button disabled={isDisabled} type="submit" className="w-full">
             Login
           </Button>
         </div>
-      </form>
-      <div className="m-5">
-        <span> don't have an account ? </span>
-        <Link to="/signup" className="text-center text-gray-600">
-          create an account
+
+        <Link to="/signup" className="m-5 text-center text-gray-600">
+          don't have an account ? create an account
         </Link>
-      </div>
+      </form>
     </div>
   );
 }
+
+export default LoginForm;

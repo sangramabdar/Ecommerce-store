@@ -1,4 +1,3 @@
-import * as yup from "yup";
 import OrderSummary from "./order-summary";
 import { useFormik } from "formik";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
@@ -12,17 +11,18 @@ import { useAuthContext } from "../../../components/auth";
 import { BASE_URL, RequestStatus } from "../../../services/constants";
 import { postRequest } from "../../../services/requests";
 import useRazorpay, { RazorpayOptions } from "react-razorpay";
+import {
+  ShippingAddressSchema,
+  shippinngAddressSchema,
+} from "../checkout.schema";
 
-const deliveryInfoSchema = yup.object().shape({
-  address: yup.string().required("Required"),
-  city: yup.string().required("Required"),
-  pincode: yup.number().required("Required"),
-});
+import { SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-const initialDeliveryInfo = {
+const initialShippingAddress = {
   address: "",
   city: "",
-  pincode: "",
+  pincode: 0,
 };
 
 function Checkout() {
@@ -52,10 +52,10 @@ function Checkout() {
     return result;
   };
 
-  const handleOnSubmit = async (deliveryInfo: any) => {
+  const handleOnSubmit = async (deliveryInfo: ShippingAddressSchema) => {
     const payload = {
       ...deliveryInfo,
-      pincode: Number.parseInt(deliveryInfo.pincode),
+      pincode: Number.parseInt(String(deliveryInfo.pincode)),
       paymentMode: paymentOption.mode,
     };
 
@@ -74,21 +74,19 @@ function Checkout() {
     }
   };
 
+  const [Razorpay] = useRazorpay();
+
   const {
-    values,
-    errors,
-    touched,
-    handleBlur,
-    handleChange,
+    register,
     handleSubmit,
-    status,
-  } = useFormik({
-    validationSchema: deliveryInfoSchema,
-    onSubmit: handleOnSubmit,
-    initialValues: initialDeliveryInfo,
+    formState: { errors },
+  } = useForm<ShippingAddressSchema>({
+    resolver: zodResolver(shippinngAddressSchema),
   });
 
-  const [Razorpay] = useRazorpay();
+  const onSubmit: SubmitHandler<ShippingAddressSchema> = data => {
+    console.log(data);
+  };
 
   const handleOnlinePayment = async (payload: any) => {
     const result = await postRequest(
@@ -160,7 +158,7 @@ function Checkout() {
 
   return (
     <div className="bg-white rounded-md shadow-sm border p-4 space-y-8 mx-auto flex flex-col">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col">
           <section className="flex flex-col space-y-2">
             <h2 className="font-bold text-lg flex">Shipping Address</h2>
@@ -169,38 +167,22 @@ function Checkout() {
     "
             >
               <Input
-                name="address"
-                value={values.address}
-                error={errors.address}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                type="text"
                 label="Address"
-                touched={touched.address}
+                type="text"
+                error={errors.address?.message}
+                {...register("address")}
               />
               <Input
-                name="city"
-                value={values.city}
-                error={errors.city}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                type="text"
                 label="City"
-                touched={touched.city}
+                type="text"
+                error={errors.city?.message}
+                {...register("city")}
               />
               <Input
-                name="pincode"
-                value={values.pincode}
-                error={
-                  errors.pincode?.includes("number")
-                    ? "pincode must be number"
-                    : errors.pincode
-                }
-                onChange={handleChange}
-                onBlur={handleBlur}
-                type="text"
                 label="Pincode"
-                touched={touched.pincode}
+                type="string"
+                error={errors.pincode?.message}
+                {...register("pincode")}
               />
             </div>
           </section>

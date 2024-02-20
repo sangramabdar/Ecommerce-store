@@ -1,5 +1,3 @@
-import Razorpay from "razorpay";
-import environmentConfig from "../config/environment.config";
 import { User, Cart, Order } from "../models";
 import {
   getCartProductsByCartId,
@@ -8,25 +6,6 @@ import {
 } from "../repositories";
 import { OrderSchema } from "../schemas";
 import { NotFound } from "../utils/exceptions";
-
-let razorPayInstance = new Razorpay({
-  key_id: environmentConfig.RAZORPAY_KEY_ID,
-  key_secret: environmentConfig.RAZORPAY_KEY_SECRET,
-});
-
-async function generateRazorPayOrder(totalPrice: number) {
-  const order = await razorPayInstance.orders.create({
-    amount: totalPrice,
-    currency: "INR",
-    receipt: "receipt#1",
-    notes: {
-      key1: "value3",
-      key2: "value2",
-    },
-  });
-
-  return order;
-}
 
 async function placeOrderService(req: any) {
   try {
@@ -37,15 +16,15 @@ async function placeOrderService(req: any) {
 
     if (!user.cartId) throw new NotFound("cart");
 
-    const cartItems = await getCartProductsByCartId(user.cartId.toString());
+    const cartProducts = await getCartProductsByCartId(user.cartId.toString());
 
-    if (!cartItems) throw new NotFound("cart");
+    if (!cartProducts) throw new NotFound("cart");
 
-    const totalPrice = await getCartTotalPrice(cartItems);
+    const totalPrice = await getCartTotalPrice(cartProducts);
 
     const order = await placeOrderForSpecificUser(
       user,
-      cartItems,
+      cartProducts,
       orderAddress,
       paymentMode,
       totalPrice
@@ -53,7 +32,6 @@ async function placeOrderService(req: any) {
 
     //make cart empty
     await Cart.deleteOne(user.cartId);
-
     await User.updateOne(
       {
         _id: userId,
@@ -79,6 +57,8 @@ async function getOrdersService(req: any) {
     const orders = await Order.find({
       _id: { $in: user.orders },
     });
+
+    if (!orders) throw new NotFound("orders");
 
     return orders;
   } catch (error) {

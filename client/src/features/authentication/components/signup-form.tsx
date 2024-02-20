@@ -1,4 +1,3 @@
-import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 
 import { startTransition, useState } from "react";
@@ -8,15 +7,21 @@ import Button from "../../../components/ui/button";
 import { SignUpSchema, signUpSchema } from "../auth.schema";
 import { signUpUserService } from "../auth.service";
 
-const initialUserInfo = {
-  email: "",
-  password: "",
-};
+import { SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 function SignUpForm() {
   const [isDisabled, setIsDisabled] = useState(false);
 
   const navigate = useNavigate();
+
+  const {
+    register,
+    handleSubmit: handleSubmitZod,
+    formState: { errors },
+  } = useForm<SignUpSchema>({
+    resolver: zodResolver(signUpSchema),
+  });
 
   const handleSignUpUser = async (signUpInfo: SignUpSchema) => {
     try {
@@ -31,18 +36,10 @@ function SignUpForm() {
     }
   };
 
-  const handleOnSubmit = (signUpInfo: SignUpSchema) => {
+  const onSubmit: SubmitHandler<SignUpSchema> = data => {
     setIsDisabled(true);
-    handleSignUpUser(signUpInfo);
+    handleSignUpUser(data);
   };
-
-  const { errors, touched, values, handleChange, handleBlur, handleSubmit } =
-    useFormik<any>({
-      validationSchema: signUpSchema,
-      initialValues: { ...initialUserInfo },
-      onSubmit: handleOnSubmit,
-      enableReinitialize: true,
-    });
 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center py-12">
@@ -55,28 +52,20 @@ function SignUpForm() {
       <form
         className="flex flex-col w-full sm:mx-auto sm:w-full sm:max-w-sm mt-10
       "
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmitZod(onSubmit)}
       >
         <div className="flex flex-col gap-4 justify-start px-4">
           <Input
-            name="email"
-            error={errors.email as string}
-            touched={touched.email as boolean}
-            value={values.email}
-            onChange={handleChange}
-            onBlur={handleBlur}
+            error={errors.email?.message}
             label="Email"
             type="text"
+            {...register("email")}
           />
           <Input
-            name="password"
-            error={errors.password as string}
-            touched={touched.password as boolean}
-            value={values.password}
-            onChange={handleChange}
-            onBlur={handleBlur}
+            error={errors.password?.message}
             label="Password"
-            type="password"
+            type="text"
+            {...register("password")}
           />
           <Button disabled={isDisabled} type="submit" className="w-full">
             Sign Up
