@@ -1,11 +1,11 @@
 import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
 import Skeleton from "../../../components/ui/skeleton";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getProductService } from "../product.service";
 import { useAuthContext } from "../../../components/auth";
-import { addProductTocartSerivce } from "../../cart/cart.service";
 import Button from "../../../components/ui/button";
+import useAddProductTocart from "../products.hooks";
 
 interface ProductProps {
   product: any;
@@ -17,21 +17,9 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
   const navigate = useNavigate();
   const { user }: any = useAuthContext();
   const queryClient = useQueryClient();
+  const addProductMutation = useAddProductTocart();
 
-  const addProductMutation = useMutation({
-    mutationFn: ({ productId, quantity }: any) =>
-      addProductTocartSerivce(
-        {
-          productId,
-          quantity,
-        },
-        {
-          Authorization: "Bearer " + user?.accessToken,
-        }
-      ),
-  });
-
-  const handleAddToCartOrRemoveFromCart = async (product: any) => {
+  const handleAddToCart = async (product: any) => {
     if (!user) {
       showErrorToast("Plz login first");
       setTimeout(() => {
@@ -76,7 +64,7 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
           <Button
             onClick={e => {
               e.stopPropagation();
-              handleAddToCartOrRemoveFromCart(product);
+              handleAddToCart(product);
             }}
             disabled={addProductMutation.isPending}
           >

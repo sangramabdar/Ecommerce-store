@@ -25,10 +25,10 @@ async function paymentVerifyController(req: Request, res: Response, next) {
     const data = await paymentverfifyService(req);
 
     const responseBody = new ResponseBodyBuilder()
-      .setStatusCode(StatusCodes.OK)
+      .setStatusCode(StatusCodes.CREATED)
       .setData(data);
 
-    res.status(StatusCodes.OK).json(responseBody);
+    res.status(StatusCodes.CREATED).json(responseBody);
   } catch (error) {
     next(error);
   }

@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import React from "react";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addProductTocartSerivce } from "../../cart/cart.service";
+import { useQueryClient } from "@tanstack/react-query";
 import cn from "../../../utils/cn";
 import { useAuthContext } from "../../../components/auth";
 import Button from "../../../components/ui/button";
+import useAddProductTocart from "../products.hooks";
 
 interface ProductProps {
   product: any;
@@ -16,23 +16,10 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
 
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-
   const { user }: any = useAuthContext();
+  const addProductMutation = useAddProductTocart();
 
-  const { mutateAsync, isPending } = useMutation({
-    mutationFn: ({ productId, quantity }: any) =>
-      addProductTocartSerivce(
-        {
-          productId,
-          quantity,
-        },
-        {
-          Authorization: "Bearer " + user?.accessToken,
-        }
-      ),
-  });
-
-  const handleAddToCartOrRemoveFromCart = async (product: any) => {
+  const handleAddToCart = async (product: any) => {
     if (!user) {
       showErrorToast("Plz login first");
       setTimeout(() => {
@@ -42,24 +29,25 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
     }
 
     try {
-      await mutateAsync({ productId: product._id, quantity: 1 });
-      queryClient.invalidateQueries({ queryKey: ["cart"] });
+      await addProductMutation.mutateAsync({
+        productId: product._id,
+        quantity: 1,
+      });
+
+      await queryClient.invalidateQueries({ queryKey: ["cart"] });
       showSuccessToast("Added");
-    } catch (error: any) {
+    } catch (error) {
       showErrorToast("Something went wrong");
     }
   };
 
   const handleProductPageNavigation = () => {
-    navigate({
-      pathname: `/products/${title}`,
-      search: `?id=${_id}`,
-    });
+    navigate(`/products/${title}`);
   };
 
   return (
     <div
-      className="flex flex-col sm:items-center justify-between 
+      className="flex flex-col sm:items-center justify-between
        rounded-2xl space-y-2 bg-secondary p-4 border"
       key={_id}
       onClick={handleProductPageNavigation}
@@ -73,11 +61,14 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
           Price : ${price}
         </p>
         <Button
-          className={cn("self-start", isPending && "opacity-50")}
-          disabled={isPending}
+          className={cn(
+            "self-start",
+            addProductMutation.isPending && "opacity-50"
+          )}
+          disabled={addProductMutation.isPending}
           onClick={e => {
             e.stopPropagation();
-            handleAddToCartOrRemoveFromCart(product);
+            handleAddToCart(product);
           }}
         >
           Add to cart

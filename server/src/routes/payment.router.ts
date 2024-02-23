@@ -7,7 +7,7 @@ import {
 
 const paymentRouter = Router();
 
-paymentRouter.post("/create", validateToken, paymentCreateController);
+paymentRouter.get("/proceed", validateToken, paymentCreateController);
 paymentRouter.post("/verify", validateToken, paymentVerifyController);
 
 export { paymentRouter };

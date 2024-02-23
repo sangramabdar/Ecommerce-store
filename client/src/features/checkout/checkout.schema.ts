@@ -9,9 +9,7 @@ const shippinngAddressSchema = z.object({
     })
     .refine(
       (value: any) => {
-        console.log(value.length);
         if (!value.length) return false;
-
         return !isNaN(value);
       },
       {

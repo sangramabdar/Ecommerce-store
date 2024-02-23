@@ -1,24 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import CartProduct from "./cart-product";
 import Loading from "../../../components/loading";
-import { useQuery } from "@tanstack/react-query";
-import { getCartItemsService } from "../cart.service";
-import { useAuthContext } from "../../../components/auth";
+import useCart from "../useCart";
 
 function Cart() {
   const navigate = useNavigate();
 
-  const { user }: any = useAuthContext();
-
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["cart"],
-    queryFn: () => {
-      return getCartItemsService({
-        Authorization: "Bearer " + user.accessToken,
-      });
-    },
-    enabled: !!user?.accessToken,
-  });
+  const { data, isLoading, error } = useCart();
 
   const handleCheckout = () => {
     navigate("/checkout");

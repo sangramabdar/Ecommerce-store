@@ -32,7 +32,7 @@ app.use(
   )
 );
 
-app.use("/", rootRouter);
+// app.use("/", rootRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/carts", cartRouter);
 app.use("/api/orders", orderRouter);

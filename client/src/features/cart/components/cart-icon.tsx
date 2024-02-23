@@ -1,22 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
 import { FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { useAuthContext } from "../../../components/auth";
-import { getCartItemsService } from "../cart.service";
+import useCart from "../useCart";
 
 function CartIcon() {
-  const { user }: any = useAuthContext();
-
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["cart"],
-    queryFn: () => {
-      return getCartItemsService({
-        Authorization: "Bearer " + user.accessToken,
-      });
-    },
-    enabled: !!user?.accessToken,
-    retry: false,
-  });
+  const { data, isLoading, error } = useCart();
 
   if (error) {
     return (

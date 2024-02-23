@@ -17,7 +17,6 @@ import HomePage from ".";
 import AccountPage from "./account";
 import ProfilePage from "./account/profile";
 import OrdersPage from "./account/orders";
-import PaymentPage from "./payment";
 import SuccessPage from "./success";
 
 const router = createBrowserRouter(

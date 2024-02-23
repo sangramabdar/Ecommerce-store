@@ -1,5 +1,4 @@
 import OrderSummary from "./order-summary";
-import { useFormik } from "formik";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
 import Button from "../../../components/ui/button";
 import Input from "../../../components/ui/Input";
@@ -9,7 +8,7 @@ import PaymentOptions from "./payment-options";
 import { useState } from "react";
 import { useAuthContext } from "../../../components/auth";
 import { BASE_URL, RequestStatus } from "../../../services/constants";
-import { postRequest } from "../../../services/requests";
+import { getRequest, postRequest } from "../../../services/requests";
 import useRazorpay, { RazorpayOptions } from "react-razorpay";
 import {
   ShippingAddressSchema,
@@ -18,12 +17,6 @@ import {
 
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-const initialShippingAddress = {
-  address: "",
-  city: "",
-  pincode: 0,
-};
 
 function Checkout() {
   const queryClient = useQueryClient();
@@ -52,10 +45,20 @@ function Checkout() {
     return result;
   };
 
-  const handleOnSubmit = async (deliveryInfo: ShippingAddressSchema) => {
+  const [Razorpay] = useRazorpay();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ShippingAddressSchema>({
+    resolver: zodResolver(shippinngAddressSchema),
+  });
+
+  const onSubmit: SubmitHandler<ShippingAddressSchema> = async data => {
     const payload = {
-      ...deliveryInfo,
-      pincode: Number.parseInt(String(deliveryInfo.pincode)),
+      ...data,
+      pincode: Number.parseInt(String(data.pincode)),
       paymentMode: paymentOption.mode,
     };
 
@@ -74,28 +77,10 @@ function Checkout() {
     }
   };
 
-  const [Razorpay] = useRazorpay();
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<ShippingAddressSchema>({
-    resolver: zodResolver(shippinngAddressSchema),
-  });
-
-  const onSubmit: SubmitHandler<ShippingAddressSchema> = data => {
-    console.log(data);
-  };
-
   const handleOnlinePayment = async (payload: any) => {
-    const result = await postRequest(
-      BASE_URL + `/payments/create`,
-      {},
-      {
-        Authorization: "Bearer " + user.accessToken,
-      }
-    );
+    const result = await getRequest(BASE_URL + `/payments/proceed`, {
+      Authorization: "Bearer " + user.accessToken,
+    });
 
     if (result.status === RequestStatus.ERROR) {
       navigate("/not-found");
@@ -106,7 +91,7 @@ function Checkout() {
 
     const options: RazorpayOptions = {
       key: "rzp_test_Xje67C2pVeowD5",
-      amount: order.amount,
+      amount: "1000",
       currency: order.currency,
       name: "Acme Corp",
       description: "Test Transaction",
@@ -126,6 +111,11 @@ function Checkout() {
           }
         );
 
+        if (result.status === RequestStatus.ERROR) {
+          showErrorToast("something went wrong");
+          return;
+        }
+
         await queryClient.invalidateQueries({ queryKey: ["cart"] });
 
         showSuccessToast("order is placed");
@@ -134,7 +124,6 @@ function Checkout() {
       prefill: {
         name: "Sangram Abdar",
         email: "abdarsangram2697@gmail.com",
-        contact: "8600174694",
       },
       notes: {
         address: "Razorpay Corporate Office",

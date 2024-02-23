@@ -28,11 +28,6 @@ async function paymentCreateService(req: any) {
   const rzOrder = await razorPayInstance.orders.create({
     amount: totalPrice * 100,
     currency: "INR",
-    receipt: "receipt#1",
-    notes: {
-      key1: "value3",
-      key2: "value2",
-    },
   });
 
   return rzOrder;
@@ -68,9 +63,7 @@ async function paymentverfifyService(req: any) {
   const cartItems = await getCartProductsByCartId(cartId.toString());
   const totalPrice = await getCartTotalPrice(cartItems);
 
-  const rzOrder = await razorPayInstance.orders.fetch(razorpay_order_id);
-
-  console.log(rzOrder);
+  // const rzOrder = await razorPayInstance.orders.fetch(razorpay_order_id);
 
   let isSignatureValid = verifyPaymentSignature({
     razorpay_order_id,
@@ -78,7 +71,7 @@ async function paymentverfifyService(req: any) {
     razorpay_signature,
   });
 
-  if (isSignatureValid) throw new BadRequest("bad request");
+  if (!isSignatureValid) throw new BadRequest("bad request");
 
   //placing order
   const order = await placeOrderForSpecificUser(

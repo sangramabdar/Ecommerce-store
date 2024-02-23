@@ -41,7 +41,7 @@ class WrongContent extends CustomError {
 class EmailExists extends CustomError {
   private static message: string = "email already exists";
   constructor() {
-    super(EmailExists.message, StatusCodes.UNAUTHORIZED);
+    super(EmailExists.message, StatusCodes.BAD_REQUEST);
   }
 }
 
