@@ -3,7 +3,7 @@ import { showErrorToast, showSuccessToast } from "../../utils/toast";
 import cn from "../../utils/cn";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addProductTocartSerivce } from "../../services/cart.service";
-import { useAuthContext } from "../auth";
+import { useAuthContext } from "../authentication/auth-provider";
 import Button from "../ui/button";
 
 interface CartProductProps {

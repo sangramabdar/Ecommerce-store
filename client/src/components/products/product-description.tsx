@@ -3,7 +3,7 @@ import { showErrorToast, showSuccessToast } from "../../utils/toast";
 import Skeleton from "../ui/skeleton";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getProductService } from "../../services/product.service";
-import { useAuthContext } from "../auth";
+import { useAuthContext } from "../authentication/auth-provider";
 import Button from "../ui/button";
 import useAddProductTocart from "../../hooks/use-add-product-to-cart";
 

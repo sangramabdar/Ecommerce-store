@@ -1,10 +1,23 @@
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import cn from "../../utils/cn";
+import { useAuthContext } from "../authentication/auth-provider";
+import Button from "../ui/button";
 import AccountIcon from "./account-icon";
 
-function AccountDropDown() {
+function LoggedInAccountDropDown() {
+  const { removeUser } = useAuthContext();
+
+  const navigate = useNavigate();
+
+  const handleLogOut = () => {
+    localStorage.removeItem("user");
+    removeUser();
+    navigate("/");
+    location.reload();
+  };
+
   return (
     <Menu as="div" className="relative flex">
       <Menu.Button className="focus:outline-none focus-visible:ring-10 focus-visible:ring-white/75 ">
@@ -19,18 +32,18 @@ function AccountDropDown() {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute right-[0] top-10 mt-2 w-52 divide-y divide-gray-00 rounded-md bg-secondary shadow-md ring-1 ring-black/5 focus:outline-none">
+        <Menu.Items className="absolute right-0 top-10 mt-2 w-52 divide-y divide-gray-00 rounded-md bg-secondary shadow-md ring-1 ring-black/5 focus:outline-none">
           <div className="px-1 py-1">
             <Menu.Item>
               {({ active }) => (
                 <Link
-                  to={"/login"}
+                  to={"/account/profile"}
                   className={cn(
-                    "group flex w-full items-center rounded-md px-2 py-2 text-sm font-semibold active:bg-accent",
+                    "group flex w-full items-center rounded-md px-2 py-2 text-sm font-semibold",
                     active ? "bg-accent text-white" : "text-gray-900"
                   )}
                 >
-                  Login
+                  Profile
                 </Link>
               )}
             </Menu.Item>
@@ -39,14 +52,29 @@ function AccountDropDown() {
             <Menu.Item>
               {({ active }) => (
                 <Link
-                  to={"/signup"}
+                  to={"/account/orders"}
                   className={cn(
-                    "group flex w-full items-center rounded-md px-2 py-2 text-sm font-semibold active:bg-accent",
+                    "group flex w-full items-center rounded-md px-2 py-2 text-sm font-semibold",
                     active ? "bg-accent text-white" : "text-gray-900"
                   )}
                 >
-                  Sign Up
+                  My Orders
                 </Link>
+              )}
+            </Menu.Item>
+          </div>
+          <div className="px-1 py-2">
+            <Menu.Item>
+              {({ active }) => (
+                <Button
+                  onClick={handleLogOut}
+                  className={cn(
+                    "group flex w-fit items-center justify-center rounded-md px-4 py-2 text-sm ",
+                    active && "bg-accent text-white"
+                  )}
+                >
+                  Log out
+                </Button>
               )}
             </Menu.Item>
           </div>
@@ -56,4 +84,4 @@ function AccountDropDown() {
   );
 }
 
-export default AccountDropDown;
+export default LoggedInAccountDropDown;
