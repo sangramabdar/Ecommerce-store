@@ -26,7 +26,7 @@ class DataBaseConnectionError extends CustomError {
 }
 
 class NotFound extends CustomError {
-  private static message: string = " not found";
+  private static message: string = "not found";
   constructor(entity: string) {
     super(`${entity} ${NotFound.message}`, StatusCodes.NOT_FOUND);
   }
@@ -41,7 +41,7 @@ class WrongContent extends CustomError {
 class EmailExists extends CustomError {
   private static message: string = "email already exists";
   constructor() {
-    super(EmailExists.message, StatusCodes.UNAUTHORIZED);
+    super(EmailExists.message, StatusCodes.BAD_REQUEST);
   }
 }
 
@@ -53,9 +53,23 @@ class NotRegistered extends CustomError {
 }
 
 class Unauthorized extends CustomError {
-  private static message: string = "unauthorized";
+  private static message: string = "forbidden";
   constructor() {
     super(Unauthorized.message, StatusCodes.FORBIDDEN);
+  }
+}
+
+class Unauthenticated extends CustomError {
+  private static message: string = "unauthorized";
+  constructor() {
+    super(Unauthenticated.message, StatusCodes.UNAUTHORIZED);
+  }
+}
+
+class TokenError extends CustomError {
+  private static message: string = "token is invalid";
+  constructor() {
+    super(TokenError.message, StatusCodes.BAD_REQUEST);
   }
 }
 
@@ -68,4 +82,6 @@ export {
   Unauthorized,
   CustomError,
   BadRequest,
+  Unauthenticated,
+  TokenError,
 };

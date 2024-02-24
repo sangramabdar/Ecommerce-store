@@ -1,3 +1,4 @@
+import { en } from "@faker-js/faker";
 import mongoose from "mongoose";
 
 const orderAddressSchema = new mongoose.Schema(
@@ -27,7 +28,7 @@ const orderSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    orderItems: {
+    orderProducts: {
       type: [],
       required: true,
     },
@@ -40,13 +41,28 @@ const orderSchema = new mongoose.Schema(
     },
     orderStatus: {
       type: String,
-      enum: ["DELIVERED", "PENDING"],
+      enum: ["DELIVERED", "PENDING", "COMPLETED", "CONFIRMED"],
       default: "PENDING",
+    },
+    paymentMode: {
+      type: String,
+      enum: ["CASH", "ONLINE"],
+    },
+    paymentStatus: {
+      type: String,
+      default: "unpaid",
+      enum: ["paid", "unpaid"],
+    },
+    rzPaymentId: {
+      type: String,
+    },
+    rzOrderId: {
+      type: String,
     },
   },
   { timestamps: true }
 );
 
-const Order = mongoose.model("orders", orderSchema);
+const Order = mongoose.model("Order", orderSchema);
 
-export default Order;
+export { Order };

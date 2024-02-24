@@ -1,3 +1,5 @@
+import axios, { AxiosHeaders } from "axios";
+
 enum RequestStatus {
   SUCCESS = "SUCCESS",
   ERROR = "ERROR",
@@ -16,9 +18,32 @@ const DEFAULT_HEADERS = {
   "Content-Type": "application/json",
 };
 
+// const BASE_URL = "http://localhost:8080/api";
 const BASE_URL = "https://ecommerce-store-o9dl.vercel.app/api";
 
-// const BASE_URL = "http://localhost:8080/api";
+const defaultOptions = {
+  headers: {
+    ...DEFAULT_HEADERS,
+  },
+};
 
-export { RequestStatus, BASE_URL, DEFAULT_HEADERS };
+const axiosInstance = axios.create(defaultOptions);
+
+axiosInstance.interceptors.request.use(function (config) {
+  const localUser = localStorage.getItem("user") as any;
+  const user: any = JSON.parse(localUser ? localUser : "{}");
+
+  const headers: any = {
+    Authorization: `Bearer ` + user.accessToken,
+  };
+
+  config.headers = {
+    ...config.headers,
+    ...headers,
+  };
+
+  return config;
+});
+
+export { RequestStatus, BASE_URL, DEFAULT_HEADERS, axiosInstance };
 export type { ApiResult };
