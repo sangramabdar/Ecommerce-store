@@ -1,8 +1,8 @@
-import AppLoading from "../../../components/app-loading";
+import AppLoading from "../app-loading";
 import { Navigate } from "react-router-dom";
 import Product from "./product";
 import { useQuery } from "@tanstack/react-query";
-import { getProductsService } from "../product.service";
+import { getProductsService } from "../../services/product.service";
 
 function Products() {
   const {

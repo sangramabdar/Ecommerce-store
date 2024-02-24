@@ -1,4 +1,4 @@
-import Products from "../features/products/components/products";
+import Products from "../components/products/products";
 
 function HomePage() {
   return <Products />;

@@ -1,10 +1,10 @@
 import React from "react";
-import { showErrorToast, showSuccessToast } from "../../../utils/toast";
-import cn from "../../../utils/cn";
+import { showErrorToast, showSuccessToast } from "../../utils/toast";
+import cn from "../../utils/cn";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addProductTocartSerivce } from "../cart.service";
-import { useAuthContext } from "../../../components/auth";
-import Button from "../../../components/ui/button";
+import { addProductTocartSerivce } from "../../services/cart.service";
+import { useAuthContext } from "../auth";
+import Button from "../ui/button";
 
 interface CartProductProps {
   cartProduct: {

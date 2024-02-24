@@ -21,6 +21,7 @@ function Auth({ children }: { children: React.ReactNode }) {
   });
 
   const removeUser = () => {
+    localStorage.removeItem("user");
     setAuth(prev => {
       return {
         ...prev,
@@ -36,7 +37,7 @@ function Auth({ children }: { children: React.ReactNode }) {
     setAuth(prev => {
       return {
         ...prev,
-        isAuthenticated: false,
+        isAuthenticated: true,
         user,
         isAuthenticating: false,
       };
@@ -64,14 +65,7 @@ function Auth({ children }: { children: React.ReactNode }) {
         return;
       }
 
-      setAuth(prev => {
-        return {
-          ...prev,
-          isAuthenticated: true,
-          user: result.data,
-          isAuthenticating: false,
-        };
-      });
+      addUser(result.data);
     }
 
     verifyUser();

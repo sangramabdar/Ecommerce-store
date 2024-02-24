@@ -1,11 +1,11 @@
 import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
-import { showErrorToast, showSuccessToast } from "../../../utils/toast";
-import Skeleton from "../../../components/ui/skeleton";
+import { showErrorToast, showSuccessToast } from "../../utils/toast";
+import Skeleton from "../ui/skeleton";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getProductService } from "../product.service";
-import { useAuthContext } from "../../../components/auth";
-import Button from "../../../components/ui/button";
-import useAddProductTocart from "../products.hooks";
+import { getProductService } from "../../services/product.service";
+import { useAuthContext } from "../auth";
+import Button from "../ui/button";
+import useAddProductTocart from "../../hooks/use-add-product-to-cart";
 
 interface ProductProps {
   product: any;

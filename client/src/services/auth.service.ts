@@ -1,5 +1,5 @@
-import { BASE_URL, RequestStatus } from "../../services/constants";
-import { postRequest } from "../../services/requests";
+import { BASE_URL, RequestStatus } from "./constants";
+import { postRequest } from "./requests";
 
 async function loginUserService(user: any) {
   const LOGIN_URL = BASE_URL + "/auth/login";

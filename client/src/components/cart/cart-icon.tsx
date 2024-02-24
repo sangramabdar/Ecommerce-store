@@ -1,6 +1,6 @@
 import { FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import useCart from "../useCart";
+import useCart from "../../hooks/use-cart";
 
 function CartIcon() {
   const { data, isLoading, error } = useCart();

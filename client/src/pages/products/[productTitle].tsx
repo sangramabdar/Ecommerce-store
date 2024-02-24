@@ -1,4 +1,4 @@
-import ProductDescription from "../../features/products/components/product-description";
+import ProductDescription from "../../components/products/product-description";
 
 export default function ProductPage() {
   return <ProductDescription />;

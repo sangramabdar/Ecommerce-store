@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import { useAuthContext } from "../../components/auth";
-import { addProductTocartSerivce } from "../cart/cart.service";
+import { useAuthContext } from "../components/auth";
+import { addProductTocartSerivce } from "../services/cart.service";
 
 function useAddProductTocart() {
   const { user }: any = useAuthContext();

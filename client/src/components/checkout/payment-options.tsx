@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { IoCheckmarkOutline } from "react-icons/io5";
 import { HiChevronUpDown } from "react-icons/hi2";
-import cn from "../../../utils/cn";
+import cn from "../../utils/cn";
 
 const PAYMENT_MODES = [
   { name: "Cash", mode: "CASH" },

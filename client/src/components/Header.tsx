@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 
 import { useAuthContext } from "./auth";
-import AccountDropDown from "../features/account/components/account-drop-down";
-import CartIcon from "../features/cart/components/cart-icon";
+import AccountDropDown from "./account/account-drop-down";
+import CartIcon from "./cart/cart-icon";
 import Button from "./ui/button";
 
 function Header() {

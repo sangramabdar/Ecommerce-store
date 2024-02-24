@@ -1,19 +1,19 @@
 import OrderSummary from "./order-summary";
-import { showErrorToast, showSuccessToast } from "../../../utils/toast";
-import Button from "../../../components/ui/button";
-import Input from "../../../components/ui/Input";
+import { showErrorToast, showSuccessToast } from "../../utils/toast";
+import Button from "../ui/button";
+import Input from "../ui/Input";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import PaymentOptions from "./payment-options";
 import { useState } from "react";
-import { useAuthContext } from "../../../components/auth";
-import { BASE_URL, RequestStatus } from "../../../services/constants";
-import { getRequest, postRequest } from "../../../services/requests";
+import { useAuthContext } from "../auth";
+import { BASE_URL, RequestStatus } from "../../services/constants";
+import { getRequest, postRequest } from "../../services/requests";
 import useRazorpay, { RazorpayOptions } from "react-razorpay";
 import {
   ShippingAddressSchema,
   shippinngAddressSchema,
-} from "../checkout.schema";
+} from "../../schema/checkout.schema";
 
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";

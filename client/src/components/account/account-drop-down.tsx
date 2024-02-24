@@ -3,9 +3,9 @@ import { MdAccountCircle } from "react-icons/md";
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import cn from "../../../utils/cn";
-import Button from "../../../components/ui/button";
-import { useAuthContext } from "../../../components/auth";
+import cn from "../../utils/cn";
+import Button from "../ui/button";
+import { useAuthContext } from "../auth";
 
 function AccountDropDown() {
   const { removeUser } = useAuthContext();

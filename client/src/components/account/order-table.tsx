@@ -1,6 +1,6 @@
-import Loading from "../../../components/loading";
+import Loading from "../loading";
 
-import { RequestStatus } from "../../../services/constants";
+import { RequestStatus } from "../../services/constants";
 
 function OrderTable() {
   return <h1>Order Table</h1>;

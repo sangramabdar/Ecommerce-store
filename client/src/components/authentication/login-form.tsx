@@ -1,15 +1,15 @@
 import { Link, useNavigate } from "react-router-dom";
 
 import { startTransition, useState } from "react";
-import { showErrorToast, showSuccessToast } from "../../../utils/toast";
-import Input from "../../../components/ui/Input";
-import Button from "../../../components/ui/button";
-import { loginSchema, LoginSchema } from "../auth.schema";
-import { loginUserService } from "../auth.service";
+import { showErrorToast, showSuccessToast } from "../../utils/toast";
+import Input from "../ui/Input";
+import Button from "../ui/button";
+import { loginSchema, LoginSchema } from "../../schema/auth.schema";
+import { loginUserService } from "../../services/auth.service";
 
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAuthContext } from "../../../components/auth";
+import { useAuthContext } from "../auth";
 
 function LoginForm() {
   const [isDisabled, setIsDisabled] = useState(false);

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { useAuthContext } from "../../components/auth";
-import { getCartItemsService } from "./cart.service";
+import { useAuthContext } from "../components/auth";
+import { getCartItemsService } from "../services/cart.service";
 
 function useCart() {
   const { user }: any = useAuthContext();

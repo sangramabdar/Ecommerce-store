@@ -1,4 +1,4 @@
-import Checkout from "../features/checkout/components/checkout";
+import Checkout from "../components/checkout/checkout";
 
 function CheckoutPage() {
   return (

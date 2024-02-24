@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import React from "react";
-import { showErrorToast, showSuccessToast } from "../../../utils/toast";
+import { showErrorToast, showSuccessToast } from "../../utils/toast";
 import { useQueryClient } from "@tanstack/react-query";
-import cn from "../../../utils/cn";
-import { useAuthContext } from "../../../components/auth";
-import Button from "../../../components/ui/button";
-import useAddProductTocart from "../products.hooks";
+import cn from "../../utils/cn";
+import { useAuthContext } from "../auth";
+import Button from "../ui/button";
+import useAddProductTocart from "../../hooks/use-add-product-to-cart";
 
 interface ProductProps {
   product: any;
