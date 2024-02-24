@@ -1,6 +1,5 @@
-import Loading from "../loading";
-
 import { RequestStatus } from "../../services/constants";
+import Loading from "../loading";
 
 function OrderTable() {
   return <h1>Order Table</h1>;
