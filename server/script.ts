@@ -64,5 +64,6 @@ function createDummyProduct() {
 }
 
 mongoose.connect("mongodb://localhost:27017/ecommerce-store").then(async () => {
+  console.log("connected");
   loadProductsToDB();
 });

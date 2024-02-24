@@ -18,41 +18,11 @@ const loginSchema = z.object({
 });
 
 const signUpSchema = z.object({
-  // name: z
-  //   .string({
-  //     required_error: "name is required",
-  //   })
-  //   .min(3, {
-  //     message: "name must contain 3 characters",
-  //   }),
-
-  email: z
-    .string({
-      required_error: "email is required",
-    })
-    .email({
-      message: "email is not valid",
-    }),
-
-  password: z
-    .string({
-      required_error: "password is required",
-    })
-    .min(8, {
-      message: "password must contain between 8 to 20 characters",
-    }),
-
-  // confirmPassword: z
-  //   .string({
-  //     required_error: "confirmPassword is required",
-  //   })
-  //   .min(8, {
-  //     message: "confirm password must contain between 8 to 20 characters",
-  //   }),
+  email: z.string().email("invalid email"),
+  password: z.string().min(6, "password must be 8 and 20 characters"),
+  firstName: z.string().min(1, "required"),
+  lastName: z.string().min(1, "required"),
 });
-// .refine(({ password, confirmPassword }) => password === confirmPassword, {
-//   message: "password and confirm password must be similar",
-// });
 
 type LoginSchema = z.infer<typeof loginSchema>;
 
