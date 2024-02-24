@@ -3,18 +3,16 @@ import { getRequest, postRequest } from "./requests";
 
 const CART_URL = BASE_URL + "/carts";
 
-async function getCartItemsService(headers: {} = {}) {
-  const result = await getRequest(CART_URL, {
-    ...headers,
-  });
+async function getCartItemsService() {
+  const result = await getRequest(CART_URL);
 
   if (result.status === RequestStatus.ERROR) throw result.error;
 
   return result.data;
 }
 
-async function addProductTocartSerivce(data: {}, headers: {} = {}) {
-  const result = await postRequest(CART_URL, data, { ...headers });
+async function addProductTocartSerivce(data: {}) {
+  const result = await postRequest(CART_URL, data);
 
   if (result.status === RequestStatus.ERROR) throw result;
 

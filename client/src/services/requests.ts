@@ -1,5 +1,10 @@
-import axios, { AxiosResponse } from "axios";
-import { ApiResult, DEFAULT_HEADERS, RequestStatus } from "./constants";
+import { AxiosResponse } from "axios";
+import {
+  ApiResult,
+  DEFAULT_HEADERS,
+  RequestStatus,
+  axiosInstance,
+} from "./constants";
 
 async function postRequest(
   url: string,
@@ -7,9 +12,8 @@ async function postRequest(
   headers: {} = {}
 ): Promise<ApiResult> {
   try {
-    const response = await axios.post(url, data, {
+    const response = await axiosInstance.post(url, data, {
       headers: {
-        ...DEFAULT_HEADERS,
         ...headers,
       },
     });
@@ -21,9 +25,8 @@ async function postRequest(
 
 async function getRequest(url: string, headers: {} = {}): Promise<ApiResult> {
   try {
-    const response = await axios.get(url, {
+    const response = await axiosInstance.get(url, {
       headers: {
-        ...DEFAULT_HEADERS,
         ...headers,
       },
     });
@@ -39,9 +42,8 @@ async function putRequest(
   headers: {} = {}
 ): Promise<ApiResult> {
   try {
-    const response = await axios.put(url, data, {
+    const response = await axiosInstance.put(url, data, {
       headers: {
-        ...DEFAULT_HEADERS,
         ...headers,
       },
     });
@@ -56,9 +58,8 @@ async function deleteRequest(
   headers: {} = {}
 ): Promise<ApiResult> {
   try {
-    const response = await axios.delete(url, {
+    const response = await axiosInstance.delete(url, {
       headers: {
-        ...DEFAULT_HEADERS,
         ...headers,
       },
     });

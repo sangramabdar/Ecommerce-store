@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import Skeleton from "./ui/skeleton";
-import { BASE_URL, RequestStatus } from "../services/constants";
-import { getRequest } from "../services/requests";
+import { BASE_URL, RequestStatus } from "../../services/constants";
+import { getRequest } from "../../services/requests";
+import Loading from "../loading";
+import Skeleton from "../ui/skeleton";
 
 const AuthContext = React.createContext({
   user: null,
@@ -11,7 +12,7 @@ const AuthContext = React.createContext({
   addUser: (user: any) => {},
 });
 
-function Auth({ children }: { children: React.ReactNode }) {
+function AuthProvider({ children }: { children: React.ReactNode }) {
   const [value, setAuth] = useState({
     user: null,
     isAuthenticated: false,
@@ -56,9 +57,7 @@ function Auth({ children }: { children: React.ReactNode }) {
 
       const user: any = JSON.parse(localUser ? localUser : "{}");
 
-      const result = await getRequest(BASE_URL + "/auth/verify", {
-        Authorization: `Bearer ${user?.accessToken}`,
-      });
+      const result = await getRequest(BASE_URL + "/auth/verify");
 
       if (result.status === RequestStatus.ERROR) {
         removeUser();
@@ -73,8 +72,9 @@ function Auth({ children }: { children: React.ReactNode }) {
 
   if (value.isAuthenticating)
     return (
-      <div className="h-screen">
-        <Skeleton className="h-full bg-gray-300" />
+      <div className="h-screen relative flex justify-center items-center">
+        <Skeleton className="h-full absolute inset-0 z-[-1]" />
+        <Loading className="sm:w-12 sm:h-12" />
       </div>
     );
 
@@ -85,5 +85,5 @@ function Auth({ children }: { children: React.ReactNode }) {
 
 const useAuthContext = () => useContext(AuthContext);
 
-export default Auth;
+export default AuthProvider;
 export { useAuthContext };

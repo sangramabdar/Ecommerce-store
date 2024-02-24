@@ -9,7 +9,7 @@ import { loginUserService } from "../../services/auth.service";
 
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAuthContext } from "../auth";
+import { useAuthContext } from "./auth-provider";
 
 function LoginForm() {
   const [isDisabled, setIsDisabled] = useState(false);
@@ -36,7 +36,7 @@ function LoginForm() {
         navigate("/");
       });
     } catch (error) {
-      showErrorToast("registered already");
+      showErrorToast("not registered");
       startTransition(() => {
         navigate("/login");
       });

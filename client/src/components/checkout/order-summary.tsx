@@ -1,19 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { getCartItemsService } from "../../services/cart.service";
 import OrderProduct from "./order-product";
-import { useAuthContext } from "../auth";
 
 function OrderSummary() {
-  const { user }: any = useAuthContext();
-
   const { data } = useQuery({
     queryKey: ["cart"],
     queryFn: () => {
-      return getCartItemsService({
-        Authorization: "Bearer " + user.accessToken,
-      });
+      return getCartItemsService();
     },
-    enabled: !!user?.accessToken,
+
     retry: false,
   });
 

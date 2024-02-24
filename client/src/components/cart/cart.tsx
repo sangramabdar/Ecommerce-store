@@ -1,19 +1,19 @@
 import { useNavigate } from "react-router-dom";
 import CartProduct from "./cart-product";
-import Loading from "../loading";
 import useCart from "../../hooks/use-cart";
+import Skeleton from "../ui/skeleton";
 
 function Cart() {
   const navigate = useNavigate();
 
-  const { data, isLoading, error } = useCart();
+  const { data, isLoading, error, isFetched } = useCart();
 
   const handleCheckout = () => {
     navigate("/checkout");
   };
 
   if (isLoading) {
-    return <Loading />;
+    return <Skeleton className="h-52" />;
   }
 
   if (error)

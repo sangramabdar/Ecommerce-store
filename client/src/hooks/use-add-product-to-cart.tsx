@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { useAuthContext } from "../components/auth";
+import { useAuthContext } from "../components/authentication/auth-provider";
 import { addProductTocartSerivce } from "../services/cart.service";
 
 function useAddProductTocart() {

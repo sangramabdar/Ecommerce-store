@@ -3,7 +3,7 @@ import React from "react";
 import { showErrorToast, showSuccessToast } from "../../utils/toast";
 import { useQueryClient } from "@tanstack/react-query";
 import cn from "../../utils/cn";
-import { useAuthContext } from "../auth";
+import { useAuthContext } from "../authentication/auth-provider";
 import Button from "../ui/button";
 import useAddProductTocart from "../../hooks/use-add-product-to-cart";
 

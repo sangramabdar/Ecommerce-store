@@ -6,7 +6,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import PaymentOptions from "./payment-options";
 import { useState } from "react";
-import { useAuthContext } from "../auth";
+import { useAuthContext } from "../authentication/auth-provider";
 import { BASE_URL, RequestStatus } from "../../services/constants";
 import { getRequest, postRequest } from "../../services/requests";
 import useRazorpay, { RazorpayOptions } from "react-razorpay";
@@ -17,35 +17,25 @@ import {
 
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { placeOrderService } from "../../services/order.service";
 
 function Checkout() {
+  const [Razorpay] = useRazorpay();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-
-  const cart = queryClient.getQueryData(["cart"]) as any;
-
   const { user }: any = useAuthContext();
-
   const [paymentOption, setPaymentOption] = useState<any>({
     name: "cash",
     mode: "CASH",
   });
+
+  const cart = queryClient.getQueryData(["cart"]) as any;
 
   const orderMutation = useMutation({
     mutationFn: (data: any) => {
       return placeOrderService(data);
     },
   });
-
-  const placeOrderService = async (data: any) => {
-    const result = await postRequest(BASE_URL + "/orders", data, {
-      Authorization: "Bearer " + user.accessToken,
-    });
-
-    return result;
-  };
-
-  const [Razorpay] = useRazorpay();
 
   const {
     register,
