@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { BASE_URL, RequestStatus } from "../../services/constants";
 import { getRequest } from "../../services/requests";
-import Loading from "../loading";
 import Skeleton from "../ui/skeleton";
+import Loading from "../loading";
 
 const AuthContext = React.createContext({
   user: null,
@@ -53,10 +53,6 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     async function verifyUser() {
-      const localUser = localStorage.getItem("user") as null;
-
-      const user: any = JSON.parse(localUser ? localUser : "{}");
-
       const result = await getRequest(BASE_URL + "/auth/verify");
 
       if (result.status === RequestStatus.ERROR) {
