@@ -1,21 +1,14 @@
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment } from "react";
-import { useNavigate, Link } from "react-router-dom";
 import cn from "../../utils/cn";
-import { useAuthContext } from "../authentication/auth-provider";
 import Button from "../ui/button";
-import AccountIcon from "./account-icon";
+import AccountIcon from "../icons/account-icon";
+import { Link } from "react-router-dom";
 
 function LoggedInAccountDropDown() {
-  const { removeUser } = useAuthContext();
-
-  const navigate = useNavigate();
-
   const handleLogOut = () => {
     localStorage.removeItem("user");
-    removeUser();
-    navigate("/");
-    location.reload();
+    location.replace("/");
   };
 
   return (

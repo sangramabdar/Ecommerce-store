@@ -1,10 +1,5 @@
 import { AxiosResponse } from "axios";
-import {
-  ApiResult,
-  DEFAULT_HEADERS,
-  RequestStatus,
-  axiosInstance,
-} from "./constants";
+import { ApiResult, RequestStatus, axiosInstance } from "./constants";
 
 async function postRequest(
   url: string,

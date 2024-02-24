@@ -23,11 +23,6 @@ function Cart() {
     <div className="flex flex-col gap-5">
       {
         <div className="relative">
-          {/* {data.isPaid && (
-            <div className="absolute bg-secondary/80 inset-0 flex justify-center items-center">
-              Payment is done and plz place your order first
-            </div>
-          )} */}
           {data.cartItems.map((item: any, index: any) => {
             return (
               <CartProduct

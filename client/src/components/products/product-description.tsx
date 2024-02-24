@@ -1,4 +1,9 @@
-import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
+import {
+  Navigate,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { showErrorToast, showSuccessToast } from "../../utils/toast";
 import Skeleton from "../ui/skeleton";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -6,6 +11,7 @@ import { getProductService } from "../../services/product.service";
 import { useAuthContext } from "../authentication/auth-provider";
 import Button from "../ui/button";
 import useAddProductTocart from "../../hooks/use-add-product-to-cart";
+import RupeeIcon from "../icons/rupee-icon";
 
 interface ProductProps {
   product: any;
@@ -58,8 +64,9 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
           <p className="text-center font-bold leading-6 w-[200px] text-gray-900">
             {title}
           </p>
-          <p className="text-center text-gray-600 font-semibold">
-            Price : ${price}
+          <p className="text-center text-gray-600 font-semibold flex gap-1">
+            <RupeeIcon />
+            {price}
           </p>
           <Button
             onClick={e => {
@@ -85,9 +92,8 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
 }
 
 function ProductDescription() {
-  const [searchParams] = useSearchParams();
-
-  const id = searchParams.get("id") || "";
+  const params = useParams();
+  const id = params.productId as string;
 
   const {
     data: product,
@@ -97,6 +103,7 @@ function ProductDescription() {
     queryKey: ["products", id],
     queryFn: () => getProductService(id),
     staleTime: 3000,
+    retry: 1,
   });
 
   if (isLoading)
@@ -118,7 +125,7 @@ function ProductDescription() {
     );
 
   if (error) {
-    return <Navigate to={"/not-found"} />;
+    return <Navigate to={"*"} />;
   }
 
   return <Product product={product} />;

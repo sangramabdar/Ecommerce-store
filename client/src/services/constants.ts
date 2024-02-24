@@ -18,21 +18,8 @@ const DEFAULT_HEADERS = {
   "Content-Type": "application/json",
 };
 
-const BASE_URL = "http://localhost:8080/api";
-// const BASE_URL = "https://ecommerce-store-o9dl.vercel.app/api";
-
-const axiosBaseQuery =
-  () =>
-  async ({ service }: { service: () => Promise<ApiResult> }) => {
-    try {
-      const result = (await service()) as ApiResult;
-      return { data: result.data };
-    } catch (error) {
-      return {
-        error,
-      };
-    }
-  };
+// const BASE_URL = "http://localhost:8080/api";
+const BASE_URL = "https://ecommerce-store-o9dl.vercel.app/api";
 
 const defaultOptions = {
   headers: {
@@ -58,11 +45,5 @@ axiosInstance.interceptors.request.use(function (config) {
   return config;
 });
 
-export {
-  RequestStatus,
-  BASE_URL,
-  DEFAULT_HEADERS,
-  axiosBaseQuery,
-  axiosInstance,
-};
+export { RequestStatus, BASE_URL, DEFAULT_HEADERS, axiosInstance };
 export type { ApiResult };

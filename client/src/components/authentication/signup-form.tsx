@@ -26,7 +26,7 @@ function SignUpForm() {
   const handleSignUpUser = async (signUpInfo: SignUpSchema) => {
     try {
       await signUpUserService(signUpInfo);
-      showSuccessToast("Registered");
+      showSuccessToast("Invalid email or password");
       setIsDisabled(false);
     } catch (error) {
       showErrorToast("registered already");
@@ -40,6 +40,8 @@ function SignUpForm() {
     setIsDisabled(true);
     handleSignUpUser(data);
   };
+
+  console.log({ errors });
 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center py-12">
@@ -56,6 +58,18 @@ function SignUpForm() {
       >
         <div className="flex flex-col gap-4 justify-start px-4">
           <Input
+            error={errors.firstName?.message}
+            label="First Name"
+            type="text"
+            {...register("firstName")}
+          />
+          <Input
+            error={errors.lastName?.message}
+            label="Last Name"
+            type="text"
+            {...register("lastName")}
+          />
+          <Input
             error={errors.email?.message}
             label="Email"
             type="text"
@@ -64,7 +78,7 @@ function SignUpForm() {
           <Input
             error={errors.password?.message}
             label="Password"
-            type="text"
+            type="password"
             {...register("password")}
           />
           <Button disabled={isDisabled} type="submit" className="w-full">

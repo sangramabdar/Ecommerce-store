@@ -2,7 +2,7 @@ import { Menu, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
 import cn from "../../utils/cn";
-import AccountIcon from "./account-icon";
+import AccountIcon from "../icons/account-icon";
 
 function AccountDropDown() {
   return (

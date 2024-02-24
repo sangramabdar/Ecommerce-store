@@ -3,13 +3,12 @@ import { showErrorToast, showSuccessToast } from "../../utils/toast";
 import cn from "../../utils/cn";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addProductTocartSerivce } from "../../services/cart.service";
-import { useAuthContext } from "../authentication/auth-provider";
 import Button from "../ui/button";
 
 interface CartProductProps {
   cartProduct: {
     quantity: number;
-    id: number;
+    _id: string;
     title: string;
     price: number;
     description: string;
@@ -27,40 +26,26 @@ function CartProduct({
   cartProduct,
 }: React.PropsWithChildren<CartProductProps>) {
   const { image, title, price, quantity } = cartProduct;
-
-  const { user }: any = useAuthContext();
-
   const queryClient = useQueryClient();
 
   const removeProductMutation = useMutation({
-    mutationFn: ({ product, quantity }: any) =>
-      addProductTocartSerivce(
-        { productId: product._id, quantity },
-        {
-          Authorization: "Bearer " + user.accessToken,
-        }
-      ),
+    mutationFn: addProductTocartSerivce,
   });
 
   const updateProductMutation = useMutation({
-    mutationFn: ({ product, quantity }: any) =>
-      addProductTocartSerivce(
-        { productId: product._id, quantity },
-        {
-          Authorization: "Bearer " + user.accessToken,
-        }
-      ),
+    mutationFn: addProductTocartSerivce,
   });
 
   const handleRemoveProduct = async () => {
     try {
       await removeProductMutation.mutateAsync({
-        product: cartProduct,
+        productId: cartProduct._id,
         quantity: 0,
       });
       await queryClient.invalidateQueries({ queryKey: ["cart"] });
       showSuccessToast("Removed");
     } catch (error) {
+      console.log(error);
       showErrorToast("something went wrong");
     }
   };
@@ -68,11 +53,12 @@ function CartProduct({
   const handleIncrement = async () => {
     try {
       await updateProductMutation.mutateAsync({
-        product: cartProduct,
+        productId: cartProduct._id,
         quantity: quantity + 1,
       });
       await queryClient.invalidateQueries({ queryKey: ["cart"] });
     } catch (error) {
+      console.log(error);
       showErrorToast("something went wrong");
     }
   };
@@ -80,7 +66,7 @@ function CartProduct({
   const handleDecrement = async () => {
     try {
       await updateProductMutation.mutateAsync({
-        product: cartProduct,
+        productId: cartProduct._id,
         quantity: quantity - 1,
       });
       await queryClient.invalidateQueries({ queryKey: ["cart"] });
@@ -100,9 +86,7 @@ function CartProduct({
 
         <div className="flex flex-col gap-4">
           <h2 className="text-lg md:text-xl text-gray-900">{title}</h2>
-          <p className="text-lg md:text-xl text-gray-600">
-            $ {price * quantity}
-          </p>
+          <p className="text-lg md:text-xl text-gray-600">Rs. {price}</p>
         </div>
 
         <div className="flex gap-2 md:justify-center items-center">

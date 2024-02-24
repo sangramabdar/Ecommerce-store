@@ -6,6 +6,7 @@ import cn from "../../utils/cn";
 import { useAuthContext } from "../authentication/auth-provider";
 import Button from "../ui/button";
 import useAddProductTocart from "../../hooks/use-add-product-to-cart";
+import RupeeIcon from "../icons/rupee-icon";
 
 interface ProductProps {
   product: any;
@@ -16,11 +17,11 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
 
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { user }: any = useAuthContext();
+  const { isAuthenticated } = useAuthContext();
   const addProductMutation = useAddProductTocart();
 
   const handleAddToCart = async (product: any) => {
-    if (!user) {
+    if (!isAuthenticated) {
       showErrorToast("Plz login first");
       setTimeout(() => {
         navigate("/login");
@@ -42,7 +43,7 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
   };
 
   const handleProductPageNavigation = () => {
-    navigate(`/products/${title}`);
+    navigate(`/products/${_id}`);
   };
 
   return (
@@ -57,9 +58,11 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
         <p className="text-lg font-bold">{title}</p>
       </div>
       <div className="flex flex-col w-full justify-start items-start gap-2">
-        <p className="text-center font-semibold text-gray-600">
-          Price : ${price}
+        <p className="text-center font-semibold text-gray-600 flex gap-1">
+          <RupeeIcon />
+          {price}
         </p>
+
         <Button
           className={cn(
             "self-start",

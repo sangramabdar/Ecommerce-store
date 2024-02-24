@@ -29,18 +29,17 @@ function LoginForm() {
       const data = await loginUserService(loginInfo);
 
       showSuccessToast("logged in");
-      setIsDisabled(false);
-
       addUser(data);
-      startTransition(() => {
-        navigate("/");
-      });
+
+      location.replace("/");
     } catch (error) {
       showErrorToast("not registered");
       startTransition(() => {
         navigate("/login");
       });
     }
+
+    setIsDisabled(false);
   };
 
   const onSubmit: SubmitHandler<LoginSchema> = data => {
@@ -71,7 +70,7 @@ function LoginForm() {
           <Input
             error={errors.password?.message}
             label="Password"
-            type="text"
+            type="password"
             {...register("password")}
           />
           <Button disabled={isDisabled} type="submit" className="w-full">

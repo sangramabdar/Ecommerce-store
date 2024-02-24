@@ -1,8 +1,8 @@
-import AppLoading from "../app-loading";
 import { Navigate } from "react-router-dom";
 import Product from "./product";
 import { useQuery } from "@tanstack/react-query";
 import { getProductsService } from "../../services/product.service";
+import ProductsLoading from "./products-loading";
 
 function Products() {
   const {
@@ -15,11 +15,11 @@ function Products() {
   });
 
   if (isLoading) {
-    return <AppLoading />;
+    return <ProductsLoading />;
   }
 
   if (error) {
-    return <Navigate to="/not-found" />;
+    return <Navigate to="*" />;
   }
 
   return (

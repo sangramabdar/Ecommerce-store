@@ -1,6 +1,6 @@
-import Skeleton from "./ui/skeleton";
+import Skeleton from "../ui/skeleton";
 
-function AppLoading() {
+function ProductsLoading() {
   const cards = Array.from({ length: 20 }).map((card, i) => {
     return (
       <div
@@ -25,4 +25,4 @@ function AppLoading() {
   );
 }
 
-export default AppLoading;
+export default ProductsLoading;
