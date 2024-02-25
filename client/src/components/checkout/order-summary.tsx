@@ -14,7 +14,7 @@ function OrderSummary() {
 
   return (
     <section className="mt-10">
-      <h2 className="font-bold text-lg flex">Order Summary</h2>
+      <h2 className="font-medium text-lg flex">Order Summary</h2>
       <div>
         {data.cartItems.map((item: any, index: number) => {
           return (

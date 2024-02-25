@@ -24,7 +24,7 @@ export default function PaymentOptions({
 
   return (
     <section className="mt-10">
-      <h2 className="font-bold text-lg flex">Payment Mode</h2>
+      <h2 className="font-medium text-lg flex">Payment Mode</h2>
       <div className="sm:w-72 mt-2">
         <Listbox value={selected} onChange={setSelected} disabled={disabled}>
           <div className="relative mt-1">

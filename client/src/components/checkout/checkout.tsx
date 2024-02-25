@@ -58,7 +58,7 @@ function Checkout() {
         if (result.status === RequestStatus.ERROR) return;
 
         await queryClient.invalidateQueries({ queryKey: ["cart"] });
-        navigate("/success");
+        navigate("/checkout/success");
       } else {
         handleOnlinePayment(payload);
       }
@@ -73,7 +73,7 @@ function Checkout() {
     });
 
     if (result.status === RequestStatus.ERROR) {
-      navigate("/not-found");
+      navigate("*");
       return;
     }
 
@@ -109,7 +109,7 @@ function Checkout() {
         await queryClient.invalidateQueries({ queryKey: ["cart"] });
 
         showSuccessToast("order is placed");
-        navigate("/success");
+        navigate("/checkout/success");
       },
       prefill: {
         name: "Sangram Abdar",
@@ -136,11 +136,11 @@ function Checkout() {
   }
 
   return (
-    <div className="bg-white rounded-md shadow-sm border p-4 space-y-8 mx-auto flex flex-col">
+    <div className="bg-white rounded-md shadow-sm border p-4 sm:p-8 space-y-8 mx-auto flex flex-col">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col">
           <section className="flex flex-col space-y-2">
-            <h2 className="font-bold text-lg flex">Shipping Address</h2>
+            <h2 className="font-medium text-lg flex">Shipping Address</h2>
             <div
               className="flex flex-col items-start space-y-3
     "

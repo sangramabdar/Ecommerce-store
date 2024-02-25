@@ -26,8 +26,8 @@ function AccountDropDown() {
                 <Link
                   to={"/login"}
                   className={cn(
-                    "group flex w-full items-center rounded-md px-2 py-2 text-sm font-semibold active:bg-accent",
-                    active ? "bg-accent text-white" : "text-gray-900"
+                    "group flex w-full items-center rounded-md px-2 py-2 text-sm font-medium",
+                    active && "bg-accent/10 ring-1 ring-accent"
                   )}
                 >
                   Login
@@ -41,8 +41,8 @@ function AccountDropDown() {
                 <Link
                   to={"/signup"}
                   className={cn(
-                    "group flex w-full items-center rounded-md px-2 py-2 text-sm font-semibold active:bg-accent",
-                    active ? "bg-accent text-white" : "text-gray-900"
+                    "group flex w-full items-center rounded-md px-2 py-2 text-sm font-medium",
+                    active && "bg-accent/10 ring-1 ring-accent"
                   )}
                 >
                   Sign Up

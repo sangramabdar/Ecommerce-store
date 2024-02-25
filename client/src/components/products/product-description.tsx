@@ -52,7 +52,7 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
   };
 
   return (
-    <div className="bg-secondary my-[80px] rounded-md w-full p-4 md:max-w-[500px] md:mx-auto border">
+    <div className="my-[80px] rounded-md w-full p-4 md:max-w-[500px] md:mx-auto border">
       <div
         className="flex flex-col p-3 space-y-2 justify-center items-center md:flex-row md:justify-evenly "
         key={_id}
@@ -108,9 +108,9 @@ function ProductDescription() {
 
   if (isLoading)
     return (
-      <div className="my-[80px] rounded-md w-full p-4 md:max-w-[500px] md:mx-auto bg-secondary">
+      <div className="my-[80px] rounded-md w-full p-4 md:max-w-[500px] md:mx-auto">
         <div className="flex justify-start gap-10">
-          <Skeleton className="w-40 h-52" />
+          <Skeleton className="w-40 h-50" />
           <div className="flex flex-col gap-4">
             <Skeleton className="w-40 h-10" />
             <Skeleton className="w-40 h-10" />
@@ -123,7 +123,6 @@ function ProductDescription() {
         </div>
       </div>
     );
-
   if (error) {
     return <Navigate to={"*"} />;
   }

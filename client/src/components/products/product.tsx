@@ -49,13 +49,17 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
   return (
     <div
       className="flex flex-col sm:items-center justify-between
-       rounded-2xl space-y-2 bg-secondary p-4 border"
+       rounded-2xl space-y-2 p-4 border"
       key={_id}
       onClick={handleProductPageNavigation}
     >
       <div className="flex flex-col space-y-2">
-        <img className="w-full h-[300px] object-fill rounded-2xl" src={image} />
-        <p className="text-lg font-bold">{title}</p>
+        <img
+          className="w-[200px] sm:w-full h-[200px] sm:h-[300px] object-fill
+          s rounded-2xl"
+          src={image}
+        />
+        <p className="text-lg font-medium font-poppins">{title}</p>
       </div>
       <div className="flex flex-col w-full justify-start items-start gap-2">
         <p className="text-center font-semibold text-gray-600 flex gap-1">
@@ -66,7 +70,8 @@ function Product({ product }: React.PropsWithChildren<ProductProps>) {
         <Button
           className={cn(
             "self-start",
-            addProductMutation.isPending && "opacity-50"
+            addProductMutation.isPending && "opacity-50",
+            "px-4 py-2"
           )}
           disabled={addProductMutation.isPending}
           onClick={e => {

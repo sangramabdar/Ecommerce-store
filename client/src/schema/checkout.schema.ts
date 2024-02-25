@@ -1,12 +1,13 @@
 import { z } from "zod";
 
 const shippinngAddressSchema = z.object({
-  address: z.string().min(1, "Required"),
-  city: z.string().min(1, "Required"),
+  address: z.string().min(1, "required"),
+  city: z.string().min(1, "required"),
   pincode: z
     .string({
-      required_error: "Required",
+      required_error: "required",
     })
+    .min(1, "required")
     .refine(
       (value: any) => {
         if (!value.length) return false;

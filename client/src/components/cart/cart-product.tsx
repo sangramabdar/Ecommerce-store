@@ -4,6 +4,7 @@ import cn from "../../utils/cn";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addProductTocartSerivce } from "../../services/cart.service";
 import Button from "../ui/button";
+import RupeeIcon from "../icons/rupee-icon";
 
 interface CartProductProps {
   cartProduct: {
@@ -86,7 +87,10 @@ function CartProduct({
 
         <div className="flex flex-col gap-4">
           <h2 className="text-lg md:text-xl text-gray-900">{title}</h2>
-          <p className="text-lg md:text-xl text-gray-600">Rs. {price}</p>
+          <p className="flex gap-1 text-lg md:text-xl text-gray-600">
+            <RupeeIcon />
+            {price}
+          </p>
         </div>
 
         <div className="flex gap-2 md:justify-center items-center">

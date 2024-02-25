@@ -21,7 +21,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
     addUser: (user: any) => {},
   });
 
-  const removeUser = () => {
+  const removeUser = async () => {
     localStorage.removeItem("user");
     setAuth(prev => {
       return {
@@ -33,7 +33,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
-  const addUser = (user: any) => {
+  const addUser = async (user: any) => {
     localStorage.setItem("user", JSON.stringify(user));
     setAuth(prev => {
       return {

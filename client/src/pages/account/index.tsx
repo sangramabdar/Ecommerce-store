@@ -2,10 +2,25 @@ import { NavLink, Outlet } from "react-router-dom";
 
 import cn from "../../utils/cn";
 
+function creatLinks(links: string[]) {
+  let newLinks = [];
+  for (let i = links.length - 1; i >= 0; i--) {
+    let parenPath = links.slice(0, i).join("/");
+    newLinks.push(parenPath + "/" + links[i]);
+  }
+
+  newLinks.map(link => {
+    if (link.startsWith("/")) return link;
+    return "/" + link;
+  });
+
+  return newLinks;
+}
+
 function AccountPage() {
   return (
     <>
-      <h1>Account</h1>
+      <h1 className="font-semibold">Account</h1>
       <div className={cn("flex gap-8 mt-10")}>
         <div
           className={cn(
@@ -14,7 +29,7 @@ function AccountPage() {
         >
           <NavLink
             className={({ isActive }) =>
-              cn(isActive && "text-gray-900 font-semibold")
+              cn("text-gray-900/50", isActive && "text-gray-900 font-medium")
             }
             to="profile"
           >
@@ -22,7 +37,7 @@ function AccountPage() {
           </NavLink>
           <NavLink
             className={({ isActive }) =>
-              cn(isActive && "text-gray-900 font-semibold")
+              cn("text-gray-900/50", isActive && "text-gray-900 font-medium")
             }
             to="orders"
           >

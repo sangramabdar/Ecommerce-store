@@ -11,11 +11,11 @@ interface InputProps {
 function _Input({ label, className, error, ...props }: InputProps, ref: any) {
   return (
     <div className="flex flex-col mb-2">
-      <label className="block text-sm font-medium text-primary">{label}</label>
+      <label className="block text-sm font-medium text-gray-900">{label}</label>
       <input
         ref={ref}
         className={cn(
-          "py-3 px-4 block w-full border rounded-lg text-sm disabled:opacity-50 disabled:pointer-events-none focus:ring-1 focus:ring-accent focus:outline-none text-grey-600 mt-2",
+          "py-3 px-4 block w-full border rounded-lg text-sm disabled:opacity-50 disabled:pointer-events-none focus:ring-1 focus:ring-accent focus:outline-none text-gray-600 mt-2 focus:bg-accent/10",
           className
         )}
         {...props}

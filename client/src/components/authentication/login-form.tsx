@@ -27,9 +27,8 @@ function LoginForm() {
   const handleLoginUser = async (loginInfo: LoginSchema) => {
     try {
       const data = await loginUserService(loginInfo);
-
       showSuccessToast("logged in");
-      addUser(data);
+      await addUser(data);
 
       location.replace("/");
     } catch (error) {

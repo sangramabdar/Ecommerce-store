@@ -32,8 +32,8 @@ function LoggedInAccountDropDown() {
                 <Link
                   to={"/account/profile"}
                   className={cn(
-                    "group flex w-full items-center rounded-md px-2 py-2 text-sm font-semibold",
-                    active ? "bg-accent text-white" : "text-gray-900"
+                    "group flex w-full items-center rounded-md px-2 py-2 text-sm font-medium text-gray-900",
+                    active && "bg-accent/10 ring-1 ring-accent"
                   )}
                 >
                   Profile
@@ -47,8 +47,8 @@ function LoggedInAccountDropDown() {
                 <Link
                   to={"/account/orders"}
                   className={cn(
-                    "group flex w-full items-center rounded-md px-2 py-2 text-sm font-semibold",
-                    active ? "bg-accent text-white" : "text-gray-900"
+                    "group flex w-full items-center rounded-md px-2 py-2 text-sm font-medium text-gray-900",
+                    active && "bg-accent/10 ring-1 ring-accent"
                   )}
                 >
                   My Orders

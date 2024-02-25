@@ -8,9 +8,9 @@ function Header() {
   const { isAuthenticated } = useAuthContext();
 
   return (
-    <header className="bg-secondary top-0 left-0 right-0 fixed border-b-2 z-10 ">
-      <nav className="flex max-w-7xl mx-auto p-4 px-4 sm:px-8 justify-between items-center">
-        <Link to="/" className="font-semibold text-base md:text-lg">
+    <header className="bg-secondary top-0 left-0 right-0 fixed border-b-2 z-10">
+      <nav className="flex max-w-7xl mx-auto p-4 sm:px-8  justify-between items-center">
+        <Link to="/" className="font-medium text-base md:text-lg">
           E-commerce Store
         </Link>
 
