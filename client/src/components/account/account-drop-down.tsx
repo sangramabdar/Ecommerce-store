@@ -13,11 +13,11 @@ function AccountDropDown() {
       <Transition
         as={Fragment}
         enter="transition ease-out duration-100"
-        enterFrom="transform opacity-0 scale-95"
+        enterFrom="transform opacity-0 scale-90"
         enterTo="transform opacity-100 scale-100"
         leave="transition ease-in duration-75"
         leaveFrom="transform opacity-100 scale-100"
-        leaveTo="transform opacity-0 scale-95"
+        leaveTo="transform opacity-0 scale-90"
       >
         <Menu.Items className="absolute right-[0] top-10 mt-2 w-52 divide-y divide-gray-00 rounded-md bg-secondary shadow-md ring-1 ring-black/5 focus:outline-none">
           <div className="px-1 py-1">

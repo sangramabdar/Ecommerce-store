@@ -18,6 +18,8 @@ import {
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { placeOrderService } from "../../services/order.service";
+import CityList from "./cities-list";
+import StateList from "./state-list";
 
 function Checkout() {
   const [Razorpay] = useRazorpay();
@@ -40,6 +42,9 @@ function Checkout() {
   const {
     register,
     handleSubmit,
+    setValue,
+    setError,
+    getFieldState,
     formState: { errors },
   } = useForm<ShippingAddressSchema>({
     resolver: zodResolver(shippinngAddressSchema),
@@ -48,9 +53,13 @@ function Checkout() {
   const onSubmit: SubmitHandler<ShippingAddressSchema> = async data => {
     const payload = {
       ...data,
-      pincode: Number.parseInt(String(data.pincode)),
+      // pincode: Number.parseInt(String(data.pincode)),
       paymentMode: paymentOption.mode,
     };
+
+    console.log(payload);
+
+    return;
 
     try {
       if (paymentOption.mode === "CASH") {
@@ -151,18 +160,24 @@ function Checkout() {
                 error={errors.address?.message}
                 {...register("address")}
               />
-              <Input
-                label="City"
-                type="text"
-                error={errors.city?.message}
-                {...register("city")}
+
+              <StateList
+                onChange={(state: any) => {
+                  if (state) {
+                    setValue("state", state.name);
+                    setError("state", {
+                      message: "",
+                    });
+                  }
+                }}
               />
-              <Input
-                label="Pincode"
-                type="string"
-                error={errors.pincode?.message}
-                {...register("pincode")}
+              <span className="text-red-600">{errors?.state?.message}</span>
+
+              <CityList
+                onChange={(city: any) => {}}
+                disabled={!getFieldState("state").invalid}
               />
+              <span className="text-red-600">{errors?.city?.message}</span>
             </div>
           </section>
         </div>

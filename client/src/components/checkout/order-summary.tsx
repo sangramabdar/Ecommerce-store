@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getCartItemsService } from "../../services/cart.service";
 import OrderProduct from "./order-product";
+import RupeeIcon from "../icons/rupee-icon";
 
 function OrderSummary() {
   const { data } = useQuery({
@@ -27,7 +28,9 @@ function OrderSummary() {
         })}
       </div>
 
-      <span className="mt-4">Total Price : ${data.totalPrice}</span>
+      <span className="mt-4 flex gap-1">
+        Total Price : <RupeeIcon /> {data.totalPrice}
+      </span>
     </section>
   );
 }
