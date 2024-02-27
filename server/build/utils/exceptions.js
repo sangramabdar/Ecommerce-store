@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BadRequest = exports.CustomError = exports.Unauthorized = exports.NotRegistered = exports.EmailExists = exports.WrongContent = exports.NotFound = exports.DataBaseConnectionError = void 0;
+exports.TokenError = exports.Unauthenticated = exports.BadRequest = exports.CustomError = exports.Unauthorized = exports.NotRegistered = exports.EmailExists = exports.WrongContent = exports.NotFound = exports.DataBaseConnectionError = void 0;
 const http_status_codes_1 = require("http-status-codes");
 class CustomError extends Error {
     constructor(message, statusCode) {
@@ -32,7 +32,7 @@ class NotFound extends CustomError {
     }
 }
 exports.NotFound = NotFound;
-NotFound.message = " not found";
+NotFound.message = "not found";
 class WrongContent extends CustomError {
     constructor(message) {
         super(message, http_status_codes_1.StatusCodes.BAD_REQUEST);
@@ -41,7 +41,7 @@ class WrongContent extends CustomError {
 exports.WrongContent = WrongContent;
 class EmailExists extends CustomError {
     constructor() {
-        super(EmailExists.message, http_status_codes_1.StatusCodes.UNAUTHORIZED);
+        super(EmailExists.message, http_status_codes_1.StatusCodes.BAD_REQUEST);
     }
 }
 exports.EmailExists = EmailExists;
@@ -59,4 +59,18 @@ class Unauthorized extends CustomError {
     }
 }
 exports.Unauthorized = Unauthorized;
-Unauthorized.message = "unauthorized";
+Unauthorized.message = "forbidden";
+class Unauthenticated extends CustomError {
+    constructor() {
+        super(Unauthenticated.message, http_status_codes_1.StatusCodes.UNAUTHORIZED);
+    }
+}
+exports.Unauthenticated = Unauthenticated;
+Unauthenticated.message = "unauthorized";
+class TokenError extends CustomError {
+    constructor() {
+        super(TokenError.message, http_status_codes_1.StatusCodes.BAD_REQUEST);
+    }
+}
+exports.TokenError = TokenError;
+TokenError.message = "token is invalid";

@@ -2,7 +2,7 @@ import { StatusCodes } from "http-status-codes";
 import {
   paymentCreateService,
   paymentverfifyService,
-} from "../services/payment.service";
+} from "../services/payment";
 import ResponseBodyBuilder from "../utils/responseBodyBuilder";
 import { Request, Response } from "express";
 

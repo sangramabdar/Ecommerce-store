@@ -3,7 +3,7 @@ import {
   signUpController,
   loginController,
   verifyTokenController,
-} from "../controllers/auth.controller";
+} from "../controllers/auth";
 import { validateToken } from "../utils/validation";
 import { validateSchema } from "../utils/zod";
 import { loginSchema, signUpSchema } from "../schemas";

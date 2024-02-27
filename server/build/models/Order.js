@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Order = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const orderAddressSchema = new mongoose_1.default.Schema({
     address: {
@@ -13,8 +14,8 @@ const orderAddressSchema = new mongoose_1.default.Schema({
         type: String,
         required: true,
     },
-    pincode: {
-        type: Number,
+    state: {
+        type: String,
         required: true,
     },
 }, {
@@ -26,7 +27,7 @@ const orderSchema = new mongoose_1.default.Schema({
         type: String,
         required: true,
     },
-    orderItems: {
+    orderProducts: {
         type: [],
         required: true,
     },
@@ -39,9 +40,24 @@ const orderSchema = new mongoose_1.default.Schema({
     },
     orderStatus: {
         type: String,
-        enum: ["DELIVERED", "PENDING"],
+        enum: ["DELIVERED", "PENDING", "COMPLETED", "CONFIRMED"],
         default: "PENDING",
     },
+    paymentMode: {
+        type: String,
+        enum: ["CASH", "ONLINE"],
+    },
+    paymentStatus: {
+        type: String,
+        default: "unpaid",
+        enum: ["paid", "unpaid"],
+    },
+    rzPaymentId: {
+        type: String,
+    },
+    rzOrderId: {
+        type: String,
+    },
 }, { timestamps: true });
-const Order = mongoose_1.default.model("orders", orderSchema);
-exports.default = Order;
+const Order = mongoose_1.default.model("Order", orderSchema);
+exports.Order = Order;

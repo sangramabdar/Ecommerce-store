@@ -23,7 +23,7 @@ async function validateBody(req, res, next) {
 }
 exports.validateBody = validateBody;
 async function validateToken(req, res, next) {
-    let error = new exceptions_1.Unauthorized();
+    let error = new exceptions_1.Unauthenticated();
     try {
         const token = req.headers["authorization"];
         if (!token) {
@@ -36,13 +36,11 @@ async function validateToken(req, res, next) {
             return next(error);
         }
         let user = await (0, jwt_1.verifyAccessToken)(tokenPart);
-        req.user = user;
-        // user = await User.findById(user._id);
-        // if (!user) return [null, new NotFound("user doesn't exit")];
+        req.user = Object.assign(Object.assign({}, user), { accessToken: tokenPart });
         next();
     }
-    catch (error) {
-        error = new exceptions_1.CustomError("token is invalid or expired", 403);
+    catch (_e) {
+        error.setMessage("token is invalid");
         next(error);
     }
 }

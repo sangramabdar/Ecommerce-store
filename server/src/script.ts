@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { Product } from "./src/models";
+import { Product } from "./models";
 import { faker } from "@faker-js/faker";
 
 async function loadProductsToDB() {

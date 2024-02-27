@@ -7,23 +7,20 @@ const express_1 = __importDefault(require("express"));
 const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
 const mongoose_1 = __importDefault(require("mongoose"));
-const auth_router_1 = __importDefault(require("../modules/auth/auth.router"));
-const cart_router_1 = __importDefault(require("../modules/cart/cart.router"));
-const order_router_1 = __importDefault(require("../modules/order/order.router"));
-const root_router_1 = __importDefault(require("../modules/root/root.router"));
 const middlewares_1 = require("../utils/middlewares");
-const product_router_1 = __importDefault(require("../modules/product/product.router"));
+const routes_1 = require("../routes");
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.use(express_1.default.json({
     type: ["json"],
 }));
 app.use((0, morgan_1.default)(":remote-addr  :method :url :status :res[content-length] - :response-time ms"));
-app.use("/", root_router_1.default);
-app.use("/api/auth", auth_router_1.default);
-app.use("/api/carts", cart_router_1.default);
-app.use("/api/orders", order_router_1.default);
-app.use("/api/products", product_router_1.default);
+app.use("/api/auth", routes_1.authRouter);
+app.use("/api/profile", routes_1.profileRouter);
+app.use("/api/carts", routes_1.cartRouter);
+app.use("/api/orders", routes_1.orderRouter);
+app.use("/api/products", routes_1.productRouter);
+app.use("/api/payments", routes_1.paymentRouter);
 app.use("*", middlewares_1.invalidPathHandler);
 //error middlewares
 app.use(middlewares_1.handleClientErrors);
