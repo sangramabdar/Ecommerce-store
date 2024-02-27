@@ -27,6 +27,7 @@ function LoginForm() {
   const handleLoginUser = async (loginInfo: LoginSchema) => {
     try {
       const data = await loginUserService(loginInfo);
+
       showSuccessToast("logged in");
       await addUser(data);
 

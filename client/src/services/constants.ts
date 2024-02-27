@@ -34,7 +34,7 @@ axiosInstance.interceptors.request.use(function (config) {
   const user: any = JSON.parse(localUser ? localUser : "{}");
 
   const headers: any = {
-    Authorization: `Bearer ` + user.accessToken,
+    Authorization: `Bearer ` + user.token,
   };
 
   config.headers = {

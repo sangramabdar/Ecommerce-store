@@ -40,7 +40,7 @@ async function loginService(req: Request) {
       throw new BadRequest("password is not matched");
     }
 
-    const accessToken = await generateAccessToken(
+    const token = await generateAccessToken(
       {
         _id: user._id,
         email: user.email,
@@ -49,9 +49,7 @@ async function loginService(req: Request) {
     );
 
     return {
-      _id: user._id,
-      email: user.email,
-      accessToken,
+      token,
     };
   } catch (error) {
     throw error;

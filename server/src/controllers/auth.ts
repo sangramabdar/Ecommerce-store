@@ -36,7 +36,9 @@ async function verifyTokenController(req: any, res: Response, next) {
   try {
     const responseBody = new ResponseBodyBuilder()
       .setStatusCode(StatusCodes.OK)
-      .setData(req.user);
+      .setData({
+        token: req.user.token,
+      });
 
     res.status(StatusCodes.OK).json(responseBody);
   } catch (error) {

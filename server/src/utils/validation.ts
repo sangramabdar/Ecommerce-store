@@ -50,7 +50,7 @@ async function validateToken(req: any, res: Response, next) {
 
     req.user = {
       ...user,
-      accessToken: tokenPart,
+      token: tokenPart,
     };
 
     next();

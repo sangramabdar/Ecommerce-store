@@ -5,7 +5,6 @@ import Skeleton from "../ui/skeleton";
 import Loading from "../loading";
 
 const AuthContext = React.createContext({
-  user: null,
   isAuthenticated: false,
   isAuthenticating: true,
   removeUser: () => {},
@@ -14,7 +13,6 @@ const AuthContext = React.createContext({
 
 function AuthProvider({ children }: { children: React.ReactNode }) {
   const [value, setAuth] = useState({
-    user: null,
     isAuthenticated: false,
     isAuthenticating: true,
     removeUser: () => {},
@@ -27,7 +25,6 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
       return {
         ...prev,
         isAuthenticated: false,
-        user: null,
         isAuthenticating: false,
       };
     });
@@ -39,7 +36,6 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
       return {
         ...prev,
         isAuthenticated: true,
-        user,
         isAuthenticating: false,
       };
     });
@@ -56,11 +52,11 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
       const result = await getRequest(BASE_URL + "/auth/verify");
 
       if (result.status === RequestStatus.ERROR) {
-        removeUser();
+        await removeUser();
         return;
       }
 
-      addUser(result.data);
+      await addUser(result.data);
     }
 
     verifyUser();

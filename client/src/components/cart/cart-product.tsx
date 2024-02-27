@@ -59,7 +59,6 @@ function CartProduct({
       });
       await queryClient.invalidateQueries({ queryKey: ["cart"] });
     } catch (error) {
-      console.log(error);
       showErrorToast("something went wrong");
     }
   };
