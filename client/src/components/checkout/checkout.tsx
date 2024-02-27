@@ -4,7 +4,6 @@ import Button from "../ui/button";
 import Input from "../ui/Input";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import PaymentOptions from "./payment-options";
 import { useState } from "react";
 import { useAuthContext } from "../authentication/auth-provider";
 import { BASE_URL, RequestStatus } from "../../services/constants";
@@ -15,11 +14,10 @@ import {
   shippinngAddressSchema,
 } from "../../schema/checkout.schema";
 
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { placeOrderService } from "../../services/order.service";
-import CityList from "./cities-list";
-import StateList from "./state-list";
+import ListOptions from "../ui/list-options";
 
 function Checkout() {
   const [Razorpay] = useRazorpay();
@@ -27,8 +25,8 @@ function Checkout() {
   const navigate = useNavigate();
   const { user }: any = useAuthContext();
   const [paymentOption, setPaymentOption] = useState<any>({
-    name: "cash",
-    mode: "CASH",
+    label: "Select",
+    value: "select",
   });
 
   const cart = queryClient.getQueryData(["cart"]) as any;
@@ -42,9 +40,6 @@ function Checkout() {
   const {
     register,
     handleSubmit,
-    setValue,
-    setError,
-    getFieldState,
     formState: { errors },
   } = useForm<ShippingAddressSchema>({
     resolver: zodResolver(shippinngAddressSchema),
@@ -53,16 +48,11 @@ function Checkout() {
   const onSubmit: SubmitHandler<ShippingAddressSchema> = async data => {
     const payload = {
       ...data,
-      // pincode: Number.parseInt(String(data.pincode)),
-      paymentMode: paymentOption.mode,
+      paymentMode: paymentOption.value,
     };
 
-    console.log(payload);
-
-    return;
-
     try {
-      if (paymentOption.mode === "CASH") {
+      if (paymentOption.value === "CASH") {
         const result = await orderMutation.mutateAsync(payload);
         if (result.status === RequestStatus.ERROR) return;
 
@@ -140,6 +130,11 @@ function Checkout() {
     });
   };
 
+  const PAYMENT_OPTIONS = [
+    { label: "Cash", value: "CASH" },
+    { label: "Online", value: "ONLINE" },
+  ];
+
   if (!cart) {
     return <Navigate to={"/cart"} />;
   }
@@ -160,35 +155,30 @@ function Checkout() {
                 error={errors.address?.message}
                 {...register("address")}
               />
-
-              <StateList
-                onChange={(state: any) => {
-                  if (state) {
-                    setValue("state", state.name);
-                    setError("state", {
-                      message: "",
-                    });
-                  }
-                }}
+              <Input
+                label="State"
+                type="text"
+                error={errors.state?.message}
+                {...register("state")}
               />
-              <span className="text-red-600">{errors?.state?.message}</span>
-
-              <CityList
-                onChange={(city: any) => {}}
-                disabled={!getFieldState("state").invalid}
+              <Input
+                label="City"
+                type="text"
+                error={errors.city?.message}
+                {...register("city")}
               />
-              <span className="text-red-600">{errors?.city?.message}</span>
             </div>
           </section>
         </div>
         <OrderSummary />
-        <PaymentOptions
-          disabled={cart?.isPaid}
-          onChangePaymentOption={(payment: any) => {
-            setPaymentOption(payment);
-          }}
+        <ListOptions
+          options={PAYMENT_OPTIONS}
+          value={paymentOption}
+          label="Payment"
+          onChange={setPaymentOption}
         />
-        {paymentOption.mode === "CASH" ? (
+
+        {paymentOption.value === "CASH" ? (
           <Button type="submit" className="mt-4">
             Place order
           </Button>

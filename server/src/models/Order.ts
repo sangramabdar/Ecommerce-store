@@ -1,4 +1,3 @@
-import { en } from "@faker-js/faker";
 import mongoose from "mongoose";
 
 const orderAddressSchema = new mongoose.Schema(
@@ -11,8 +10,8 @@ const orderAddressSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    pincode: {
-      type: Number,
+    state: {
+      type: String,
       required: true,
     },
   },

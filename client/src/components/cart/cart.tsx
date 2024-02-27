@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import CartProduct from "./cart-product";
 import useCart from "../../hooks/use-cart";
 import Skeleton from "../ui/skeleton";
+import RupeeIcon from "../icons/rupee-icon";
 
 function Cart() {
   const navigate = useNavigate();
@@ -35,8 +36,10 @@ function Cart() {
       }
 
       {data.cartItems.length ? (
-        <div className="flex justify-end">
-          Total Price : $ {data.totalPrice}
+        <div className="flex justify-end gap-1">
+          Total Price :
+          <RupeeIcon />
+          {data.totalPrice}
         </div>
       ) : null}
       {data.cartItems.length ? (
