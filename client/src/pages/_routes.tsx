@@ -9,7 +9,7 @@ import PrivateRoute from "../components/private-route";
 import CartPage from "./cart";
 import CheckoutPage from "./checkout";
 import LoginPage from "./login";
-import ProductPage from "./products/[productTitle]";
+import ProductPage from "./products/[productId]";
 import SignUpPage from "./signup";
 import RootPage from "./_app";
 import NotFoundPage from "./not-found";

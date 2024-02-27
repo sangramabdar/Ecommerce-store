@@ -14,8 +14,8 @@ import {
   cartRouter,
   productRouter,
   orderRouter,
-  rootRouter,
   paymentRouter,
+  profileRouter,
 } from "../routes";
 
 const app: Application = express();
@@ -32,8 +32,8 @@ app.use(
   )
 );
 
-// app.use("/", rootRouter);
 app.use("/api/auth", authRouter);
+app.use("/api/profile", profileRouter);
 app.use("/api/carts", cartRouter);
 app.use("/api/orders", orderRouter);
 app.use("/api/products", productRouter);

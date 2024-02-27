@@ -5,7 +5,10 @@ const ORDERS_URL = BASE_URL + "/orders";
 
 async function getOrdersService() {
   const result = await getRequest(ORDERS_URL);
-  return result;
+
+  if (result.status === RequestStatus.ERROR) throw result;
+
+  return result.data;
 }
 
 const placeOrderService = async (data: any) => {
