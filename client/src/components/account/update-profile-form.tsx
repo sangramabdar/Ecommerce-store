@@ -1,7 +1,7 @@
 import Button from "../ui/button";
 
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Input from "../ui/Input";
 import {
@@ -10,35 +10,10 @@ import {
 } from "../../schema/account.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { putRequest } from "../../services/requests";
-import { BASE_URL, RequestStatus } from "../../services/constants";
-import wait from "../../utils/wait";
 import { showErrorToast } from "../../utils/toast";
 import CrossIcon from "../icons/cross-icon";
-
-function useToggle() {
-  let [isOpen, setIsOpen] = useState(false);
-
-  function close() {
-    setIsOpen(false);
-  }
-
-  function open() {
-    setIsOpen(true);
-  }
-  return { isOpen, open, close };
-}
-
-async function updateProfileService(data: any) {
-  const url = BASE_URL + "/profile";
-
-  // await wait(2000);
-  const result = await putRequest(url, data);
-
-  if (result.status === RequestStatus.ERROR) throw result;
-
-  return result.data;
-}
+import useToggle from "../../hooks/use-toggle";
+import { updateProfileService } from "../../services/profile.service";
 
 function UpdateProfileForm() {
   const { isOpen, open, close } = useToggle();
@@ -46,7 +21,7 @@ function UpdateProfileForm() {
   const quertClient = useQueryClient();
   const { firstName, lastName }: any = quertClient.getQueryData(["profile"]);
 
-  const updateProfile = useMutation({
+  const updateProfileMutate = useMutation({
     mutationFn: updateProfileService,
   });
 
@@ -63,21 +38,15 @@ function UpdateProfileForm() {
   });
 
   const onSubmit: SubmitHandler<UpdateFormSchema> = async (
-    updateFormData: UpdateFormSchema,
-    event
+    updateFormData: UpdateFormSchema
   ) => {
-    console.log("called");
-
-    console.log(event?.target);
-
-    return;
     try {
-      await updateProfile.mutateAsync(updateFormData);
-      close();
-
+      await updateProfileMutate.mutateAsync(updateFormData);
       await quertClient.invalidateQueries({
         queryKey: ["profile"],
       });
+
+      close();
     } catch (error) {
       showErrorToast("something went wrong");
     } finally {
@@ -87,7 +56,7 @@ function UpdateProfileForm() {
 
   return (
     <>
-      <Button onClick={open || updateProfile.isPending} className="mt-6">
+      <Button onClick={open || updateProfileMutate.isPending} className="mt-6">
         Update Profile
       </Button>
 
@@ -127,13 +96,10 @@ function UpdateProfileForm() {
                       Update Profile
                     </h3>
                     <button
+                      type="button"
                       className="w-fit h-fit  text-gray-900"
-                      disabled={updateProfile.isPending}
-                      onClick={e => {
-                        // console.log(e.currentTarget);
-                        e.stopPropagation();
-                        close();
-                      }}
+                      disabled={updateProfileMutate.isPending}
+                      onClick={close}
                     >
                       <CrossIcon />
                     </button>
@@ -155,7 +121,10 @@ function UpdateProfileForm() {
                   </Dialog.Description>
 
                   <div className="mt-4">
-                    <Button type="submit" disabled={updateProfile.isPending}>
+                    <Button
+                      type="submit"
+                      disabled={updateProfileMutate.isPending}
+                    >
                       Update
                     </Button>
                   </div>

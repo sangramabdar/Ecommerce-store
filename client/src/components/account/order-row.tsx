@@ -1,4 +1,6 @@
+import { Disclosure, Transition } from "@headlessui/react";
 import RupeeIcon from "../icons/rupee-icon";
+import cn from "../../utils/cn";
 
 interface OrderProps {
   order: {
@@ -12,23 +14,46 @@ interface OrderProps {
       state: string;
     };
   };
+  index: number;
 }
 
-function OrderRow({ order }: OrderProps) {
+function OrderRow({ order, index }: OrderProps) {
   const { _id, totalPrice, orderAddress, orderStatus } = order;
 
   return (
-    <tr>
-      <td className="p-3">{_id}</td>
-      <td className="flex gap-1 justify-center items-center bg-red-200">
-        <RupeeIcon />
-        {totalPrice}
-      </td>
-      <td>{orderAddress.address}</td>
-      <td>{orderAddress.city}</td>
-      <td>{orderAddress.state}</td>
-      <td>{orderStatus.toLowerCase()}</td>
-    </tr>
+    <Disclosure as="div" className={cn("bg-secondary w-full rounded-md")}>
+      {({ open }) => {
+        return (
+          <>
+            <Disclosure.Button
+              className={cn(
+                "w-full text-left rounded-md p-2",
+                open && "bg-accent/40"
+              )}
+            >
+              Order # {index}
+            </Disclosure.Button>
+            <Transition
+              enter="transition duration-100 ease-out"
+              enterFrom="transform scale-95 opacity-0"
+              enterTo="transform scale-100 opacity-100"
+              leave="transition duration-75 ease-out"
+              leaveFrom="transform scale-100 opacity-100"
+              leaveTo="transform scale-95 opacity-0"
+            >
+              <Disclosure.Panel as="div" className={"p-2"}>
+                <div>
+                  Total price :
+                  <span className="flex gap-1">
+                    <RupeeIcon /> {totalPrice}
+                  </span>
+                </div>
+              </Disclosure.Panel>
+            </Transition>
+          </>
+        );
+      }}
+    </Disclosure>
   );
 }
 

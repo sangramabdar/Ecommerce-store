@@ -14,7 +14,6 @@ import SignUpPage from "./signup";
 import RootPage from "./_app";
 import NotFoundPage from "./not-found";
 import HomePage from ".";
-import AccountPage from "./account";
 import ProfilePage from "./account/profile";
 import OrdersPage from "./account/orders";
 import SuccessPage from "./checkout/success";
@@ -27,7 +26,7 @@ const router = createBrowserRouter(
       <Route path="/signup" element={<SignUpPage />} />
       <Route path="/products/:productId" element={<ProductPage />} />
       <Route element={<PrivateRoute />}>
-        <Route path="/account" element={<AccountPage />}>
+        <Route path="/account">
           <Route path="" element={<Navigate to="profile" />} />
           <Route path="profile" element={<ProfilePage />} />
           <Route path="orders" element={<OrdersPage />} />

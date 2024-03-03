@@ -11,13 +11,14 @@ function ProfilePage() {
     queryFn: getProfileService,
   });
 
-  if (isLoading) return <Skeleton className="h-52" />;
+  if (isLoading) return <Skeleton className="h-60" />;
 
   if (error) return <Navigate to={"/not-found"} />;
 
   return (
     <div>
-      <div className="flex flex-col gap-4">
+      <h1 className="font-semibold">Profile</h1>
+      <div className="flex flex-col gap-4 mt-10">
         <div className="space-y-1">
           <h2 className="text-gray-900 font-medium md:text-lg">First Name</h2>
           <p
