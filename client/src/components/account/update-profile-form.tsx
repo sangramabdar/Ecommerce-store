@@ -13,6 +13,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { putRequest } from "../../services/requests";
 import { BASE_URL, RequestStatus } from "../../services/constants";
 import wait from "../../utils/wait";
+import { showErrorToast } from "../../utils/toast";
+import CrossIcon from "../icons/cross-icon";
 
 function useToggle() {
   let [isOpen, setIsOpen] = useState(false);
@@ -30,8 +32,7 @@ function useToggle() {
 async function updateProfileService(data: any) {
   const url = BASE_URL + "/profile";
 
-  await wait(2000);
-
+  // await wait(2000);
   const result = await putRequest(url, data);
 
   if (result.status === RequestStatus.ERROR) throw result;
@@ -45,7 +46,7 @@ function UpdateProfileForm() {
   const quertClient = useQueryClient();
   const { firstName, lastName }: any = quertClient.getQueryData(["profile"]);
 
-  const mutation = useMutation({
+  const updateProfile = useMutation({
     mutationFn: updateProfileService,
   });
 
@@ -62,18 +63,31 @@ function UpdateProfileForm() {
   });
 
   const onSubmit: SubmitHandler<UpdateFormSchema> = async (
-    updateFormData: UpdateFormSchema
+    updateFormData: UpdateFormSchema,
+    event
   ) => {
+    console.log("called");
+
+    console.log(event?.target);
+
+    return;
     try {
-      const data = await mutation.mutateAsync(updateFormData);
+      await updateProfile.mutateAsync(updateFormData);
+      close();
+
+      await quertClient.invalidateQueries({
+        queryKey: ["profile"],
+      });
     } catch (error) {
-      console.log(error);
+      showErrorToast("something went wrong");
+    } finally {
+      close();
     }
   };
 
   return (
     <>
-      <Button onClick={open || mutation.isPending} className="mt-6">
+      <Button onClick={open || updateProfile.isPending} className="mt-6">
         Update Profile
       </Button>
 
@@ -112,7 +126,17 @@ function UpdateProfileForm() {
                     <h3 className="text-lg font-medium leading-6 text-gray-900">
                       Update Profile
                     </h3>
-                    <Button onClick={close}>Close</Button>
+                    <button
+                      className="w-fit h-fit  text-gray-900"
+                      disabled={updateProfile.isPending}
+                      onClick={e => {
+                        // console.log(e.currentTarget);
+                        e.stopPropagation();
+                        close();
+                      }}
+                    >
+                      <CrossIcon />
+                    </button>
                   </Dialog.Title>
                   <Dialog.Description className="mt-2">
                     <Input
@@ -131,7 +155,7 @@ function UpdateProfileForm() {
                   </Dialog.Description>
 
                   <div className="mt-4">
-                    <Button type="submit" disabled={mutation.isPending}>
+                    <Button type="submit" disabled={updateProfile.isPending}>
                       Update
                     </Button>
                   </div>

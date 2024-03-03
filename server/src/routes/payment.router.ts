@@ -3,7 +3,7 @@ import { validateToken } from "../utils/validation";
 import {
   paymentCreateController,
   paymentVerifyController,
-} from "../controllers/payment";
+} from "../controllers/payment.controller";
 
 const paymentRouter = Router();
 

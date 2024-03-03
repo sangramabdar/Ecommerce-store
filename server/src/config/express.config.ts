@@ -17,6 +17,7 @@ import {
   paymentRouter,
   profileRouter,
 } from "../routes";
+import environmentConfig from "./environment.config";
 
 const app: Application = express();
 
@@ -45,6 +46,7 @@ app.use("*", invalidPathHandler);
 app.use(handleClientErrors);
 app.use(handleServerErrors);
 
-mongoose.connect(process.env.DB_URL, {});
+mongoose.set("strictQuery", true);
+mongoose.connect(environmentConfig.DB_URL, {});
 
 export default app;

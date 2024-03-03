@@ -13,6 +13,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           disabled && "opacity-30",
           className
         )}
+        disabled={disabled}
         {...props}
       >
         {children}
