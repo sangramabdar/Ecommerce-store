@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { startTransition, useState } from "react";
 import { showErrorToast, showSuccessToast } from "../../utils/toast";
-import Input from "../ui/Input";
+import Input from "../ui/input";
 import Button from "../ui/button";
 import { loginSchema, LoginSchema } from "../../schema/auth.schema";
 import { loginUserService } from "../../services/auth.service";

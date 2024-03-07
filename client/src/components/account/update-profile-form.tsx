@@ -3,7 +3,7 @@ import Button from "../ui/button";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import Input from "../ui/Input";
+import Input from "../ui/input";
 import {
   UpdateFormSchema,
   updateFormSchema,

@@ -1,7 +1,7 @@
 import OrderSummary from "./order-summary";
 import { showErrorToast, showSuccessToast } from "../../utils/toast";
 import Button from "../ui/button";
-import Input from "../ui/Input";
+import Input from "../ui/input";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
