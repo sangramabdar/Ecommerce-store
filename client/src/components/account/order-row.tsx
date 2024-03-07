@@ -41,13 +41,11 @@ function OrderRow({ order, index }: OrderProps) {
               leaveFrom="transform scale-100 opacity-100"
               leaveTo="transform scale-95 opacity-0"
             >
-              <Disclosure.Panel as="div" className={"p-2"}>
-                <div>
-                  Total price :
-                  <span className="flex gap-1">
-                    <RupeeIcon /> {totalPrice}
-                  </span>
-                </div>
+              <Disclosure.Panel as="div" className={"p-2 flex gap-1"}>
+                Total price :
+                <span className="flex gap-1">
+                  <RupeeIcon /> {totalPrice}
+                </span>
               </Disclosure.Panel>
             </Transition>
           </>
