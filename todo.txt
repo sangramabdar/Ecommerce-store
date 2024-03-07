@@ -1,3 +1,2 @@
 1.modify client service and thunk structure
 2.modify naming convention
-3.remove dead code
