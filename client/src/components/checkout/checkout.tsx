@@ -67,9 +67,7 @@ function Checkout() {
   };
 
   const handleOnlinePayment = async (payload: any) => {
-    const result = await getRequest(BASE_URL + `/payments/proceed`, {
-      Authorization: "Bearer " + user.accessToken,
-    });
+    const result = await getRequest(BASE_URL + `/payments/proceed`);
 
     if (result.status === RequestStatus.ERROR) {
       navigate("*");
@@ -94,9 +92,6 @@ function Checkout() {
             ...response,
             razorpay_order_id: order.id,
             ...payload,
-          },
-          {
-            Authorization: "Bearer " + user.accessToken,
           }
         );
 
