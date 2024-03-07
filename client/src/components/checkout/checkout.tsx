@@ -26,7 +26,7 @@ function Checkout() {
   const { user }: any = useAuthContext();
   const [paymentOption, setPaymentOption] = useState<any>({
     label: "Select",
-    value: "select",
+    value: "SELECT",
   });
 
   const cart = queryClient.getQueryData(["cart"]) as any;
@@ -67,10 +67,11 @@ function Checkout() {
   };
 
   const handleOnlinePayment = async (payload: any) => {
+    //starting payment here.
     const result = await getRequest(BASE_URL + `/payments/proceed`);
 
     if (result.status === RequestStatus.ERROR) {
-      navigate("*");
+      navigate("/not-found");
       return;
     }
 
@@ -86,14 +87,11 @@ function Checkout() {
       order_id: order.id,
       handler: async function (response) {
         //verify payment and place order for online payment
-        const result = await postRequest(
-          "http://localhost:8080/api/payments/verify",
-          {
-            ...response,
-            razorpay_order_id: order.id,
-            ...payload,
-          }
-        );
+        const result = await postRequest(BASE_URL + "/payments/verify", {
+          ...response,
+          razorpay_order_id: order.id,
+          ...payload,
+        });
 
         if (result.status === RequestStatus.ERROR) {
           showErrorToast("something went wrong");
@@ -172,12 +170,12 @@ function Checkout() {
           label="Payment"
           onChange={setPaymentOption}
         />
-
-        {paymentOption.value === "CASH" ? (
+        {paymentOption.value === "CASH" && (
           <Button type="submit" className="mt-4">
             Place order
           </Button>
-        ) : (
+        )}
+        {paymentOption.value === "ONLINE" && (
           <Button type="submit" className="mt-4">
             Pay
           </Button>

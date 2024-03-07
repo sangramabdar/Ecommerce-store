@@ -10,6 +10,7 @@ export default function _ListOptions({
   options,
   disabled = false,
   value,
+  error,
 }: {
   onChange: (value: any) => void;
   disabled?: boolean;
@@ -20,6 +21,7 @@ export default function _ListOptions({
     label: string;
     value: any;
   };
+  error?: string;
 }) {
   return (
     <section className="mt-10">
@@ -81,6 +83,9 @@ export default function _ListOptions({
                 ))}
               </Listbox.Options>
             </Transition>
+            {error ? (
+              <span className="text-red-600/80 mt-4">{error}</span>
+            ) : null}
           </div>
         </Listbox>
       </div>
