@@ -36,7 +36,7 @@ async function validateToken(req, res, next) {
             return next(error);
         }
         let user = await (0, jwt_1.verifyAccessToken)(tokenPart);
-        req.user = Object.assign(Object.assign({}, user), { accessToken: tokenPart });
+        req.user = Object.assign(Object.assign({}, user), { token: tokenPart });
         next();
     }
     catch (_e) {

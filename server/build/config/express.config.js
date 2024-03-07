@@ -9,6 +9,7 @@ const cors_1 = __importDefault(require("cors"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const middlewares_1 = require("../utils/middlewares");
 const routes_1 = require("../routes");
+const environment_config_1 = __importDefault(require("./environment.config"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.use(express_1.default.json({
@@ -25,5 +26,6 @@ app.use("*", middlewares_1.invalidPathHandler);
 //error middlewares
 app.use(middlewares_1.handleClientErrors);
 app.use(middlewares_1.handleServerErrors);
-mongoose_1.default.connect(process.env.DB_URL, {});
+mongoose_1.default.set("strictQuery", true);
+mongoose_1.default.connect(environment_config_1.default.DB_URL, {});
 exports.default = app;
