@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.profileRouter = void 0;
+const express_1 = require("express");
+const controllers_1 = require("../controllers");
+const validation_1 = require("../utils/validation");
+const zod_1 = require("../utils/zod");
+const profile_schema_1 = require("../schemas/profile.schema");
+const profileRouter = (0, express_1.Router)();
+exports.profileRouter = profileRouter;
+profileRouter.use(validation_1.validateToken);
+profileRouter.get("/", controllers_1.getProfileController);
+profileRouter.put("/", (0, zod_1.validateSchema)(profile_schema_1.updateProfileSchema), controllers_1.updateProfileController);

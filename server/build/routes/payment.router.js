@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.paymentRouter = void 0;
+const express_1 = require("express");
+const validation_1 = require("../utils/validation");
+const payment_controller_1 = require("../controllers/payment.controller");
+const paymentRouter = (0, express_1.Router)();
+exports.paymentRouter = paymentRouter;
+paymentRouter.get("/proceed", validation_1.validateToken, payment_controller_1.paymentCreateController);
+paymentRouter.post("/verify", validation_1.validateToken, payment_controller_1.paymentVerifyController);
